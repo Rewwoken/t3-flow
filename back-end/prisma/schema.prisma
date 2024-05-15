@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "generated/client" // to make pnpm work
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(cuid()) @map("user_id")
+
+  email    String  @unique
+  name     String?
+  password String
+
+  // one to one relation: User <==> Pomodoro
+  pomodoro Pomodoro?
+
+  // one to many relation: Task ==> Task[] in User
+  tasks Task[]
+
+  // one to many relation: TimeBlock ==> TimeBlock[] in User
+  timeBlocks TimeBlock[]
+
+  // one to many relation: PomodoroSession ==> PomodoroSession[] in User
+  pomodoroSessions PomodoroSession[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("user")
+}
+
+model Pomodoro {
+  id String @id @default(cuid()) @map("pomodoro_id")
+
+  workInterval  Int? @default(50) @map("work_interval")
+  breakInterval Int? @default(10) @map("break_interval")
+  intervalCount Int? @default(7) @map("interval_count")
+
+  // one to one relation: Pomodoro <==> User
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique @map("user_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("pomodoro")
+}
+
+model Task {
+  id String @id @default(cuid()) @map("task_id")
+
+  name        String
+  priority    Priority?
+  isCompleted Boolean?  @default(false) @map("is_completed")
+
+  // one to many relation: Task ==> Task[] in User
+  User   User?  @relation(fields: [userId], references: [id])
+  userId String @unique @map("user_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("task")
+}
+
+enum Priority {
+  low
+  medium
+  high
+}
+
+model TimeBlock {
+  id String @id @default(cuid()) @map("time_block_id")
+
+  name     String
+  color    String?
+  duration Int
+  order    Int     @default(1)
+
+  // one to many relation: TimeBlock ==> TimeBlock[] in User
+  User   User?  @relation(fields: [userId], references: [id])
+  userId String @unique @map("user_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("time_block")
+}
+
+model PomodoroSession {
+  id String @id @default(cuid()) @map("pomodoro_session_id")
+
+  isCompleted Boolean? @default(false) @map("is_completed")
+
+  // one to many relation: PomodoroSession ==> PomodoroSession[] in User
+  User   User?  @relation(fields: [userId], references: [id])
+  userId String @unique @map("user_id")
+
+  // one to many relation: PomodoroRound ==> PomodoroRound[] in PomodoroSession
+  pomodoroRounds PomodoroRound[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("pomodoro_session")
+}
+
+model PomodoroRound {
+  id String @id @default(cuid()) @map("pomodoro_round_id")
+
+  totalSeconds Int      @map("total_seconds")
+  isCompleted  Boolean? @default(false) @map("is_completed")
+
+  // one to many relation: PomodoroRound ==> PomodoroRound[] in PomodoroSession
+  pomodoroSession   PomodoroSession @relation(fields: [pomodoroSessionId], references: [id], onDelete: Cascade)
+  pomodoroSessionId String          @map("pomodoro_session_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("pomodoro_round")
+}
