@@ -1,17 +1,48 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+	BadRequestException,
+	Injectable,
+	UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
-import { User } from 'prisma/generated/client';
+import { Response } from 'express';
 import { UsersService } from 'src/users/users.service';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
+	readonly EXPIRE_DAY_REFRESH_TOKEN = 1;
+	readonly REFRESH_TOKEN_NAME = 'refreshToken';
+
 	constructor(
 		private readonly usersService: UsersService,
 		private readonly jwtService: JwtService,
 	) {}
 
-	async validateUser(email: string, pass: string) {
+	async register(registerDto: RegisterDto) {
+		const { name, email, password } = registerDto;
+
+		const existingUser = await this.usersService.findOneByEmail(email);
+
+		if (existingUser) {
+			throw new BadRequestException('Email is already in use!');
+		}
+
+		const { password: pass, ...user } = await this.usersService.create({
+			name,
+			email,
+			password,
+		});
+
+		const { refreshToken, accessToken } = this.generateTokens(user.id);
+
+		return { ...user, refreshToken, accessToken };
+	}
+
+	async login(loginDto: LoginDto) {
+		const { email, password: pass } = loginDto;
+
 		const findUser = await this.usersService.findOneByEmail(email);
 
 		if (!findUser) {
@@ -26,12 +57,66 @@ export class AuthService {
 
 		const { password, ...user } = findUser;
 
-		return user;
+		const { refreshToken, accessToken } = this.generateTokens(user.id);
+
+		return { ...user, refreshToken, accessToken };
 	}
 
-	async login(user: Omit<User, 'password'>) {
-		const payload = { sub: user.id, email: user.email };
+	private generateTokens(userId: string) {
+		const data = { id: userId };
 
-		return { access_token: this.jwtService.sign(payload) };
+		const accessToken = this.jwtService.sign(data, {
+			expiresIn: '1h',
+		});
+
+		const refreshToken = this.jwtService.sign(data, {
+			expiresIn: '7d',
+		});
+
+		return { accessToken, refreshToken };
+	}
+
+	addRefreshTokenToResponse(res: Response, refreshToken: string) {
+		const expiresIn = new Date();
+		expiresIn.setDate(expiresIn.getDate() + this.EXPIRE_DAY_REFRESH_TOKEN);
+
+		res.cookie(this.REFRESH_TOKEN_NAME, refreshToken, {
+			httpOnly: true,
+			domain: process.env.DOMAIN,
+			expires: expiresIn,
+			secure: true,
+			sameSite: 'none', // 'lax' in production
+		});
+	}
+
+	removeRefreshTokenFromResponse(res: Response) {
+		res.cookie(this.REFRESH_TOKEN_NAME, 'NULL', {
+			httpOnly: true,
+			domain: process.env.DOMAIN,
+			expires: new Date(0),
+			secure: true,
+			sameSite: 'none', // 'lax' in production
+		});
+	}
+
+	async getNewTokens(refreshToken: string) {
+		try {
+			const result = await this.jwtService.verifyAsync(refreshToken);
+
+			const { password, ...user } = await this.usersService.findOneById(
+				result.id,
+			);
+
+			const { refreshToken: newRefreshToken, accessToken: newAccessToken } =
+				await this.generateTokens(user.id);
+
+			return {
+				...user,
+				accessToken: newAccessToken,
+				refreshToken: newRefreshToken,
+			};
+		} catch (err) {
+			throw new UnauthorizedException('Invalid refresh token!');
+		}
 	}
 }
