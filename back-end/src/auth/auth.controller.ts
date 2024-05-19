@@ -1,9 +1,9 @@
 import { Body, Controller, Get, HttpCode, Post, Req, Res, UnauthorizedException } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { TokenService } from 'src/token/token.service';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
-import { TokenService } from 'src/token/token.service';
 
 @Controller('auth')
 export class AuthController {
@@ -15,7 +15,7 @@ export class AuthController {
 	@Post('/register')
 	async register(
 		@Body() registerDto: RegisterDto,
-		// !!! `passthrough: true` allows to manipulate the response
+		// !!! `passthrough: true` allows us to manipulate the response
 		@Res({ passthrough: true }) res: Response,
 	) {
 		const { refreshToken, ...response } = await this.authService.register(registerDto);
@@ -29,7 +29,7 @@ export class AuthController {
 	@HttpCode(200)
 	async login(
 		@Body() loginDto: LoginDto,
-		// !!! `passthrough: true` allows to manipulate the response
+		// !!! `passthrough: true` allows us to manipulate the response
 		@Res({ passthrough: true }) res: Response,
 	) {
 		const { refreshToken, ...response } = await this.authService.login(loginDto);
@@ -42,7 +42,7 @@ export class AuthController {
 	@Post('/logout')
 	@HttpCode(200)
 	async logout(
-		// !!! `passthrough: true` allows to manipulate the response
+		// !!! `passthrough: true` allows us to manipulate the response
 		@Res({ passthrough: true }) res: Response,
 	) {
 		this.tokenService.removeRefreshTokenFromResponse(res);
@@ -51,7 +51,7 @@ export class AuthController {
 	@Get('/access-token')
 	async getNewTokens(
 		@Req() req: Request,
-		// !!! `passthrough: true` allows to manipulate the response
+		// !!! `passthrough: true` allows us to manipulate the response
 		@Res({ passthrough: true }) res: Response,
 	) {
 		const refreshTokenFromCookies = req.cookies[this.tokenService.REFRESH_TOKEN_NAME];

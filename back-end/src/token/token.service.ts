@@ -1,12 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CookieOptions, Response } from 'express';
-import { UsersService } from 'src/users/users.service';
+import { UserService } from 'src/user/user.service';
+import { JwtToken } from './interface/jwt-token.interface';
 
 @Injectable()
 export class TokenService {
 	readonly REFRESH_TOKEN_NAME = 'refreshToken';
-	private readonly REFRESH_TOKEN_EXPIRES = 1;
+	private readonly REFRESH_TOKEN_EXPIRES = 7;
 	private readonly REFRESH_TOKEN_COOKIE_OPTIONS: CookieOptions = {
 		httpOnly: true,
 		domain: process.env.DOMAIN,
@@ -15,19 +16,19 @@ export class TokenService {
 	};
 
 	constructor(
-		private readonly usersService: UsersService,
+		private readonly userService: UserService,
 		private readonly jwtService: JwtService,
 	) {}
 
 	issueTokens(userId: string) {
-		const data = { id: userId };
+		const data: JwtToken = { id: userId };
 
 		const accessToken = this.jwtService.sign(data, {
 			expiresIn: '1h',
 		});
 
 		const refreshToken = this.jwtService.sign(data, {
-			expiresIn: '7d',
+			expiresIn: this.REFRESH_TOKEN_EXPIRES + 'd', // 7 days
 		});
 
 		return { accessToken, refreshToken };
@@ -57,7 +58,7 @@ export class TokenService {
 		try {
 			const result = await this.jwtService.verifyAsync(refreshToken);
 
-			const { password, ...user } = await this.usersService.findOneById(result.id);
+			const { password, ...user } = await this.userService.findOneById(result.id);
 
 			const newTokens = await this.issueTokens(user.id);
 
