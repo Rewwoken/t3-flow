@@ -1,8 +1,4 @@
-import {
-	BadRequestException,
-	Injectable,
-	UnauthorizedException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
 import { Response } from 'express';
@@ -103,12 +99,9 @@ export class AuthService {
 		try {
 			const result = await this.jwtService.verifyAsync(refreshToken);
 
-			const { password, ...user } = await this.usersService.findOneById(
-				result.id,
-			);
+			const { password, ...user } = await this.usersService.findOneById(result.id);
 
-			const { refreshToken: newRefreshToken, accessToken: newAccessToken } =
-				await this.generateTokens(user.id);
+			const { refreshToken: newRefreshToken, accessToken: newAccessToken } = await this.generateTokens(user.id);
 
 			return {
 				...user,

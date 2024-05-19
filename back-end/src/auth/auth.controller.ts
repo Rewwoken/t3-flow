@@ -1,13 +1,4 @@
-import {
-	Body,
-	Controller,
-	Get,
-	HttpCode,
-	Post,
-	Req,
-	Res,
-	UnauthorizedException,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post, Req, Res, UnauthorizedException } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -23,8 +14,7 @@ export class AuthController {
 		// !!! `passthrough: true` allows to set the cookie
 		@Res({ passthrough: true }) res: Response,
 	) {
-		const { refreshToken, ...response } =
-			await this.authService.register(registerDto);
+		const { refreshToken, ...response } = await this.authService.register(registerDto);
 
 		this.authService.addRefreshTokenToResponse(res, refreshToken);
 
@@ -38,8 +28,7 @@ export class AuthController {
 		// !!! `passthrough: true` allows to manipulate the response
 		@Res({ passthrough: true }) res: Response,
 	) {
-		const { refreshToken, ...response } =
-			await this.authService.login(loginDto);
+		const { refreshToken, ...response } = await this.authService.login(loginDto);
 
 		this.authService.addRefreshTokenToResponse(res, refreshToken);
 
@@ -61,8 +50,7 @@ export class AuthController {
 		// !!! `passthrough: true` allows to manipulate the response
 		@Res({ passthrough: true }) res: Response,
 	) {
-		const refreshTokenFromCookies =
-			req.cookies[this.authService.REFRESH_TOKEN_NAME];
+		const refreshTokenFromCookies = req.cookies[this.authService.REFRESH_TOKEN_NAME];
 
 		if (!refreshTokenFromCookies) {
 			this.authService.removeRefreshTokenFromResponse(res);
@@ -70,9 +58,7 @@ export class AuthController {
 			throw new UnauthorizedException('Refresh token not passed!');
 		}
 
-		const { refreshToken, ...response } = await this.authService.getNewTokens(
-			refreshTokenFromCookies,
-		);
+		const { refreshToken, ...response } = await this.authService.getNewTokens(refreshTokenFromCookies);
 
 		this.authService.addRefreshTokenToResponse(res, refreshToken);
 
