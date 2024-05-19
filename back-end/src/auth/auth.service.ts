@@ -1,19 +1,15 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
-import { Response } from 'express';
+import { TokenService } from 'src/token/token.service';
 import { UsersService } from 'src/users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
-	readonly EXPIRE_DAY_REFRESH_TOKEN = 1;
-	readonly REFRESH_TOKEN_NAME = 'refreshToken';
-
 	constructor(
 		private readonly usersService: UsersService,
-		private readonly jwtService: JwtService,
+		private readonly tokenService: TokenService,
 	) {}
 
 	async register(registerDto: RegisterDto) {
@@ -31,7 +27,7 @@ export class AuthService {
 			password,
 		});
 
-		const { refreshToken, accessToken } = this.generateTokens(user.id);
+		const { refreshToken, accessToken } = this.tokenService.generateTokens(user.id);
 
 		return { ...user, refreshToken, accessToken };
 	}
@@ -53,63 +49,8 @@ export class AuthService {
 
 		const { password, ...user } = findUser;
 
-		const { refreshToken, accessToken } = this.generateTokens(user.id);
+		const { refreshToken, accessToken } = this.tokenService.generateTokens(user.id);
 
 		return { ...user, refreshToken, accessToken };
-	}
-
-	private generateTokens(userId: string) {
-		const data = { id: userId };
-
-		const accessToken = this.jwtService.sign(data, {
-			expiresIn: '1h',
-		});
-
-		const refreshToken = this.jwtService.sign(data, {
-			expiresIn: '7d',
-		});
-
-		return { accessToken, refreshToken };
-	}
-
-	addRefreshTokenToResponse(res: Response, refreshToken: string) {
-		const expiresIn = new Date();
-		expiresIn.setDate(expiresIn.getDate() + this.EXPIRE_DAY_REFRESH_TOKEN);
-
-		res.cookie(this.REFRESH_TOKEN_NAME, refreshToken, {
-			httpOnly: true,
-			domain: process.env.DOMAIN,
-			expires: expiresIn,
-			secure: true,
-			sameSite: 'none', // 'lax' in production
-		});
-	}
-
-	removeRefreshTokenFromResponse(res: Response) {
-		res.cookie(this.REFRESH_TOKEN_NAME, 'NULL', {
-			httpOnly: true,
-			domain: process.env.DOMAIN,
-			expires: new Date(0),
-			secure: true,
-			sameSite: 'none', // 'lax' in production
-		});
-	}
-
-	async getNewTokens(refreshToken: string) {
-		try {
-			const result = await this.jwtService.verifyAsync(refreshToken);
-
-			const { password, ...user } = await this.usersService.findOneById(result.id);
-
-			const { refreshToken: newRefreshToken, accessToken: newAccessToken } = await this.generateTokens(user.id);
-
-			return {
-				...user,
-				accessToken: newAccessToken,
-				refreshToken: newRefreshToken,
-			};
-		} catch (err) {
-			throw new UnauthorizedException('Invalid refresh token!');
-		}
 	}
 }

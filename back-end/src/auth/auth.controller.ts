@@ -3,10 +3,14 @@ import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { TokenService } from 'src/token/token.service';
 
 @Controller('auth')
 export class AuthController {
-	constructor(private readonly authService: AuthService) {}
+	constructor(
+		private readonly authService: AuthService,
+		private readonly tokenService: TokenService,
+	) {}
 
 	@Post('/register')
 	async register(
@@ -16,7 +20,7 @@ export class AuthController {
 	) {
 		const { refreshToken, ...response } = await this.authService.register(registerDto);
 
-		this.authService.addRefreshTokenToResponse(res, refreshToken);
+		this.tokenService.addRefreshTokenToResponse(res, refreshToken);
 
 		return response;
 	}
@@ -30,7 +34,7 @@ export class AuthController {
 	) {
 		const { refreshToken, ...response } = await this.authService.login(loginDto);
 
-		this.authService.addRefreshTokenToResponse(res, refreshToken);
+		this.tokenService.addRefreshTokenToResponse(res, refreshToken);
 
 		return response;
 	}
@@ -41,7 +45,7 @@ export class AuthController {
 		// !!! `passthrough: true` allows to manipulate the response
 		@Res({ passthrough: true }) res: Response,
 	) {
-		this.authService.removeRefreshTokenFromResponse(res);
+		this.tokenService.removeRefreshTokenFromResponse(res);
 	}
 
 	@Get('/access-token')
@@ -50,17 +54,17 @@ export class AuthController {
 		// !!! `passthrough: true` allows to manipulate the response
 		@Res({ passthrough: true }) res: Response,
 	) {
-		const refreshTokenFromCookies = req.cookies[this.authService.REFRESH_TOKEN_NAME];
+		const refreshTokenFromCookies = req.cookies[this.tokenService.REFRESH_TOKEN_NAME];
 
 		if (!refreshTokenFromCookies) {
-			this.authService.removeRefreshTokenFromResponse(res);
+			this.tokenService.removeRefreshTokenFromResponse(res);
 
 			throw new UnauthorizedException('Refresh token not passed!');
 		}
 
-		const { refreshToken, ...response } = await this.authService.getNewTokens(refreshTokenFromCookies);
+		const { refreshToken, ...response } = await this.tokenService.getNewTokens(refreshTokenFromCookies);
 
-		this.authService.addRefreshTokenToResponse(res, refreshToken);
+		this.tokenService.addRefreshTokenToResponse(res, refreshToken);
 
 		return response;
 	}

@@ -4,11 +4,13 @@ import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { TokenModule } from 'src/token/token.module';
 
 @Module({
 	imports: [
 		UsersModule,
 		PassportModule,
+		TokenModule,
 		JwtModule.register({
 			global: true,
 			secret: process.env.JWT_SECRET,
