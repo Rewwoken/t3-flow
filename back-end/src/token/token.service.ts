@@ -1,19 +1,25 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Response } from 'express';
+import { CookieOptions, Response } from 'express';
 import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class TokenService {
-	readonly EXPIRE_DAY_REFRESH_TOKEN = 1;
 	readonly REFRESH_TOKEN_NAME = 'refreshToken';
+	private readonly REFRESH_TOKEN_EXPIRES = 1;
+	private readonly REFRESH_TOKEN_COOKIE_OPTIONS: CookieOptions = {
+		httpOnly: true,
+		domain: process.env.DOMAIN,
+		secure: true,
+		sameSite: 'none', // 'lax' in production
+	};
 
 	constructor(
 		private readonly usersService: UsersService,
 		private readonly jwtService: JwtService,
 	) {}
 
-	generateTokens(userId: string) {
+	issueTokens(userId: string) {
 		const data = { id: userId };
 
 		const accessToken = this.jwtService.sign(data, {
@@ -29,24 +35,21 @@ export class TokenService {
 
 	addRefreshTokenToResponse(res: Response, refreshToken: string) {
 		const expiresIn = new Date();
-		expiresIn.setDate(expiresIn.getDate() + this.EXPIRE_DAY_REFRESH_TOKEN);
+		expiresIn.setDate(expiresIn.getDate() + this.REFRESH_TOKEN_EXPIRES);
 
+		// set the refreshToken httpOnly cookie
 		res.cookie(this.REFRESH_TOKEN_NAME, refreshToken, {
-			httpOnly: true,
-			domain: process.env.DOMAIN,
+			...this.REFRESH_TOKEN_COOKIE_OPTIONS,
 			expires: expiresIn,
-			secure: true,
-			sameSite: 'none', // 'lax' in production
 		});
 	}
 
 	removeRefreshTokenFromResponse(res: Response) {
-		res.cookie(this.REFRESH_TOKEN_NAME, 'NULL', {
-			httpOnly: true,
-			domain: process.env.DOMAIN,
+		// to remove the cookie, we can make it ivalid by
+		// setting the cookie value to '' and expiration date to 1970y
+		res.cookie(this.REFRESH_TOKEN_NAME, '', {
+			...this.REFRESH_TOKEN_COOKIE_OPTIONS,
 			expires: new Date(0),
-			secure: true,
-			sameSite: 'none', // 'lax' in production
 		});
 	}
 
@@ -56,14 +59,14 @@ export class TokenService {
 
 			const { password, ...user } = await this.usersService.findOneById(result.id);
 
-			const { refreshToken: newRefreshToken, accessToken: newAccessToken } = await this.generateTokens(user.id);
+			const newTokens = await this.issueTokens(user.id);
 
 			return {
 				...user,
-				accessToken: newAccessToken,
-				refreshToken: newRefreshToken,
+				...newTokens,
 			};
 		} catch (err) {
+			// catch an error in verifyAsync
 			throw new UnauthorizedException('Invalid refresh token!');
 		}
 	}

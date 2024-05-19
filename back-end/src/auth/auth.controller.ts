@@ -15,7 +15,7 @@ export class AuthController {
 	@Post('/register')
 	async register(
 		@Body() registerDto: RegisterDto,
-		// !!! `passthrough: true` allows to set the cookie
+		// !!! `passthrough: true` allows to manipulate the response
 		@Res({ passthrough: true }) res: Response,
 	) {
 		const { refreshToken, ...response } = await this.authService.register(registerDto);

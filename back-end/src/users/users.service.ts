@@ -14,6 +14,18 @@ export class UsersService {
 				email: payload.email,
 				password: await hash(payload.password),
 			},
+			select: {
+				id: true,
+				email: true,
+				name: true,
+				password: true,
+				createdAt: true,
+				updatedAt: true,
+				pomodoro: true,
+				tasks: true,
+				timeBlocks: true,
+				pomodoroSessions: true,
+			},
 		});
 	}
 

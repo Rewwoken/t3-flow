@@ -13,35 +13,27 @@ export class AuthService {
 	) {}
 
 	async register(registerDto: RegisterDto) {
-		const { name, email, password } = registerDto;
-
-		const existingUser = await this.usersService.findOneByEmail(email);
+		const existingUser = await this.usersService.findOneByEmail(registerDto.email);
 
 		if (existingUser) {
 			throw new BadRequestException('Email is already in use!');
 		}
 
-		const { password: pass, ...user } = await this.usersService.create({
-			name,
-			email,
-			password,
-		});
+		const { password, ...user } = await this.usersService.create(registerDto);
 
-		const { refreshToken, accessToken } = this.tokenService.generateTokens(user.id);
+		const { accessToken, refreshToken } = this.tokenService.issueTokens(user.id);
 
-		return { ...user, refreshToken, accessToken };
+		return { ...user, accessToken, refreshToken };
 	}
 
 	async login(loginDto: LoginDto) {
-		const { email, password: pass } = loginDto;
-
-		const findUser = await this.usersService.findOneByEmail(email);
+		const findUser = await this.usersService.findOneByEmail(loginDto.email);
 
 		if (!findUser) {
 			throw new UnauthorizedException('Invalid email or password!');
 		}
 
-		const isValid = await argon2.verify(findUser.password, pass);
+		const isValid = await argon2.verify(findUser.password, loginDto.password);
 
 		if (!isValid) {
 			throw new UnauthorizedException('Invalid email or password!');
@@ -49,8 +41,8 @@ export class AuthService {
 
 		const { password, ...user } = findUser;
 
-		const { refreshToken, accessToken } = this.tokenService.generateTokens(user.id);
+		const { accessToken, refreshToken } = this.tokenService.issueTokens(user.id);
 
-		return { ...user, refreshToken, accessToken };
+		return { ...user, accessToken, refreshToken };
 	}
 }
