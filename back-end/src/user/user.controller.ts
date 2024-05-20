@@ -11,12 +11,12 @@ export class UserController {
 	@Get()
 	@Protected()
 	async profile(@CurrentUser('id') id: string) {
-		return this.userService.getProfile(id);
+		return await this.userService.getProfile(id);
 	}
 
 	@Patch()
 	@Protected()
 	async updateProfile(@CurrentUser('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-		return this.userService.update(id, updateUserDto);
+		return await this.userService.update(id, updateUserDto);
 	}
 }

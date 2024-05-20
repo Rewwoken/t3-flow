@@ -7,10 +7,10 @@ import { User } from 'prisma/generated/client';
 
 /**
  * HTTP route param decorator
- * 
+ *
  * Accepts current `user` object key and returns
  * the specified value from req.user.
- * 
+ *
  * Must be used after `@Protected` decorator,
  * otherwise throws an exception, since there
  * will be no user object without `@Protected`

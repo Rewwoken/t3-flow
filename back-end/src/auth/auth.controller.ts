@@ -1,4 +1,13 @@
-import { Body, Controller, Get, HttpCode, Post, Req, Res, UnauthorizedException } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Get,
+	HttpCode,
+	Post,
+	Req,
+	Res,
+	UnauthorizedException,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
 import { TokenService } from 'src/token/token.service';
 import { AuthService } from './auth.service';
@@ -45,7 +54,7 @@ export class AuthController {
 		// use { passthrough: true } to manipulate the cookies
 		@Res({ passthrough: true }) res: Response,
 	) {
-		this.tokenService.removeRefreshTokenFromResponse(res);
+		return this.tokenService.removeRefreshTokenFromResponse(res);
 	}
 
 	@Get('/access-token')
@@ -62,7 +71,8 @@ export class AuthController {
 			throw new UnauthorizedException('Refresh token not passed!');
 		}
 
-		const { refreshToken, ...response } = await this.tokenService.getNewTokens(refreshTokenFromCookies);
+		const { refreshToken, ...response } =
+			await this.tokenService.getNewTokens(refreshTokenFromCookies);
 
 		this.tokenService.addRefreshTokenToResponse(res, refreshToken);
 
