@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { hash } from 'argon2';
+import { startOfDay, subDays } from 'date-fns';
 import { PrismaService } from 'src/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUser } from './interface/create-user.interface';
-import { startOfDay, subDays } from 'date-fns';
 
 @Injectable()
 export class UserService {
@@ -22,18 +22,11 @@ export class UserService {
 	async getProfile(id: string) {
 		const { password, ...profile } = await this.findOneById(id);
 
-		// if (!profile) {
-		// 	throw new NotFoundException('User does not exist!');
-		// }
-
 		const totalTasks = profile.tasks.length;
-		// TODO: move this logic to tasksService
-		const completedTasks = await this.prismaService.task.count({
-			where: {
-				userId: id,
-				isCompleted: true,
-			},
-		});
+		const completedTasks = profile.tasks.reduce((count, task) => {
+			if (task.isCompleted) return count + 1;
+			else return count;
+		}, 0);
 
 		const now = new Date();
 		const todayStart = startOfDay(now);
