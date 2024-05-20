@@ -54,12 +54,12 @@ model Task {
   id String @id @default(cuid()) @map("task_id")
 
   name        String
-  priority    Priority?
+  priority    Priority? @default(low)
   isCompleted Boolean?  @default(false) @map("is_completed")
 
   // one to many relation: Task ==> Task[] in User
-  User   User?  @relation(fields: [userId], references: [id])
-  userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

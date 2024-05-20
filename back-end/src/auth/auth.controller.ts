@@ -15,7 +15,7 @@ export class AuthController {
 	@Post('/register')
 	async register(
 		@Body() registerDto: RegisterDto,
-		// !!! `passthrough: true` allows us to manipulate the response
+		// use { passthrough: true } to manipulate the cookies
 		@Res({ passthrough: true }) res: Response,
 	) {
 		const { refreshToken, ...response } = await this.authService.register(registerDto);
@@ -29,7 +29,7 @@ export class AuthController {
 	@HttpCode(200)
 	async login(
 		@Body() loginDto: LoginDto,
-		// !!! `passthrough: true` allows us to manipulate the response
+		// use { passthrough: true } to manipulate the cookies
 		@Res({ passthrough: true }) res: Response,
 	) {
 		const { refreshToken, ...response } = await this.authService.login(loginDto);
@@ -42,7 +42,7 @@ export class AuthController {
 	@Post('/logout')
 	@HttpCode(200)
 	async logout(
-		// !!! `passthrough: true` allows us to manipulate the response
+		// use { passthrough: true } to manipulate the cookies
 		@Res({ passthrough: true }) res: Response,
 	) {
 		this.tokenService.removeRefreshTokenFromResponse(res);
@@ -51,7 +51,7 @@ export class AuthController {
 	@Get('/access-token')
 	async getNewTokens(
 		@Req() req: Request,
-		// !!! `passthrough: true` allows us to manipulate the response
+		// use { passthrough: true } to manipulate the cookies
 		@Res({ passthrough: true }) res: Response,
 	) {
 		const refreshTokenFromCookies = req.cookies[this.tokenService.REFRESH_TOKEN_NAME];
