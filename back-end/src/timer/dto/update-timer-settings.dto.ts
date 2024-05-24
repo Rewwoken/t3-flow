@@ -1,6 +1,6 @@
 import { IsNumber, IsOptional, Max, Min } from 'class-validator';
 
-export class PomodoroSettingsDto {
+export class UpdateTimerSettingsDto {
 	@IsOptional()
 	@IsNumber()
 	@Min(1)

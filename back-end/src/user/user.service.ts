@@ -10,13 +10,27 @@ export class UserService {
 	constructor(private readonly prismaService: PrismaService) {}
 
 	async create(payload: RegisterDto) {
-		return await this.prismaService.user.create({
+		const user = await this.prismaService.user.create({
 			data: {
 				name: payload.name,
 				email: payload.email,
 				password: await hash(payload.password),
 			},
 		});
+
+		// Creating empty timerSettings directly from prismaService to
+		// avoid circular dependecy TimerModule <==> UserModule
+		await this.prismaService.timerSettings.create({
+			data: {
+				user: {
+					connect: {
+						id: user.id,
+					},
+				},
+			},
+		});
+
+		return user;
 	}
 
 	// TODO: optimize

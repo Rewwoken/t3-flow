@@ -33,23 +33,6 @@ model User {
   @@map("user")
 }
 
-model TimerSettings {
-  id String @id @default(cuid()) @map("timer_id")
-
-  workInterval  Int? @default(50) @map("work_interval")
-  breakInterval Int? @default(10) @map("break_interval")
-  intervalCount Int? @default(7) @map("interval_count")
-
-  // one to one relation: Timer <==> User
-  user   User   @relation(fields: [userId], references: [id])
-  userId String @unique @map("user_id")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("timer_settings")
-}
-
 model Task {
   id String @id @default(cuid()) @map("task_id")
 
@@ -91,13 +74,30 @@ model TimeBlock {
   @@map("time_block")
 }
 
+model TimerSettings {
+  id String @id @default(cuid()) @map("timer_id")
+
+  workInterval  Int? @default(50) @map("work_interval")
+  breakInterval Int? @default(10) @map("break_interval")
+  intervalsCount Int? @default(7) @map("interval_count")
+
+  // one to one relation: Timer <==> User
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique @map("user_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("timer_settings")
+}
+
 model TimerSession {
   id String @id @default(cuid()) @map("timer_session_id")
 
   isCompleted Boolean? @default(false) @map("is_completed")
 
   // one to many relation: TimerSession ==> TimerSession[] in User
-  User   User?  @relation(fields: [userId], references: [id])
+  user   User?  @relation(fields: [userId], references: [id])
   userId String @unique @map("user_id")
 
   // one to many relation: TimerRound ==> TimerRound[] in TimerSession

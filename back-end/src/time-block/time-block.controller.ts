@@ -16,12 +16,6 @@ export class TimeBlockController {
 		return await this.timeBlockService.getAll(userId);
 	}
 
-	@Post('/reorder')
-	@HttpCode(200)
-	async updateOrder(@CurrentUser('id') userId: string, @Body() updateOrderDto: UpdateOrderDto) {
-		return await this.timeBlockService.updateOrder(userId, updateOrderDto);
-	}
-
 	@Post()
 	async create(@CurrentUser('id') userId: string, @Body() createTimeBlockDto: CreateTimeBlockDto) {
 		return await this.timeBlockService.create(userId, createTimeBlockDto);
@@ -35,6 +29,12 @@ export class TimeBlockController {
 		updateTimeBlockDto: UpdateTimeBlockDto,
 	) {
 		return await this.timeBlockService.update(userId, timeBlockId, updateTimeBlockDto);
+	}
+
+	@Post('/reorder')
+	@HttpCode(200)
+	async updateOrder(@CurrentUser('id') userId: string, @Body() updateOrderDto: UpdateOrderDto) {
+		return await this.timeBlockService.updateOrder(userId, updateOrderDto);
 	}
 
 	@Delete('/:timeBlockId')
