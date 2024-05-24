@@ -15,8 +15,8 @@ model User {
   name     String?
   password String
 
-  // one to one relation: User <==> Pomodoro
-  pomodoro Pomodoro?
+  // one to one relation: User <==> Timer
+  timerSettings TimerSettings?
 
   // one to many relation: Task ==> Task[] in User
   tasks Task[]
@@ -24,8 +24,8 @@ model User {
   // one to many relation: TimeBlock ==> TimeBlock[] in User
   timeBlocks TimeBlock[]
 
-  // one to many relation: PomodoroSession ==> PomodoroSession[] in User
-  pomodoroSessions PomodoroSession[]
+  // one to many relation: TimerSession ==> TimerSession[] in User
+  timerSessions TimerSession[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -33,21 +33,21 @@ model User {
   @@map("user")
 }
 
-model Pomodoro {
-  id String @id @default(cuid()) @map("pomodoro_id")
+model TimerSettings {
+  id String @id @default(cuid()) @map("timer_id")
 
   workInterval  Int? @default(50) @map("work_interval")
   breakInterval Int? @default(10) @map("break_interval")
   intervalCount Int? @default(7) @map("interval_count")
 
-  // one to one relation: Pomodoro <==> User
+  // one to one relation: Timer <==> User
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique @map("user_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("pomodoro")
+  @@map("timer_settings")
 }
 
 model Task {
@@ -79,11 +79,11 @@ model TimeBlock {
   name     String
   color    String?
   duration Int
-  order    Int     @default(1)
+  order    Int     @default(0) // 0 index in array
 
   // one to many relation: TimeBlock ==> TimeBlock[] in User
-  User   User?  @relation(fields: [userId], references: [id])
-  userId String @unique @map("user_id")
+  user   User?  @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -91,36 +91,36 @@ model TimeBlock {
   @@map("time_block")
 }
 
-model PomodoroSession {
-  id String @id @default(cuid()) @map("pomodoro_session_id")
+model TimerSession {
+  id String @id @default(cuid()) @map("timer_session_id")
 
   isCompleted Boolean? @default(false) @map("is_completed")
 
-  // one to many relation: PomodoroSession ==> PomodoroSession[] in User
+  // one to many relation: TimerSession ==> TimerSession[] in User
   User   User?  @relation(fields: [userId], references: [id])
   userId String @unique @map("user_id")
 
-  // one to many relation: PomodoroRound ==> PomodoroRound[] in PomodoroSession
-  pomodoroRounds PomodoroRound[]
+  // one to many relation: TimerRound ==> TimerRound[] in TimerSession
+  timerRounds TimerRound[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("pomodoro_session")
+  @@map("timer_session")
 }
 
-model PomodoroRound {
-  id String @id @default(cuid()) @map("pomodoro_round_id")
+model TimerRound {
+  id String @id @default(cuid()) @map("timer_round_id")
 
   totalSeconds Int      @map("total_seconds")
   isCompleted  Boolean? @default(false) @map("is_completed")
 
-  // one to many relation: PomodoroRound ==> PomodoroRound[] in PomodoroSession
-  pomodoroSession   PomodoroSession @relation(fields: [pomodoroSessionId], references: [id], onDelete: Cascade)
-  pomodoroSessionId String          @map("pomodoro_session_id")
+  // one to many relation: TimerRound ==> TimerRound[] in TimerSession
+  timerSession   TimerSession @relation(fields: [timerSessionId], references: [id], onDelete: Cascade)
+  timerSessionId String       @map("timer_session_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("pomodoro_round")
+  @@map("timer_round")
 }

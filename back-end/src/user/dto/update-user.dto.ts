@@ -1,6 +1,7 @@
-import { IsEmail, IsString, IsOptional, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { PomodoroSettingsDto } from './pomodoro-settings.dto';
 
+// TODO: extend from RegisterDto
 export class UpdateUserDto extends PomodoroSettingsDto {
 	@IsOptional()
 	@IsEmail()

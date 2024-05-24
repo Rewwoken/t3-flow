@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { hash } from 'argon2';
 import { startOfDay, subDays } from 'date-fns';
+import { RegisterDto } from 'src/auth/dto/register.dto';
 import { PrismaService } from 'src/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { CreateUser } from './interface/create-user.interface';
 
 @Injectable()
 export class UserService {
 	constructor(private readonly prismaService: PrismaService) {}
 
-	async create(payload: CreateUser) {
+	async create(payload: RegisterDto) {
 		return await this.prismaService.user.create({
 			data: {
 				name: payload.name,
@@ -19,11 +19,13 @@ export class UserService {
 		});
 	}
 
+	// TODO: optimize
 	async getProfile(id: string) {
-		const { password, ...profile } = await this.findOneById(id);
+		const { password, tasks, timeBlocks, timerSessions, timerSettings, ...profile } =
+			await this.findOneById(id);
 
-		const totalTasks = profile.tasks.length;
-		const completedTasks = profile.tasks.reduce((count, task) => {
+		const totalTasks = tasks.length;
+		const completedTasks = tasks.reduce((count, task) => {
 			if (task.isCompleted) return count + 1;
 			else return count;
 		}, 0);
@@ -50,14 +52,25 @@ export class UserService {
 			},
 		});
 
+		const totalTimerSessions = timerSessions.length;
+
+		const totalTimeBlocks = timeBlocks.length;
+		const totalTimeBlocksDuration = timeBlocks.reduce((duration, timeBlock) => {
+			return duration + timeBlock.duration;
+		}, 0);
+
+		// TODO: add more information for the profile
 		return {
 			profile,
-			statistics: [
-				{ label: 'Total', value: totalTasks },
-				{ label: 'Completed tasks', value: completedTasks },
-				{ label: 'Today tasks', value: todayTasks },
-				{ label: 'Week tasks', value: thisWeekTasks },
-			],
+			statistics: {
+				totalTasks,
+				completedTasks,
+				todayTasks,
+				thisWeekTasks,
+				totalTimerSessions,
+				totalTimeBlocks,
+				totalTimeBlocksDuration,
+			},
 		};
 	}
 
@@ -76,6 +89,9 @@ export class UserService {
 			where: { id: id },
 			include: {
 				tasks: true,
+				timerSettings: true,
+				timeBlocks: true,
+				timerSessions: true,
 			},
 		});
 
@@ -85,7 +101,7 @@ export class UserService {
 	}
 
 	async update(id: string, updateUserDto: UpdateUserDto) {
-		// if password is provided in dto, then hash hash it
+		// if password is provided to update, then hash it
 		if (updateUserDto.password) {
 			const passwordHash = await hash(updateUserDto.password);
 

@@ -30,7 +30,7 @@ export class TaskController {
 	}
 
 	@Delete('/:taskId')
-	async delete(@Param('taskId') taskId: string) {
-		return await this.taskService.delete(taskId);
+	async delete(@CurrentUser('id') userId: string, @Param('taskId') taskId: string) {
+		return await this.taskService.delete(userId, taskId);
 	}
 }

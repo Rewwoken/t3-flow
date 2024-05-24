@@ -4,6 +4,7 @@ import { AuthModule } from './auth/auth.module';
 import { TaskModule } from './task/task.module';
 import { TokenModule } from './token/token.module';
 import { UserModule } from './user/user.module';
+import { TimeBlockModule } from './time-block/time-block.module';
 
 @Module({
 	imports: [
@@ -12,6 +13,7 @@ import { UserModule } from './user/user.module';
 		UserModule,
 		TokenModule,
 		TaskModule,
+		TimeBlockModule,
 	],
 })
 export class AppModule {}

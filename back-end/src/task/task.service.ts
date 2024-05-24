@@ -31,7 +31,9 @@ export class TaskService {
 		});
 	}
 
-	async delete(taskId: string) {
-		return await this.prismaService.task.delete({ where: { id: taskId } });
+	async delete(userId: string, taskId: string) {
+		return await this.prismaService.task.delete({
+			where: { id: taskId, userId: userId },
+		});
 	}
 }
