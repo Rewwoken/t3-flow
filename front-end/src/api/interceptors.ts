@@ -3,7 +3,7 @@ import { tokenService } from '@/services/token.service';
 import axios, { CreateAxiosDefaults } from 'axios';
 
 const options: CreateAxiosDefaults = {
-	baseURL: process.env.BASE_URL,
+	baseURL: process.env.BASE_API_URL,
 	headers: {
 		'Content-Type': 'application/json',
 	},
