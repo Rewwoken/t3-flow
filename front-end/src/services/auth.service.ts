@@ -1,8 +1,20 @@
 import { apiPublic } from '@/api/interceptors';
 import { tokenService } from '@/services/token.service';
+import { IRegisterInputs } from '@/types/auth.types';
 
 class AuthService {
 	private readonly BASE_URL = '/auth';
+
+	async register(data: IRegisterInputs) {
+		const response = await apiPublic.post(`${this.BASE_URL}/register`, data);
+
+		const accessToken = response.data.accessToken;
+		if (accessToken) {
+			tokenService.saveTokenInStorage(accessToken);
+		}
+
+		return response;
+	}
 
 	async login(data: any) {
 		const response = await apiPublic.post(`${this.BASE_URL}/login`, data);

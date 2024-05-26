@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie';
 
 export class TokenService {
-	private readonly ACCESS_TOKEN_NAME = 'accessToken';
-	private readonly REFRESH_TOKEN_NAME = 'refreshToken';
+	readonly ACCESS_TOKEN_NAME = 'accessToken';
+	readonly REFRESH_TOKEN_NAME = 'refreshToken';
 
 	getAccessToken() {
 		const accessToken = Cookies.get(this.ACCESS_TOKEN_NAME);
@@ -12,7 +12,7 @@ export class TokenService {
 
 	saveTokenInStorage(accessToken: string) {
 		Cookies.set(this.ACCESS_TOKEN_NAME, accessToken, {
-			domain: process.env.DOMAIN,
+			domain: process.env.NEXT_PUBLIC_DOMAIN,
 			sameSite: 'strict',
 			expires: 1,
 		});

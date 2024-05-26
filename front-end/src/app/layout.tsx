@@ -1,6 +1,7 @@
 import '@/app/globals.css';
 import Providers from '@/app/providers';
 import { WEBSITE_NAME } from '@/constants/seo.constants';
+import clsx from 'clsx';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
@@ -21,8 +22,8 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body className={inter.className}>
+		<html lang='en'>
+			<body className={clsx(inter.className, 'h-screen overflow-hidden')}>
 				<Providers>{children}</Providers>
 			</body>
 		</html>

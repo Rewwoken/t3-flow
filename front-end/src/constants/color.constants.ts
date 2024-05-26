@@ -1,8 +1,8 @@
 import colors from 'tailwindcss/colors';
 
 export const COLORS = {
-	primary: colors.purple,
-	secondary: colors.rose,
-	border: colors.neutral,
-	bckg: colors.slate,
+	primary: '#9333ea',
+	secondary: '#6366f1',
+	border: '#a855f7',
+	bckg: '#ffffff',
 };

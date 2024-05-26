@@ -3,7 +3,7 @@ import { tokenService } from '@/services/token.service';
 import axios, { CreateAxiosDefaults } from 'axios';
 
 const options: CreateAxiosDefaults = {
-	baseURL: process.env.BASE_API_URL,
+	baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
 	headers: {
 		'Content-Type': 'application/json',
 	},
@@ -14,7 +14,7 @@ const apiPublic = axios.create(options);
 
 const apiProtected = axios.create(options);
 
-apiProtected.interceptors.request.use(config => {
+apiProtected.interceptors.request.use((config) => {
 	const accessToken = tokenService.getAccessToken();
 
 	if (config.headers && accessToken) {
@@ -25,8 +25,8 @@ apiProtected.interceptors.request.use(config => {
 });
 
 apiProtected.interceptors.response.use(
-	response => response,
-	async error => {
+	(response) => response,
+	async (error) => {
 		const originalRequest = error.config;
 
 		if (error.response.status === 401 && originalRequest && !originalRequest._isRetry) {
