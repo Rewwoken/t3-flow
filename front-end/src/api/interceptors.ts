@@ -27,13 +27,15 @@ apiProtected.interceptors.request.use(config => {
 apiProtected.interceptors.response.use(
 	response => response,
 	async error => {
-		const req = error.config;
+		const originalRequest = error.config;
 
-		if (error.response.status === 401) {
+		if (error.response.status === 401 && originalRequest && !originalRequest._isRetry) {
 			try {
+				originalRequest._isRetry = true;
+
 				await authService.getNewTokens();
 
-				return apiProtected.request(req);
+				return apiProtected.request(originalRequest);
 			} catch (err) {
 				tokenService.removeFromStorage();
 			}
