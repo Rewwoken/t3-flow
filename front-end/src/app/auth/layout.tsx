@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
 
 export default function AuthLayout({ children }: PropsWithChildren) {
-	return <main className='flex justify-center items-center h-full'>{children}</main>;
+	return <main className='flex h-full items-center justify-center'>{children}</main>;
 }

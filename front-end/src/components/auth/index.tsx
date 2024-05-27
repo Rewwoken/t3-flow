@@ -3,7 +3,7 @@ import Link, { LinkProps } from 'next/link';
 import React from 'react';
 
 const AuthWrapper = ({ children }: React.PropsWithChildren) => (
-	<div className='border p-1 flex flex-col items-center'>{children}</div>
+	<div className='flex flex-col items-center border p-1'>{children}</div>
 );
 
 const AuthHeading = ({ children }: React.PropsWithChildren) => (
@@ -11,7 +11,7 @@ const AuthHeading = ({ children }: React.PropsWithChildren) => (
 );
 
 const AuthForm = ({ children, ...props }: React.ComponentPropsWithoutRef<'form'>) => (
-	<form {...props} className='flex flex-col gap-y-2 my-2'>
+	<form {...props} className='my-2 flex flex-col gap-y-2'>
 		{children}
 	</form>
 );
@@ -27,7 +27,7 @@ const AuthInput = React.forwardRef<
 >(function AuthInput({ label, message, ...props }, ref) {
 	return (
 		<div className='relative'>
-			<label htmlFor={props.id} className='absolute text-xs bg-bckg -top-2 left-2 px-1'>
+			<label htmlFor={props.id} className='absolute -top-2 left-2 bg-bckg px-1 text-xs'>
 				{label}
 			</label>
 			<input {...props} ref={ref} className='border p-1' />
@@ -40,7 +40,7 @@ const AuthMessage = ({ children }: React.PropsWithChildren) => {
 	if (!children) return null;
 
 	return (
-		<span className='w-full px-1 p-0.5 bg-red-500/30 text-red-500 rounded-md'>
+		<span className='w-full rounded-md bg-red-500/30 p-0.5 px-1 text-red-500'>
 			{children}
 		</span>
 	);
@@ -50,13 +50,13 @@ const AuthSubmit = ({
 	isLoading,
 	children,
 }: React.ComponentProps<'button'> & { isLoading: boolean }) => (
-	<button disabled={isLoading} type='submit' className='border py-1 w-full text-center'>
-		{isLoading ? <Loader size={24} className='animate-spin mx-auto' /> : children}
+	<button disabled={isLoading} type='submit' className='w-full border py-1 text-center'>
+		{isLoading ? <Loader size={24} className='mx-auto animate-spin' /> : children}
 	</button>
 );
 
 const AuthLink = ({ children, ...props }: React.PropsWithChildren<LinkProps>) => (
-	<Link {...props} className='text-sm self-start hover:underline'>
+	<Link {...props} className='self-start text-sm hover:underline'>
 		{children}
 	</Link>
 );
