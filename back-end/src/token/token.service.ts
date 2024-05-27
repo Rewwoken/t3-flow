@@ -1,8 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { CookieOptions, Response } from 'express';
 import { UserService } from 'src/user/user.service';
 import { JwtToken } from './interface/jwt-token.interface';
+import { EnvironmentVaribales } from 'src/config/configuration';
 
 @Injectable()
 export class TokenService {
@@ -10,12 +12,13 @@ export class TokenService {
 	private readonly REFRESH_TOKEN_EXPIRES = 7;
 	private readonly REFRESH_TOKEN_COOKIE_OPTIONS: CookieOptions = {
 		httpOnly: true,
-		domain: process.env.DOMAIN,
+		domain: this.configService.get('domain'),
 		secure: true,
 		sameSite: 'none', // 'lax' in production
 	};
 
 	constructor(
+		private readonly configService: ConfigService<EnvironmentVaribales>,
 		private readonly userService: UserService,
 		private readonly jwtService: JwtService,
 	) {}
