@@ -1,13 +1,13 @@
 'use client';
 
-import { AuthFormWrapper } from '@/components/auth/AuthFormWrapper';
-import { AuthInput } from '@/components/auth/AuthInput';
-import { DASHBOARD } from '@/constants/routes.constants';
-import { authService } from '@/services/auth.service';
-import { IRegisterInputs } from '@/types/auth.types';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { AuthFormWrapper } from '@/components/auth/AuthFormWrapper';
+import { AuthInput } from '@/components/auth/AuthInput';
+import { authService } from '@/services/auth.service';
+import { DASHBOARD } from '@/constants/routes.constants';
+import { IRegisterInputs } from '@/types/auth.types';
 
 export const RegisterForm = () => {
 	const router = useRouter();

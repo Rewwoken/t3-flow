@@ -1,9 +1,9 @@
-import '@/app/globals.css';
-import Providers from '@/app/providers';
-import { WEBSITE_NAME } from '@/constants/seo.constants';
 import clsx from 'clsx';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { WEBSITE_NAME } from '@/constants/seo.constants';
+import '@/app/globals.css';
+import Providers from '@/app/providers';
 
 const inter = Inter({ subsets: ['latin'] });
 

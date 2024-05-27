@@ -1,5 +1,3 @@
-import colors from 'tailwindcss/colors';
-
 export const COLORS = {
 	primary: '#9333ea',
 	secondary: '#6366f1',

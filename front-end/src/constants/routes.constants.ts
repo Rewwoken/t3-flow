@@ -1,7 +1,6 @@
 class Dashboard {
 	readonly BASE_URL = '/dashboard';
 
-	readonly ROOT = this.BASE_URL;
 	readonly HOME = `${this.BASE_URL}/home`;
 }
 

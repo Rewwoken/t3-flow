@@ -1,6 +1,6 @@
+import axios, { CreateAxiosDefaults } from 'axios';
 import { authService } from '@/services/auth.service';
 import { tokenService } from '@/services/token.service';
-import axios, { CreateAxiosDefaults } from 'axios';
 
 const options: CreateAxiosDefaults = {
 	baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,

@@ -5,15 +5,15 @@ type TAuthInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 	label: string;
 };
 
-// use forwardRef, since register(...) from react-hook-form also returns ref
+// use forwardRef, since register(...) from react-hook-form returns ref
 export const AuthInput = React.forwardRef<HTMLInputElement, TAuthInputProps>(
-	({ label, id, ...inputProps }, ref) => {
+	function AuthInput({ label, ...props }, ref) {
 		return (
 			<div className='relative'>
-				<label htmlFor={id} className='absolute text-xs bg-bckg -top-2 left-2 px-1'>
+				<label htmlFor={props.id} className='absolute text-xs bg-bckg -top-2 left-2 px-1'>
 					{label}
 				</label>
-				<input {...inputProps} id={id} ref={ref} className='border p-1' />
+				<input {...props} ref={ref} className='border p-1' />
 			</div>
 		);
 	},

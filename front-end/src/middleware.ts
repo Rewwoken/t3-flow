@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AUTH, DASHBOARD } from '@/constants/routes.constants';
 import { tokenService } from '@/services/token.service';
+import { AUTH, DASHBOARD } from '@/constants/routes.constants';
 
 export async function middleware(req: NextRequest, res: NextResponse) {
 	const { url, cookies } = req;
