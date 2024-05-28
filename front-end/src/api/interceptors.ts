@@ -29,6 +29,7 @@ apiProtected.interceptors.response.use(
 	async (error) => {
 		const originalRequest = error.config;
 
+		// TODO: check if error is being catched
 		if (error.response.status === 401 && originalRequest && !originalRequest._isRetry) {
 			try {
 				originalRequest._isRetry = true;

@@ -9,8 +9,10 @@ export default function Providers({ children }: PropsWithChildren) {
 	const [queryClient] = useState(new QueryClient());
 
 	return (
-		<ThemeProvider attribute='class' defaultTheme={THEMES.SYSTEM} enableSystem={true}>
-			<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-		</ThemeProvider>
+		<QueryClientProvider client={queryClient}>
+			<ThemeProvider attribute='class' defaultTheme={THEMES.SYSTEM} enableSystem={true}>
+				{children}
+			</ThemeProvider>
+		</QueryClientProvider>
 	);
 }

@@ -1,11 +1,16 @@
 'use client';
 
-import { Moon, Sun, SunMoon } from 'lucide-react';
+import clsx from 'clsx';
+import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { THEMES } from '@/constants/themes.constants';
+import { Skeleton } from './Skeleton';
 
-export const ThemeSwitcher = ({ className }: React.ComponentProps<'div'>) => {
+export const ThemeSwitcher = ({
+	className,
+	size,
+}: React.ComponentProps<'svg'> & { size: number }) => {
 	const [mounted, setMounted] = useState(false);
 	const { resolvedTheme, setTheme } = useTheme();
 
@@ -21,24 +26,27 @@ export const ThemeSwitcher = ({ className }: React.ComponentProps<'div'>) => {
 
 	useEffect(() => setMounted(true), []);
 
-	if (!mounted)
-		return (
-			<div className={className} title='Theme switcher placeholder'>
-				<SunMoon size={40} strokeWidth={1} />
-			</div>
-		);
+	if (!mounted) {
+		return <Skeleton className={className} style={{ width: size + 'px', height: size + 'px' }} />;
+	}
 
 	if (resolvedTheme === THEMES.DARK)
 		return (
-			<div className={className} title='Switch to light theme'>
-				<Moon size={40} strokeWidth={1} onClick={() => setThemeSmooth(THEMES.LIGHT)} />
-			</div>
+			<Moon
+				size={size}
+				strokeWidth={1}
+				onClick={() => setThemeSmooth(THEMES.LIGHT)}
+				className={clsx(className, 'cursor-pointer')}
+			/>
 		);
 
 	if (resolvedTheme === THEMES.LIGHT)
 		return (
-			<div className={className} title='Switch to dark theme'>
-				<Sun size={40} strokeWidth={1} onClick={() => setThemeSmooth(THEMES.DARK)} />
-			</div>
+			<Sun
+				size={size}
+				strokeWidth={1}
+				onClick={() => setThemeSmooth(THEMES.DARK)}
+				className={clsx(className, 'cursor-pointer')}
+			/>
 		);
 };

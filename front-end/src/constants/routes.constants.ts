@@ -1,7 +1,11 @@
 class Dashboard {
 	readonly BASE_URL = '/dashboard';
 
-	readonly HOME = `${this.BASE_URL}/home`;
+	readonly ROOT = `${this.BASE_URL}`;
+	readonly TASKS = `${this.BASE_URL}/tasks`;
+	readonly TIMER = `${this.BASE_URL}/timer`;
+	readonly TIME_BLOCKING = `${this.BASE_URL}/time-blocking`;
+	readonly SETTINGS = `${this.BASE_URL}/settings`;
 }
 
 export const DASHBOARD = new Dashboard();

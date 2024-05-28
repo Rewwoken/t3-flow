@@ -16,7 +16,7 @@ export class UserController {
 
 	@Patch()
 	@Protected()
-	async updateProfile(@CurrentUser('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+	async update(@CurrentUser('id') id: string, @Body() updateUserDto: UpdateUserDto) {
 		return await this.userService.update(id, updateUserDto);
 	}
 }

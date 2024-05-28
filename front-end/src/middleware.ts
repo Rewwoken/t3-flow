@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest, res: NextResponse) {
 	const refreshToken = cookies.get(tokenService.REFRESH_TOKEN_NAME)?.value;
 
 	if (refreshToken && url.includes(AUTH.BASE_URL)) {
-		return NextResponse.redirect(new URL(DASHBOARD.HOME, url));
+		return NextResponse.redirect(new URL(DASHBOARD.ROOT, url));
 	}
 
 	if (!refreshToken && url.includes(DASHBOARD.BASE_URL)) {

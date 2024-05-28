@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { RegisterForm } from '@/components/RegisterForm';
+import { RegisterForm } from '@/components/auth/RegisterForm';
 import { NO_INDEX_PAGE } from '@/constants/seo.constants';
 
 export const metadata: Metadata = {

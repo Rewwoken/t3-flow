@@ -20,14 +20,14 @@ const AuthForm = ({ children, ...props }: React.ComponentProps<'form'>) => (
 );
 
 // use forwardRef, since register(...) from react-hook-form returns ref
-const AuthInput = forwardRef<
+const AuthField = forwardRef<
 	HTMLInputElement,
 	React.ComponentProps<'input'> & {
 		label: string;
 		message: string | undefined;
 		id: string;
 	}
->(function AuthInput({ label, message, ...props }, ref) {
+>(function AuthField({ label, message, ...props }, ref) {
 	return (
 		<div className='relative'>
 			<label
@@ -69,9 +69,10 @@ const AuthSubmit = ({
 		disabled={isLoading || !isValid}
 		type='submit'
 		className={clsx(
-			'w-full border py-1 text-center transition-transform active:scale-95',
+			'w-full rounded-sm border py-1 text-antiAccent text-white transition-all duration-100 active:scale-95',
 			{
 				'bg-secondary/10 text-secondary/80': isLoading || !isValid,
+				'border-accent bg-accent/70 hover:bg-accent': !isLoading && isValid,
 			},
 		)}
 	>
@@ -80,7 +81,7 @@ const AuthSubmit = ({
 );
 
 const AuthLink = ({ children, ...props }: React.PropsWithChildren<LinkProps>) => (
-	<Link {...props} className='self-start text-sm text-secondary hover:underline'>
+	<Link {...props} className='text-sm text-secondary hover:underline'>
 		{children}
 	</Link>
 );
@@ -88,7 +89,7 @@ const AuthLink = ({ children, ...props }: React.PropsWithChildren<LinkProps>) =>
 export default Object.assign(AuthWrapper, {
 	Heading: AuthHeading,
 	Form: AuthForm,
-	Input: AuthInput,
+	Field: AuthField,
 	Message: AuthMessage,
 	Submit: AuthSubmit,
 	Link: AuthLink,

@@ -9,9 +9,9 @@ import Auth from '@/components/auth';
 import { authService } from '@/services/auth.service';
 import { REGEX } from '@/constants/regex.constants';
 import { AUTH, DASHBOARD } from '@/constants/routes.constants';
-import type { IRegisterInputs } from '@/types/auth.types';
+import type { ILoginInputs } from '@/types/auth.types';
 
-export const RegisterForm = () => {
+export const LoginForm = () => {
 	const router = useRouter();
 
 	const {
@@ -19,15 +19,16 @@ export const RegisterForm = () => {
 		handleSubmit,
 		reset,
 		formState: { errors },
-	} = useForm<IRegisterInputs>({ mode: 'onBlur' });
+	} = useForm<ILoginInputs>({ mode: 'onBlur' });
 
+	// TODO: refactor
 	const { mutate, isPending } = useMutation({
-		mutationKey: ['auth', 'register'],
-		mutationFn: (data: IRegisterInputs) => authService.register(data),
+		mutationKey: ['auth', 'login'],
+		mutationFn: (data: ILoginInputs) => authService.login(data),
 		onSuccess: () => {
 			reset();
 			setFormError(null);
-			router.push(DASHBOARD.HOME);
+			router.push(DASHBOARD.ROOT);
 		},
 		onError: ({ response }: AxiosError) => {
 			// @ts-ignore | TODO: add error type
@@ -43,7 +44,7 @@ export const RegisterForm = () => {
 
 	const [formError, setFormError] = React.useState<string | null>(null);
 
-	const onSubmit: SubmitHandler<IRegisterInputs> = (data) => {
+	const onSubmit: SubmitHandler<ILoginInputs> = (data) => {
 		setFormError(null);
 
 		mutate(data);
@@ -51,23 +52,9 @@ export const RegisterForm = () => {
 
 	return (
 		<Auth>
-			<Auth.Heading>Create an account</Auth.Heading>
+			<Auth.Heading>Welcome back!</Auth.Heading>
 			<Auth.Form onSubmit={handleSubmit(onSubmit)}>
-				<Auth.Input
-					label='Name'
-					id='name-input'
-					type='text'
-					autoComplete='name'
-					placeholder='Asuka Langley'
-					message={errors.name?.message}
-					{...register('name', {
-						maxLength: {
-							value: 15,
-							message: 'Name should be less than 15 characters.',
-						},
-					})}
-				/>
-				<Auth.Input
+				<Auth.Field
 					label='Email'
 					id='email-input'
 					type='email'
@@ -82,31 +69,21 @@ export const RegisterForm = () => {
 						},
 					})}
 				/>
-				<Auth.Input
+				<Auth.Field
 					label='Password'
 					id='password-input'
 					type='password'
 					autoComplete='current-password'
 					placeholder='********'
 					message={errors.password?.message}
-					{...register('password', {
-						required: 'Password is required!',
-						minLength: {
-							value: 6,
-							message: 'Password must be at least 6 characters!',
-						},
-						maxLength: {
-							value: 30,
-							message: 'Password must be less than 30 characters!',
-						},
-					})}
+					{...register('password', { required: 'Password is required!' })}
 				/>
 				<Auth.Message>{formError}</Auth.Message>
 				<Auth.Submit isValid={!Object.keys(errors).length} isLoading={isPending}>
-					Register
+					Login
 				</Auth.Submit>
 			</Auth.Form>
-			<Auth.Link href={AUTH.LOGIN}>Already have an account?</Auth.Link>
+			<Auth.Link href={AUTH.REGISTER}>Don&apos;t have an account?</Auth.Link>
 		</Auth>
 	);
 };

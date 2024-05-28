@@ -1,5 +1,11 @@
 import { PropsWithChildren } from 'react';
+import { ThemeSwitcher } from '@/components/ui/ThemeSwitcher';
 
 export default function AuthLayout({ children }: PropsWithChildren) {
-	return <main className='flex h-full items-center justify-center'>{children}</main>;
+	return (
+		<>
+			<ThemeSwitcher size={40} className='absolute right-2 top-2' />
+			<main className='flex h-full items-center justify-center'>{children}</main>
+		</>
+	);
 }

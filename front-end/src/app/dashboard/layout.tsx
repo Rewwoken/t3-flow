@@ -1,5 +1,6 @@
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import type { PropsWithChildren } from 'react';
 
-export default function DashboardLayout({ children }: PropsWithChildren) {
-	return <main>{children}</main>;
+export default function Layout({ children }: PropsWithChildren) {
+	return <DashboardLayout>{children}</DashboardLayout>;
 }
