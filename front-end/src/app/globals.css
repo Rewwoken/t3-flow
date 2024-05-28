@@ -3,21 +3,74 @@
 @tailwind utilities;
 
 html.light {
+	--primary-color: 25, 22, 69;
+	--secondary-color: 138, 138, 138;
+	--accent-color: 67, 198, 172;
+	--background-color: 255, 255, 255;
+	--text-color: 32, 33, 36;
+	--border-color: 225, 225, 225;
+	--danger-color: 234, 67, 53;
+}
+
+html.dark {
+	--primary-color: 25, 22, 69;
+	--secondary-color: 196, 196, 196;
+	--accent-color: 67, 198, 172;
+	--background-color: 32, 33, 36;
+	--text-color: 255, 255, 255;
+	--border-color: 73, 73, 73;
+	--danger-color: 234, 67, 53;
+}
+
+* {
+	color: rgba(var(--text-color));
+	border-color: rgba(var(--border-color));
+}
+
+html {
+	/* leave all other elemnts' `background-color: transparent` */
+	background-color: rgba(var(--background-color));
+}
+
+html.theme-transition {
+	transition-property: color, background-color, border-color, text-decoration-color, fill,
+		stroke;
+	transition-timing-function: linear;
+	transition-duration: 150ms;
+
+	* {
+		transition-property: color, background-color, border-color, text-decoration-color,
+			fill, stroke;
+		transition-timing-function: linear;
+		transition-duration: 150ms;
+	}
+}
+
+/* html.light {
+	--primary-color: #191645;
+	--secondary-color: #8a8a8a;
+	--accent-color: #43c6ac;
 	--background-color: #ffffff;
-	--primary-color: #1a73e8;
-	--secondary-color: #e8f0fe;
 	--text-color: #202124;
-	--border-color: #dadce0;
-	--accent-color: #34a853;
+	--border-color: #e1e1e1;
 	--danger-color: #ea4335;
 }
 
 html.dark {
+	--primary-color: #191645;
+	--secondary-color: #c4c4c4;
+	--accent-color: #43c6ac;
 	--background-color: #202124;
-	--primary-color: #8ab4f8;
-	--secondary-color: #303134;
-	--text-color: #e8eaed;
-	--border-color: #5f6368;
-	--accent-color: #34a853;
+	--text-color: #ffffff;
+	--border-color: #494949;
 	--danger-color: #ea4335;
 }
+
+* {
+	color: var(--text-color);
+	border-color: var(--border-color);
+}
+
+html {
+	background-color: var(--background-color);
+} */

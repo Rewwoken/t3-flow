@@ -11,18 +11,12 @@ const config: Config = {
 	theme: {
 		extend: {
 			colors: {
-				// background: 'var(--background-color)',
-				// primary: 'var(--primary-color)',
-				// secondary: 'var(--secondary-color)',
-				// text: 'var(--text-color)',
-				// border: 'var(--border-color)',
-				// accent: 'var(--accent-color)',
-				// danger: 'var(--danger-color)',
-				background: COLORS.BACKGROUND,
 				primary: COLORS.PRIMARY,
+				secondary: COLORS.SECONDARY,
+				accent: COLORS.ACCENT,
+				background: COLORS.BACKGROUND,
 				text: COLORS.TEXT,
 				border: COLORS.BORDER,
-				accent: COLORS.ACCENT,
 				danger: COLORS.DANGER,
 			},
 		},
