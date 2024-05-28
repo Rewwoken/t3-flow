@@ -8,7 +8,7 @@ const AuthWrapper = ({ children }: React.PropsWithChildren) => (
 );
 
 const AuthHeading = ({ children }: React.PropsWithChildren) => (
-	<h1 className='border-b-accent mb-6 w-full border-b-2 text-center text-xl font-semibold'>
+	<h1 className='mb-6 w-full border-b-2 border-b-accent text-center text-xl font-semibold'>
 		{children}
 	</h1>
 );
@@ -32,7 +32,7 @@ const AuthInput = forwardRef<
 		<div className='relative'>
 			<label
 				htmlFor={props.id}
-				className={clsx('bg-background absolute -top-2 left-2 px-1 text-xs', {
+				className={clsx('absolute -top-2 left-2 bg-background px-1 text-xs', {
 					'text-danger': !!message,
 				})}
 			>
@@ -41,11 +41,11 @@ const AuthInput = forwardRef<
 			<input
 				{...props}
 				ref={ref}
-				className={clsx('outline-accent rounded-sm border p-1', {
+				className={clsx('rounded-sm border p-1 outline-accent', {
 					'border-danger': !!message,
 				})}
 			/>
-			<p className='text-danger ml-2 text-xs'>{message}</p>
+			<p className='ml-2 text-xs text-danger'>{message}</p>
 		</div>
 	);
 });
@@ -54,7 +54,7 @@ const AuthMessage = ({ children }: React.PropsWithChildren) => {
 	if (!children) return null;
 
 	return (
-		<span className='bg-danger/20 text-danger w-full rounded-sm p-0.5 px-1'>
+		<span className='w-full rounded-sm bg-danger/20 p-0.5 px-1 text-danger'>
 			{children}
 		</span>
 	);

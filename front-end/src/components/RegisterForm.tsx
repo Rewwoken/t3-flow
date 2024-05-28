@@ -7,6 +7,7 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Auth from '@/components/auth';
 import { authService } from '@/services/auth.service';
+import { REGEX } from '@/constants/regex.constants';
 import { AUTH, DASHBOARD } from '@/constants/routes.constants';
 import type { IRegisterInputs } from '@/types/auth.types';
 
@@ -76,9 +77,7 @@ export const RegisterForm = () => {
 					{...register('email', {
 						required: 'Email is required!',
 						pattern: {
-							// https://stackoverflow.com/a/67535345/22737676
-							value:
-								/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+							value: REGEX.IS_EMAIL,
 							message: 'Invalid email address!',
 						},
 					})}
