@@ -1,9 +1,10 @@
 import clsx from 'clsx';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { WEBSITE_NAME } from '@/constants/seo.constants';
 import '@/app/globals.css';
 import Providers from '@/app/providers';
+import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+import { WEBSITE_NAME } from '@/constants/seo.constants';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,9 +23,12 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang='en'>
+		<html lang='en' suppressHydrationWarning={true}>
 			<body className={clsx(inter.className, 'h-screen overflow-hidden')}>
-				<Providers>{children}</Providers>
+				<Providers>
+					<ThemeSwitcher className='absolute right-2 top-2 cursor-pointer' />
+					{children}
+				</Providers>
 			</body>
 		</html>
 	);

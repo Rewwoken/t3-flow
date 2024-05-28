@@ -5,10 +5,10 @@ import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import Auth from '@/components/auth';
 import { authService } from '@/services/auth.service';
 import { AUTH, DASHBOARD } from '@/constants/routes.constants';
 import { IRegisterInputs } from '@/types/auth.types';
-import { Auth } from './auth';
 
 export const RegisterForm = () => {
 	const router = useRouter();
