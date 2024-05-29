@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import s from '@/components/dashboard/index.module.css';
+import s from '@/components/dashboard/dashboard.module.css';
 import { Logo } from '@/components/ui/Logo';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { ThemeSwitcher } from '@/components/ui/ThemeSwitcher';

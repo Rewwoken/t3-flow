@@ -1,15 +1,16 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
-import type { AxiosError } from 'axios';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Auth } from '@/components/auth/Auth';
-import { authService } from '@/services/auth.service';
-import { REGEX } from '@/constants/regex.constants';
+import { AuthButton } from '@/components/auth/AuthButton';
+import { AuthField } from '@/components/auth/AuthField';
+import s from '@/components/auth/auth.module.css';
+import * as validation from '@/components/auth/auth.validation';
+import { Logo } from '@/components/ui/Logo';
 import { AUTH, DASHBOARD } from '@/constants/routes.constants';
 import type { ILoginInputs } from '@/types/auth.types';
+import { useAuth } from '@/hooks/useAuth';
 
 export const LoginForm = () => {
 	const router = useRouter();
@@ -21,51 +22,33 @@ export const LoginForm = () => {
 		formState: { errors },
 	} = useForm<ILoginInputs>({ mode: 'onBlur' });
 
-	// TODO: refactor
-	const { mutate, isPending } = useMutation({
-		mutationKey: ['auth', 'login'],
-		mutationFn: (data: ILoginInputs) => authService.login(data),
-		onSuccess: () => {
-			reset();
-			setFormError(null);
-			router.push(DASHBOARD.ROOT);
-		},
-		onError: ({ response }: AxiosError) => {
-			// @ts-ignore | TODO: add error type
-			const { message } = response?.data;
+	const onSuccess = () => {
+		reset();
+		router.push(DASHBOARD.ROOT);
+	};
 
-			setFormError(typeof message === 'string' ? message : 'Unexpected error!');
-		},
-	});
-
-	const [formError, setFormError] = React.useState<string | null>(null);
+	const { mutate, isPending, error } = useAuth('login', onSuccess);
+	const message = error?.response?.data.message;
 
 	const onSubmit: SubmitHandler<ILoginInputs> = (data) => {
-		setFormError(null);
-
 		mutate(data);
 	};
 
 	return (
-		<Auth>
-			<Auth.Heading>Welcome back!</Auth.Heading>
-			<Auth.Form onSubmit={handleSubmit(onSubmit)}>
-				<Auth.Field
+		<div className={s.wrapper}>
+			<Logo className='size-24' />
+			<h1 className={s.heading}>Welcome back!</h1>
+			<form onSubmit={handleSubmit(onSubmit)} className={s.form}>
+				<AuthField
 					label='Email'
 					id='email-input'
 					type='email'
 					autoComplete='email'
 					placeholder='a.langley@gmail.com'
 					message={errors.email?.message}
-					{...register('email', {
-						required: 'Email is required!',
-						pattern: {
-							value: REGEX.IS_EMAIL,
-							message: 'Invalid email address!',
-						},
-					})}
+					{...register('email', validation.email)}
 				/>
-				<Auth.Field
+				<AuthField
 					label='Password'
 					id='password-input'
 					type='password'
@@ -74,12 +57,14 @@ export const LoginForm = () => {
 					message={errors.password?.message}
 					{...register('password', { required: 'Password is required!' })}
 				/>
-				<Auth.Message>{formError}</Auth.Message>
-				<Auth.Submit isValid={!Object.keys(errors).length} isLoading={isPending}>
+				{message && <span className={s.message}>{message}</span>}
+				<AuthButton isValid={!Object.keys(errors).length} isPending={isPending}>
 					Login
-				</Auth.Submit>
-			</Auth.Form>
-			<Auth.Link href={AUTH.REGISTER}>Don&apos;t have an account?</Auth.Link>
-		</Auth>
+				</AuthButton>
+			</form>
+			<Link href={AUTH.REGISTER} className={s.link}>
+				Don&apos;t have an account yet?
+			</Link>
+		</div>
 	);
 };

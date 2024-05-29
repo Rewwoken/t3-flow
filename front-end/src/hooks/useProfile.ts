@@ -5,7 +5,7 @@ import { userService } from '@/services/user.service';
 
 export function useProfile() {
 	const result = useQuery({
-		queryKey: ['user', 'profile'],
+		queryKey: ['profile'],
 		queryFn: () => userService.getProfile(),
 	});
 

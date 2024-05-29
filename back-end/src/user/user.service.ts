@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { hash } from 'argon2';
 import { startOfDay, subDays } from 'date-fns';
 import { RegisterDto } from 'src/auth/dto/register.dto';
@@ -115,6 +115,14 @@ export class UserService {
 	}
 
 	async update(id: string, updateUserDto: UpdateUserDto) {
+		if (updateUserDto.email) {
+			const existingUser = await this.findOneByEmail(updateUserDto.email);
+
+			if (existingUser) {
+				throw new BadRequestException('Email is already in use!');
+			}
+		}
+
 		// if password is provided to update, then hash it
 		if (updateUserDto.password) {
 			const passwordHash = await hash(updateUserDto.password);

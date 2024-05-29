@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import s from '@/components/dashboard/index.module.css';
+import s from '@/components/dashboard/dashboard.module.css';
 import { DASHBOARD } from '@/constants/routes.constants';
 
 export const DashboardSidebar = () => {

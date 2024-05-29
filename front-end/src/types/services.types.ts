@@ -1,5 +1,11 @@
 import type { IRegisterInputs } from '@/types/auth.types';
 
+export interface IApiErrorResponse {
+	message?: string;
+	error: string;
+	statusCode: number;
+}
+
 export interface IGetProfileResponse {
 	profile: {
 		id: string;
