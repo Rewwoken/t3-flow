@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html.light {
+	--primary-color: 25, 22, 69;
+	--muted-color: 138, 138, 138;
+	--accent-color: 67, 198, 172;
+	--background-color: 255, 255, 255;
+	--text-color: 32, 33, 36;
+	--border-color: 225, 225, 225;
+	--danger-color: 234, 67, 53;
+}
+
+html.dark {
+	--primary-color: 25, 22, 69;
+	--muted-color: 196, 196, 196;
+	--accent-color: 67, 198, 172;
+	--background-color: 32, 33, 36;
+	--text-color: 255, 255, 255;
+	--border-color: 73, 73, 73;
+	--danger-color: 234, 67, 53;
+}
+
+html * {
+	color: rgba(var(--text-color));
+	border-color: rgba(var(--border-color));
+}
+
+html {
+	/* leave all other elemnts' `background-color: transparent` */
+	background-color: rgba(var(--background-color));
+}

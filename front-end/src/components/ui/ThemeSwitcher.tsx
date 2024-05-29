@@ -14,20 +14,15 @@ export const ThemeSwitcher = ({
 	const [mounted, setMounted] = useState(false);
 	const { resolvedTheme, setTheme } = useTheme();
 
-	const setThemeSmooth = (theme: string) => {
-		document.documentElement.classList.add(THEMES.THEME_TRANSITION);
-
-		setTheme(theme);
-
-		setTimeout(() => {
-			document.documentElement.classList.remove(THEMES.THEME_TRANSITION);
-		}, 200);
-	};
-
 	useEffect(() => setMounted(true), []);
 
 	if (!mounted) {
-		return <Skeleton className={className} style={{ width: size + 'px', height: size + 'px' }} />;
+		return (
+			<Skeleton
+				className={className}
+				style={{ width: size + 'px', height: size + 'px' }}
+			/>
+		);
 	}
 
 	if (resolvedTheme === THEMES.DARK)
@@ -35,7 +30,7 @@ export const ThemeSwitcher = ({
 			<Moon
 				size={size}
 				strokeWidth={1}
-				onClick={() => setThemeSmooth(THEMES.LIGHT)}
+				onClick={() => setTheme(THEMES.LIGHT)}
 				className={clsx(className, 'cursor-pointer')}
 			/>
 		);
@@ -45,7 +40,7 @@ export const ThemeSwitcher = ({
 			<Sun
 				size={size}
 				strokeWidth={1}
-				onClick={() => setThemeSmooth(THEMES.DARK)}
+				onClick={() => setTheme(THEMES.DARK)}
 				className={clsx(className, 'cursor-pointer')}
 			/>
 		);

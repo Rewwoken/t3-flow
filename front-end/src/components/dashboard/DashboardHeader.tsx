@@ -4,10 +4,10 @@ import clsx from 'clsx';
 import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import s from '@/components/dashboard/index.module.css';
 import { Logo } from '@/components/ui/Logo';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { ThemeSwitcher } from '@/components/ui/ThemeSwitcher';
-import s from '@/styles/dashboard.module.css';
 import { authService } from '@/services/auth.service';
 import { AUTH, DASHBOARD } from '@/constants/routes.constants';
 import { WEBSITE_NAME } from '@/constants/seo.constants';
@@ -42,7 +42,7 @@ export const DashBoardHeader = () => {
 					</li>
 					<li className='flex flex-col justify-center'>
 						<span className='font-semibold'>{data?.profile.name}</span>
-						<span className='text-secondary'>{data?.profile.email}</span>
+						<span className='text-muted'>{data?.profile.email}</span>
 					</li>
 					<li>
 						<ThemeSwitcher size={40} className='my-1' />

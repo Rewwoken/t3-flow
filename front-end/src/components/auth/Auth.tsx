@@ -2,19 +2,23 @@ import clsx from 'clsx';
 import { Loader } from 'lucide-react';
 import Link, { type LinkProps } from 'next/link';
 import { forwardRef } from 'react';
+import { Logo } from '@/components/ui/Logo';
 
 const AuthWrapper = ({ children }: React.PropsWithChildren) => (
-	<div className='rounded-md border p-4'>{children}</div>
+	<div className='flex flex-col items-center gap-y-3'>{children}</div>
 );
 
 const AuthHeading = ({ children }: React.PropsWithChildren) => (
-	<h1 className='mb-6 w-full border-b-2 border-b-accent text-center text-xl font-semibold'>
-		{children}
-	</h1>
+	<>
+		<Logo className='size-24' />
+		<h1 className='w-full border-b-2 border-b-accent pb-2 text-center text-3xl font-semibold'>
+			{children}
+		</h1>
+	</>
 );
 
 const AuthForm = ({ children, ...props }: React.ComponentProps<'form'>) => (
-	<form {...props} className='my-2 flex flex-col gap-y-3'>
+	<form {...props} className='rounded-xs mt-2 flex flex-col gap-y-3 border p-4'>
 		{children}
 	</form>
 );
@@ -68,25 +72,22 @@ const AuthSubmit = ({
 	<button
 		disabled={isLoading || !isValid}
 		type='submit'
-		className={clsx(
-			'w-full rounded-sm border py-1 text-antiAccent text-white transition-all duration-100 active:scale-95',
-			{
-				'bg-secondary/10 text-secondary/80': isLoading || !isValid,
-				'border-accent bg-accent/70 hover:bg-accent': !isLoading && isValid,
-			},
-		)}
+		className={clsx('rounded-sm py-1 text-white', {
+			'bg-muted/10 text-muted/80': isLoading || !isValid,
+			'bg-accent/70 hover:bg-accent': !isLoading && isValid,
+		})}
 	>
 		{isLoading ? <Loader size={24} className='mx-auto animate-spin' /> : children}
 	</button>
 );
 
 const AuthLink = ({ children, ...props }: React.PropsWithChildren<LinkProps>) => (
-	<Link {...props} className='text-sm text-secondary hover:underline'>
+	<Link {...props} className='text-sm text-muted hover:underline'>
 		{children}
 	</Link>
 );
 
-export default Object.assign(AuthWrapper, {
+export const Auth = Object.assign(AuthWrapper, {
 	Heading: AuthHeading,
 	Form: AuthForm,
 	Field: AuthField,

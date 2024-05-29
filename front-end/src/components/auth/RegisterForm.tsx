@@ -5,7 +5,7 @@ import type { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Auth from '@/components/auth';
+import { Auth } from '@/components/auth/Auth';
 import { authService } from '@/services/auth.service';
 import { REGEX } from '@/constants/regex.constants';
 import { AUTH, DASHBOARD } from '@/constants/routes.constants';
@@ -34,11 +34,7 @@ export const RegisterForm = () => {
 			// @ts-ignore | TODO: add error type
 			const { message } = response?.data;
 
-			if (typeof message === 'string') {
-				setFormError(message);
-			} else {
-				setFormError('Unexpected error!');
-			}
+			setFormError(typeof message === 'string' ? message : 'Unexpected error!');
 		},
 	});
 

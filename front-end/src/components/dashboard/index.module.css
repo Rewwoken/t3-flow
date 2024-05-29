@@ -16,6 +16,6 @@
 
 .link:hover,
 .active {
-	background: rgba(var(--secondary-color), 0.1);
+	background: rgba(var(--muted-color), 0.1);
 	border-left-color: rgba(var(--accent-color));
 }

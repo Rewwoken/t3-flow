@@ -12,7 +12,7 @@ const config: Config = {
 		extend: {
 			colors: {
 				primary: COLORS.PRIMARY,
-				secondary: COLORS.SECONDARY,
+				muted: COLORS.MUTED,
 				accent: COLORS.ACCENT,
 				background: COLORS.BACKGROUND,
 				text: COLORS.TEXT,
