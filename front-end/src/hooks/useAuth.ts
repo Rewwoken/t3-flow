@@ -1,8 +1,9 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import type { AxiosError, AxiosResponse } from 'axios';
+import type { AxiosError } from 'axios';
 import { authService } from '@/services/auth.service';
+import { QUERY_KEYS } from '@/constants/queryKeys.constants';
 import type {
 	IAuthResponse,
 	ILoginInputs,
@@ -28,13 +29,13 @@ import type { IApiErrorResponse } from '@/types/services.types';
  *
  * mutate(data);
  */
-export function useAuth(method: 'login' | 'register', onSuccess: () => void) {
+export function useAuth(method: 'login' | 'register', onSuccess?: () => void) {
 	const result = useMutation<
-		AxiosResponse<IAuthResponse>,
+		IAuthResponse,
 		AxiosError<IApiErrorResponse>,
 		ILoginInputs | IRegisterInputs
 	>({
-		mutationKey: ['auth', method],
+		mutationKey: [...QUERY_KEYS.MUTATE_AUTH, method],
 		mutationFn: (data) => authService[method](data),
 		onSuccess,
 	});

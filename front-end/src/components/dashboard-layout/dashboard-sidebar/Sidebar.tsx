@@ -43,16 +43,26 @@ export const Sidebar = () => {
 					/>
 				</ul>
 			</nav>
-			<p className='mb-2 text-sm text-muted/90'>
-				Made by&nbsp;
-				<Link
-					href='https://github.com/Rewwoken'
-					target='_blank'
-					className='text-muted hover:underline'
-				>
-					Rewwoken
-				</Link>
-			</p>
+			<ul className='mb-2 text-sm text-muted/90'>
+				<li>
+					<span>Made by&nbsp;</span>
+					<Link
+						href='https://github.com/Rewwoken'
+						target='_blank'
+						className='text-muted hover:underline'
+					>
+						Rewwoken
+					</Link>
+				</li>
+				<li className='text-center text-muted'>
+					<Link
+						className='text-muted hover:underline'
+						href='https://github.com/Rewwoken/horizon'
+					>
+						Open source
+					</Link>
+				</li>
+			</ul>
 		</aside>
 	);
 };

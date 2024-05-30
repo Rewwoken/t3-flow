@@ -1,10 +1,10 @@
 'use client';
 
 import { Loading } from '@/components/ui/Loading';
-import { useProfile } from '@/hooks/useProfile';
+import { useUser } from '@/hooks/useUser';
 
 export const Statistics = () => {
-	const { data, isLoading } = useProfile();
+	const { data, isLoading } = useUser();
 
 	// TODO: skeleton | after complete page design
 	if (isLoading) return <Loading />;

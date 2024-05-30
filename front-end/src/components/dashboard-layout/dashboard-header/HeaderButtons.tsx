@@ -6,11 +6,11 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { ThemeSwitcher } from '@/components/ui/ThemeSwitcher';
 import { authService } from '@/services/auth.service';
 import { AUTH } from '@/constants/routes.constants';
-import { useProfile } from '@/hooks/useProfile';
+import { useUser } from '@/hooks/useUser';
 
 export const HeaderButtons = () => {
 	const router = useRouter();
-	const { data, isLoading } = useProfile();
+	const { data, isPending } = useUser();
 
 	const logOut = async () => {
 		await authService.logout();
@@ -18,7 +18,7 @@ export const HeaderButtons = () => {
 		router.push(AUTH.LOGIN);
 	};
 
-	if (isLoading) {
+	if (isPending) {
 		return <Skeleton className='h-full w-80' />;
 	}
 

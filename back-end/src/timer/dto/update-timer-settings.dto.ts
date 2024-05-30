@@ -1,5 +1,6 @@
 import { IsNumber, IsOptional, Max, Min } from 'class-validator';
 
+// TODO: add validation
 export class UpdateTimerSettingsDto {
 	@IsOptional()
 	@IsNumber()

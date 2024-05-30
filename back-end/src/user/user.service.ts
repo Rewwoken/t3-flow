@@ -76,6 +76,7 @@ export class UserService {
 		// TODO: add more information for the profile
 		return {
 			profile,
+			timerSettings,
 			statistics: {
 				totalTasks,
 				completedTasks,
@@ -114,8 +115,8 @@ export class UserService {
 		return findUser;
 	}
 
-	async update(id: string, updateUserDto: UpdateUserDto) {
-		if (updateUserDto.email) {
+	async update(id: string, userEmail: string, updateUserDto: UpdateUserDto) {
+		if (userEmail !== updateUserDto.email) {
 			const existingUser = await this.findOneByEmail(updateUserDto.email);
 
 			if (existingUser) {

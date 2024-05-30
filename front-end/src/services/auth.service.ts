@@ -1,30 +1,40 @@
 import { apiPublic } from '@/api/interceptors';
 import { tokenService } from '@/services/token.service';
-import type { ILoginInputs, IRegisterInputs } from '@/types/auth.types';
+import type {
+	IAuthResponse,
+	ILoginInputs,
+	IRegisterInputs,
+} from '@/types/auth.types';
 
 class AuthService {
 	private readonly BASE_URL = '/auth';
 
 	async register(data: IRegisterInputs) {
-		const response = await apiPublic.post(`${this.BASE_URL}/register`, data);
+		const response = await apiPublic.post<IAuthResponse>(
+			`${this.BASE_URL}/register`,
+			data,
+		);
 
 		const accessToken = response.data.accessToken;
 		if (accessToken) {
 			tokenService.saveTokenInStorage(accessToken);
 		}
 
-		return response;
+		return response.data;
 	}
 
 	async login(data: ILoginInputs) {
-		const response = await apiPublic.post(`${this.BASE_URL}/login`, data);
+		const response = await apiPublic.post<IAuthResponse>(
+			`${this.BASE_URL}/login`,
+			data,
+		);
 
 		const accessToken = response.data.accessToken;
 		if (accessToken) {
 			tokenService.saveTokenInStorage(accessToken);
 		}
 
-		return response;
+		return response.data;
 	}
 
 	async getNewTokens() {

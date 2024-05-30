@@ -1,15 +1,14 @@
 import { RegisterOptions } from 'react-hook-form';
 import { REGEX } from '@/constants/regex.constants';
-import type { IRegisterInputs } from '@/types/auth.types';
 
-export const name: RegisterOptions<IRegisterInputs, 'name'> = {
+export const name: RegisterOptions = {
 	maxLength: {
 		value: 15,
 		message: 'Name must be less than 15 characters.',
 	},
 };
 
-export const email: RegisterOptions<IRegisterInputs, 'email'> = {
+export const email: RegisterOptions = {
 	required: 'Email is required!',
 	pattern: {
 		value: REGEX.IS_EMAIL,
@@ -17,7 +16,7 @@ export const email: RegisterOptions<IRegisterInputs, 'email'> = {
 	},
 };
 
-export const password: RegisterOptions<IRegisterInputs, 'password'> = {
+export const password: RegisterOptions = {
 	required: 'Password is required!',
 	minLength: {
 		value: 6,

@@ -1,24 +1,26 @@
 import { apiProtected } from '@/api/interceptors';
 import type {
-	IGetProfileResponse,
+	IGetUserResponse,
 	IUpdateUser,
 	IUpdateUserResponse,
 } from '@/types/services.types';
 
 export class UserService {
-	async getProfile() {
-		const { data } = await apiProtected.get<IGetProfileResponse>('/user');
+	private readonly BASE_URL = '/user';
 
-		return data;
+	async getUser() {
+		const result = await apiProtected.get<IGetUserResponse>(this.BASE_URL);
+
+		return result.data;
 	}
 
 	async update(updateUser: IUpdateUser) {
-		const { data } = await apiProtected.patch<IUpdateUserResponse>(
-			'/user',
+		const result = await apiProtected.patch<IUpdateUserResponse>(
+			this.BASE_URL,
 			updateUser,
 		);
 
-		return data;
+		return result.data;
 	}
 }
 

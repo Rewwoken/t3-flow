@@ -1,4 +1,3 @@
-import { COLORS } from './src/constants/colors.constants';
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
@@ -11,13 +10,13 @@ const config: Config = {
 	theme: {
 		extend: {
 			colors: {
-				primary: COLORS.PRIMARY,
-				muted: COLORS.MUTED,
-				accent: COLORS.ACCENT,
-				background: COLORS.BACKGROUND,
-				text: COLORS.TEXT,
-				border: COLORS.BORDER,
-				danger: COLORS.DANGER,
+				primary: 'rgba(var(--primary-color))',
+				muted: 'rgba(var(--muted-color))',
+				accent: 'rgba(var(--accent-color))',
+				background: 'rgba(var(--background-color))',
+				text: 'rgba(var(--text-color))',
+				border: 'rgba(var(--botder-color))',
+				danger: 'rgba(var(--danger-color))',
 			},
 		},
 	},

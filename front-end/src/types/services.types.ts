@@ -6,11 +6,23 @@ export interface IApiErrorResponse {
 	statusCode: number;
 }
 
-export interface IGetProfileResponse {
+export interface IGetUserResponse {
 	profile: {
 		id: string;
 		email: string;
 		name: string;
+		createdAt: string;
+		updatedAt: string;
+	};
+	timerSettings: {
+		id: string;
+
+		workInterval: number;
+		breakInterval: number;
+		intervalsCount: number;
+
+		userId: string;
+
 		createdAt: string;
 		updatedAt: string;
 	};
@@ -29,6 +41,38 @@ export interface IUpdateUser extends Partial<IRegisterInputs> {}
 
 export interface IUpdateUserResponse {
 	email: string;
-	name: string;
+	name: string | null;
 	updatedAt: string;
+}
+
+export interface IGetTimerSettingsResponse {
+	id: string;
+
+	workInterval: number;
+	breakInterval: number;
+	intervalsCount: number;
+
+	userId: string;
+
+	createdAt: string;
+	updatedAt: string;
+}
+
+export interface IUpdateTimerSettings {
+	workInterval?: number;
+	breakInterval?: number;
+	intervalsCount?: number;
+}
+
+export interface IUpdateTimerSettingsResponse
+	extends IGetTimerSettingsResponse {}
+
+export interface IUpdateSettings {
+	user: Partial<IRegisterInputs>;
+	timer: Partial<IUpdateTimerSettings>;
+}
+
+export interface IUpdateSettingsResponse {
+	user: IUpdateUserResponse;
+	timer: IUpdateTimerSettingsResponse;
 }

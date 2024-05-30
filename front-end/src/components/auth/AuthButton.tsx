@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { Loader } from 'lucide-react';
+import s from '@/components/auth/auth.module.css';
 
 interface IAuthButtonProps {
 	isPending: boolean;
@@ -15,10 +15,7 @@ export const AuthButton = ({
 		<button
 			disabled={isPending || !isValid}
 			type='submit'
-			className={clsx('rounded-sm py-1 text-white', {
-				'bg-muted/10 text-muted/80': isPending || !isValid,
-				'bg-accent/70 hover:bg-accent': !isPending && isValid,
-			})}
+			className={s.submit}
 		>
 			{isPending ? (
 				<Loader

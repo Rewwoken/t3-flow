@@ -16,7 +16,11 @@ export class UserController {
 
 	@Patch()
 	@Protected()
-	async update(@CurrentUser('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-		return await this.userService.update(id, updateUserDto);
+	async update(
+		@CurrentUser('id') id: string,
+		@CurrentUser('email') email: string,
+		@Body() updateUserDto: UpdateUserDto,
+	) {
+		return await this.userService.update(id, email, updateUserDto);
 	}
 }
