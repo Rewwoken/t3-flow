@@ -20,7 +20,7 @@ export const ThemeSwitcher = ({
 		return (
 			<Skeleton
 				className={className}
-				style={{ width: size + 'px', height: size + 'px' }}
+				style={{ width: size, height: size }}
 			/>
 		);
 	}

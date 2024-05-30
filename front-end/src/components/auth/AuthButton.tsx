@@ -20,7 +20,14 @@ export const AuthButton = ({
 				'bg-accent/70 hover:bg-accent': !isPending && isValid,
 			})}
 		>
-			{isPending ? <Loader size={24} className='mx-auto animate-spin' /> : children}
+			{isPending ? (
+				<Loader
+					size={24}
+					className='mx-auto animate-spin'
+				/>
+			) : (
+				children
+			)}
 		</button>
 	);
 };

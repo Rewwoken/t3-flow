@@ -13,7 +13,10 @@ export class UserService {
 	}
 
 	async update(updateUser: IUpdateUser) {
-		const { data } = await apiProtected.patch<IUpdateUserResponse>('/user', updateUser);
+		const { data } = await apiProtected.patch<IUpdateUserResponse>(
+			'/user',
+			updateUser,
+		);
 
 		return data;
 	}

@@ -38,7 +38,10 @@ export const LoginForm = () => {
 		<div className={s.wrapper}>
 			<Logo className='size-24' />
 			<h1 className={s.heading}>Welcome back!</h1>
-			<form onSubmit={handleSubmit(onSubmit)} className={s.form}>
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				className={s.form}
+			>
 				<AuthField
 					label='Email'
 					id='email-input'
@@ -58,11 +61,17 @@ export const LoginForm = () => {
 					{...register('password', { required: 'Password is required!' })}
 				/>
 				{message && <span className={s.message}>{message}</span>}
-				<AuthButton isValid={!Object.keys(errors).length} isPending={isPending}>
+				<AuthButton
+					isValid={!Object.keys(errors).length}
+					isPending={isPending}
+				>
 					Login
 				</AuthButton>
 			</form>
-			<Link href={AUTH.REGISTER} className={s.link}>
+			<Link
+				href={AUTH.REGISTER}
+				className={s.link}
+			>
 				Don&apos;t have an account yet?
 			</Link>
 		</div>

@@ -10,7 +10,11 @@ export default function Providers({ children }: PropsWithChildren) {
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			<ThemeProvider attribute='class' defaultTheme={THEMES.SYSTEM} enableSystem={true}>
+			<ThemeProvider
+				attribute='class'
+				defaultTheme={THEMES.SYSTEM}
+				enableSystem={true}
+			>
 				{children}
 			</ThemeProvider>
 		</QueryClientProvider>

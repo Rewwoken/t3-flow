@@ -22,7 +22,10 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang='en' suppressHydrationWarning={true}>
+		<html
+			lang='en'
+			suppressHydrationWarning={true}
+		>
 			<body className={clsx(inter.className, 'h-screen overflow-hidden')}>
 				<Providers>{children}</Providers>
 			</body>

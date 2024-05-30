@@ -38,7 +38,10 @@ export const RegisterForm = () => {
 		<div className={s.wrapper}>
 			<Logo className='size-24' />
 			<h1 className={s.heading}>Create an account</h1>
-			<form onSubmit={handleSubmit(onSubmit)} className={s.form}>
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				className={s.form}
+			>
 				<AuthField
 					label='Name'
 					id='name-input'
@@ -67,11 +70,17 @@ export const RegisterForm = () => {
 					{...register('password', validation.password)}
 				/>
 				{message && <span className={s.message}>{message}</span>}
-				<AuthButton isValid={!Object.keys(errors).length} isPending={isPending}>
+				<AuthButton
+					isValid={!Object.keys(errors).length}
+					isPending={isPending}
+				>
 					Register
 				</AuthButton>
 			</form>
-			<Link href={AUTH.LOGIN} className={s.link}>
+			<Link
+				href={AUTH.LOGIN}
+				className={s.link}
+			>
 				Already have an account?
 			</Link>
 		</div>

@@ -6,7 +6,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\"",
+		"format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.css\"",
 		"lint": "next lint"
 	},
 	"dependencies": {
