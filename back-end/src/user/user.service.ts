@@ -1,9 +1,9 @@
+import { RegisterDto } from '@/auth/dto/register.dto';
+import { PrismaService } from '@/prisma.service';
+import { UpdateUserDto } from '@/user/dto/update-user.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { hash } from 'argon2';
 import { startOfDay, subDays } from 'date-fns';
-import { RegisterDto } from 'src/auth/dto/register.dto';
-import { PrismaService } from 'src/prisma.service';
-import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -35,8 +35,14 @@ export class UserService {
 
 	// TODO: optimize
 	async getProfile(id: string) {
-		const { password, tasks, timeBlocks, timerSessions, timerSettings, ...profile } =
-			await this.findOneById(id);
+		const {
+			password,
+			tasks,
+			timeBlocks,
+			timerSessions,
+			timerSettings,
+			...profile
+		} = await this.findOneById(id);
 
 		const totalTasks = tasks.length;
 		const completedTasks = tasks.reduce((count, task) => {

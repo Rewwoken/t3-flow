@@ -1,8 +1,8 @@
+import { PrismaService } from '@/prisma.service';
+import { CreateTimeBlockDto } from '@/time-block/dto/create-time-block.dto';
+import { UpdateOrderDto } from '@/time-block/dto/update-order.dto';
+import { UpdateTimeBlockDto } from '@/time-block/dto/update-time-block.dto';
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
-import { CreateTimeBlockDto } from './dto/create-time-block.dto';
-import { UpdateTimeBlockDto } from './dto/update-time-block.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Injectable()
 export class TimeBlockService {
@@ -32,7 +32,11 @@ export class TimeBlockService {
 		});
 	}
 
-	async update(userId: string, timeBlockId: string, updateTimeBlockDto: UpdateTimeBlockDto) {
+	async update(
+		userId: string,
+		timeBlockId: string,
+		updateTimeBlockDto: UpdateTimeBlockDto,
+	) {
 		return await this.prismaService.timeBlock.update({
 			where: {
 				id: timeBlockId,

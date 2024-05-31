@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { forwardRef } from 'react';
-import s from '@/components/settings/settings.module.css';
+import s from '@/components/dashboard-settings/settings.module.css';
 
 // use forwardRef, since register(...) from react-hook-form returns ref
 export const SettingsField = forwardRef<

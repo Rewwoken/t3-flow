@@ -1,15 +1,14 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import type { AxiosError } from 'axios';
 import { authService } from '@/services/auth.service';
-import { QUERY_KEYS } from '@/constants/queryKeys.constants';
+import { KEYS } from '@/constants/keys.constants';
+import { IApiErrorResponse } from '@/types/api.types';
 import type {
 	IAuthResponse,
-	ILoginInputs,
-	IRegisterInputs,
+	ILoginFields,
+	IRegisterFields,
 } from '@/types/auth.types';
-import type { IApiErrorResponse } from '@/types/services.types';
 
 /**
  * Custom hook for user authentication.
@@ -23,7 +22,7 @@ import type { IApiErrorResponse } from '@/types/services.types';
  * @returns The result of the mutation.
  *
  * @example
- * const { mutate, isLoading, error } = useRegister('register', () => {
+ * const { mutate, isLoading, error } = useAuth('register', () => {
  *   alert('Registration successful!');
  * });
  *
@@ -32,10 +31,10 @@ import type { IApiErrorResponse } from '@/types/services.types';
 export function useAuth(method: 'login' | 'register', onSuccess?: () => void) {
 	const result = useMutation<
 		IAuthResponse,
-		AxiosError<IApiErrorResponse>,
-		ILoginInputs | IRegisterInputs
+		IApiErrorResponse,
+		ILoginFields | IRegisterFields
 	>({
-		mutationKey: [...QUERY_KEYS.MUTATE_AUTH, method],
+		mutationKey: [...KEYS.MUTATE_AUTH, method],
 		mutationFn: (data) => authService[method](data),
 		onSuccess,
 	});

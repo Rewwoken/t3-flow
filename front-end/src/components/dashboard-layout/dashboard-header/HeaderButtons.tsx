@@ -2,11 +2,11 @@
 
 import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/hooks/useUser';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { ThemeSwitcher } from '@/components/ui/ThemeSwitcher';
 import { authService } from '@/services/auth.service';
 import { AUTH } from '@/constants/routes.constants';
-import { useUser } from '@/hooks/useUser';
 
 export const HeaderButtons = () => {
 	const router = useRouter();

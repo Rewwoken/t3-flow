@@ -1,9 +1,13 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { LoginDto } from '@/auth/dto/login.dto';
+import { RegisterDto } from '@/auth/dto/register.dto';
+import { TokenService } from '@/token/token.service';
+import { UserService } from '@/user/user.service';
+import {
+	BadRequestException,
+	Injectable,
+	UnauthorizedException,
+} from '@nestjs/common';
 import { verify } from 'argon2';
-import { TokenService } from 'src/token/token.service';
-import { UserService } from 'src/user/user.service';
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +17,9 @@ export class AuthService {
 	) {}
 
 	async register(registerDto: RegisterDto) {
-		const existingUser = await this.userService.findOneByEmail(registerDto.email);
+		const existingUser = await this.userService.findOneByEmail(
+			registerDto.email,
+		);
 
 		if (existingUser) {
 			throw new BadRequestException('Email is already in use!');
@@ -21,7 +27,9 @@ export class AuthService {
 
 		const { password, ...user } = await this.userService.create(registerDto);
 
-		const { accessToken, refreshToken } = this.tokenService.issueTokens(user.id);
+		const { accessToken, refreshToken } = this.tokenService.issueTokens(
+			user.id,
+		);
 
 		return { ...user, accessToken, refreshToken };
 	}
@@ -41,7 +49,9 @@ export class AuthService {
 
 		const { password, ...user } = findUser;
 
-		const { accessToken, refreshToken } = this.tokenService.issueTokens(user.id);
+		const { accessToken, refreshToken } = this.tokenService.issueTokens(
+			user.id,
+		);
 
 		return { ...user, accessToken, refreshToken };
 	}

@@ -3,7 +3,7 @@ import type {
 	IGetUserResponse,
 	IUpdateUser,
 	IUpdateUserResponse,
-} from '@/types/services.types';
+} from '@/types/user.service.types';
 
 export class UserService {
 	private readonly BASE_URL = '/user';

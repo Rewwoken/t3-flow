@@ -56,8 +56,9 @@ export const Sidebar = () => {
 				</li>
 				<li className='text-center text-muted'>
 					<Link
-						className='text-muted hover:underline'
 						href='https://github.com/Rewwoken/horizon'
+						target='_blank'
+						className='text-muted hover:underline'
 					>
 						Open source
 					</Link>

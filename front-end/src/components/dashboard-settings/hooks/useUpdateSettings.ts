@@ -1,13 +1,12 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import type { AxiosError } from 'axios';
 import { timerService } from '@/services/timer.service';
 import { userService } from '@/services/user.service';
-import { QUERY_KEYS } from '@/constants/queryKeys.constants';
+import { KEYS } from '@/constants/keys.constants';
+import type { IApiErrorResponse } from '@/types/api.types';
 import type {
-	IApiErrorResponse,
-	IUpdateSettings,
+	IUpdateSettingsFields,
 	IUpdateSettingsResponse,
 } from '@/types/services.types';
 
@@ -32,10 +31,10 @@ import type {
 export function useUpdateSettings(onSuccess?: () => void) {
 	const result = useMutation<
 		IUpdateSettingsResponse,
-		AxiosError<IApiErrorResponse>,
-		IUpdateSettings
+		IApiErrorResponse,
+		IUpdateSettingsFields
 	>({
-		mutationKey: QUERY_KEYS.MUTATE_SETTINGS,
+		mutationKey: KEYS.MUTATE_SETTINGS,
 		mutationFn: async (data) => {
 			const timer = await timerService.updateSettings(data.timer);
 			const user = await userService.update(data.user);

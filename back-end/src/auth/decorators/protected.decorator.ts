@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../guards/jwt.guard';
+import { JwtAuthGuard } from '@/auth/guards/jwt.guard';
 
 /**
  * Method or Class decorator

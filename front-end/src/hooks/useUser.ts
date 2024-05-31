@@ -1,10 +1,10 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { userService } from '@/services/user.service';
-import { QUERY_KEYS } from '@/constants/queryKeys.constants';
-import { IApiErrorResponse, IGetUserResponse } from '@/types/services.types';
+import { KEYS } from '@/constants/keys.constants';
+import type { IApiErrorResponse } from '@/types/api.types';
+import type { IGetUserResponse } from '@/types/user.service.types';
 
 /**
  * Custom hook to fetch user information.
@@ -31,8 +31,8 @@ import { IApiErrorResponse, IGetUserResponse } from '@/types/services.types';
  * }
  */
 export function useUser() {
-	const result = useQuery<IGetUserResponse, AxiosError<IApiErrorResponse>>({
-		queryKey: QUERY_KEYS.USER,
+	const result = useQuery<IGetUserResponse, IApiErrorResponse>({
+		queryKey: KEYS.QUERY_USER,
 		queryFn: () => userService.getUser(),
 	});
 

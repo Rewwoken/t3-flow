@@ -1,13 +1,13 @@
+import { AuthController } from '@/auth/auth.controller';
+import { AuthService } from '@/auth/auth.service';
+import { JwtStrategy } from '@/auth/strategies/jwt.strategy';
+import { EnvironmentVaribales } from '@/config/configuration';
+import { TokenModule } from '@/token/token.module';
+import { UserModule } from '@/user/user.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { EnvironmentVaribales } from 'src/config/configuration';
-import { TokenModule } from 'src/token/token.module';
-import { UserModule } from 'src/user/user.module';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
 	imports: [
@@ -17,7 +17,9 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 		JwtModule.registerAsync({
 			imports: [ConfigModule],
 			global: true,
-			useFactory: async (configService: ConfigService<EnvironmentVaribales>) => ({
+			useFactory: async (
+				configService: ConfigService<EnvironmentVaribales>,
+			) => ({
 				secret: configService.get('jwtSecret'),
 			}),
 			inject: [ConfigService],

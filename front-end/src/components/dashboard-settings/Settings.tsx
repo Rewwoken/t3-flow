@@ -2,14 +2,14 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import s from '@/components/settings/settings.module.css';
-import * as validation from '@/components/settings/settings.validation';
-import { QUERY_KEYS } from '@/constants/queryKeys.constants';
-import { IUpdateSettings } from '@/types/services.types';
-import { useTimerSettings } from '@/hooks/useTimerSettings';
-import { useUpdateSettings } from '@/hooks/useUpdateSettings';
 import { useUser } from '@/hooks/useUser';
-import { SettingsField } from './SettingsField';
+import { useTimerSettings } from '@/components/dashboard-settings/hooks/useTimerSettings';
+import { useUpdateSettings } from '@/components/dashboard-settings/hooks/useUpdateSettings';
+import { SettingsField } from '@/components/dashboard-settings/SettingsField';
+import s from '@/components/dashboard-settings/settings.module.css';
+import * as validation from '@/components/dashboard-settings/settings.validation';
+import { KEYS } from '@/constants/keys.constants';
+import { IUpdateSettingsFields } from '@/types/services.types';
 
 export const Settings = () => {
 	const { isPending: isProfile, data: user } = useUser();
@@ -20,23 +20,23 @@ export const Settings = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<IUpdateSettings>({ mode: 'onChange' });
+	} = useForm<IUpdateSettingsFields>({ mode: 'onChange' });
 
 	const queryClient = useQueryClient();
 
 	const { mutate, error } = useUpdateSettings(async () => {
 		await queryClient.invalidateQueries({
-			queryKey: QUERY_KEYS.USER,
+			queryKey: KEYS.QUERY_USER,
 		});
 
 		await queryClient.invalidateQueries({
-			queryKey: QUERY_KEYS.TIMER_SETTINGS,
+			queryKey: KEYS.QUERY_TIMER_SETTINGS,
 		});
 
 		alert('Settings successfully changed!');
 	});
 
-	const onSubmit: SubmitHandler<IUpdateSettings> = (data) => {
+	const onSubmit: SubmitHandler<IUpdateSettingsFields> = (data) => {
 		if (!data.user.password) {
 			data.user.password = undefined;
 		}

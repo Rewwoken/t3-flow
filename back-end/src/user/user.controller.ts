@@ -1,8 +1,8 @@
+import { CurrentUser } from '@/auth/decorators/current-user.decorator';
+import { Protected } from '@/auth/decorators/protected.decorator';
+import { UpdateUserDto } from '@/user/dto/update-user.dto';
+import { UserService } from '@/user/user.service';
 import { Body, Controller, Get, Patch } from '@nestjs/common';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { Protected } from 'src/auth/decorators/protected.decorator';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {

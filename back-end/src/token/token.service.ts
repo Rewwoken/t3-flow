@@ -1,10 +1,10 @@
+import { EnvironmentVaribales } from '@/config/configuration';
+import { JwtToken } from '@/token/interface/jwt-token.interface';
+import { UserService } from '@/user/user.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { CookieOptions, Response } from 'express';
-import { UserService } from 'src/user/user.service';
-import { JwtToken } from './interface/jwt-token.interface';
-import { EnvironmentVaribales } from 'src/config/configuration';
 
 @Injectable()
 export class TokenService {
@@ -49,19 +49,16 @@ export class TokenService {
 	}
 
 	removeRefreshTokenFromResponse(res: Response) {
-		// to remove the cookie, we can make it ivalid by
-		// setting the cookie value to '' and expiration date to 1970y
-		res.cookie(this.REFRESH_TOKEN_NAME, '', {
-			...this.REFRESH_TOKEN_COOKIE_OPTIONS,
-			expires: new Date(0),
-		});
+		res.clearCookie(this.REFRESH_TOKEN_NAME, this.REFRESH_TOKEN_COOKIE_OPTIONS);
 	}
 
 	async getNewTokens(refreshToken: string) {
 		try {
 			const result = await this.jwtService.verifyAsync(refreshToken);
 
-			const { password, ...user } = await this.userService.findOneById(result.id);
+			const { password, ...user } = await this.userService.findOneById(
+				result.id,
+			);
 
 			const newTokens = await this.issueTokens(user.id);
 

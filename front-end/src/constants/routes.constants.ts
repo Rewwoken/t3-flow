@@ -1,3 +1,12 @@
+class Auth {
+	readonly BASE_URL = '/auth';
+
+	readonly REGISTER = `${this.BASE_URL}/register`;
+	readonly LOGIN = `${this.BASE_URL}/login`;
+}
+
+export const AUTH = new Auth();
+
 class Dashboard {
 	readonly BASE_URL = '/dashboard';
 
@@ -9,12 +18,3 @@ class Dashboard {
 }
 
 export const DASHBOARD = new Dashboard();
-
-class Auth {
-	readonly BASE_URL = '/auth';
-
-	readonly REGISTER = `${this.BASE_URL}/register`;
-	readonly LOGIN = `${this.BASE_URL}/login`;
-}
-
-export const AUTH = new Auth();

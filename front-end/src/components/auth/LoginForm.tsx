@@ -3,14 +3,14 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useAuth } from '@/components/auth/hooks/useAuth';
 import { AuthButton } from '@/components/auth/AuthButton';
 import { AuthField } from '@/components/auth/AuthField';
 import s from '@/components/auth/auth.module.css';
 import * as validation from '@/components/auth/auth.validation';
 import { Logo } from '@/components/ui/Logo';
 import { AUTH, DASHBOARD } from '@/constants/routes.constants';
-import type { ILoginInputs } from '@/types/auth.types';
-import { useAuth } from '@/hooks/useAuth';
+import type { ILoginFields } from '@/types/auth.types';
 
 export const LoginForm = () => {
 	const router = useRouter();
@@ -20,7 +20,7 @@ export const LoginForm = () => {
 		handleSubmit,
 		reset,
 		formState: { errors },
-	} = useForm<ILoginInputs>({ mode: 'onBlur' });
+	} = useForm<ILoginFields>({ mode: 'onBlur' });
 
 	const onSuccess = () => {
 		reset();
@@ -30,7 +30,7 @@ export const LoginForm = () => {
 	const { mutate, isPending, error } = useAuth('login', onSuccess);
 	const message = error?.response?.data.message;
 
-	const onSubmit: SubmitHandler<ILoginInputs> = (data) => {
+	const onSubmit: SubmitHandler<ILoginFields> = (data) => {
 		mutate(data);
 	};
 

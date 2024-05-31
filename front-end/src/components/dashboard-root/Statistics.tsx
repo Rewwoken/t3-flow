@@ -1,13 +1,13 @@
 'use client';
 
-import { Loading } from '@/components/ui/Loading';
 import { useUser } from '@/hooks/useUser';
+import { Skeleton } from '../ui/Skeleton';
 
 export const Statistics = () => {
 	const { data, isLoading } = useUser();
 
 	// TODO: skeleton | after complete page design
-	if (isLoading) return <Loading />;
+	if (isLoading) return <Skeleton />;
 
 	return (
 		<>

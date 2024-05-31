@@ -2,14 +2,15 @@ import { apiPublic } from '@/api/interceptors';
 import { tokenService } from '@/services/token.service';
 import type {
 	IAuthResponse,
-	ILoginInputs,
-	IRegisterInputs,
+	IGetNewTokensResponse,
+	ILoginFields,
+	IRegisterFields,
 } from '@/types/auth.types';
 
 class AuthService {
 	private readonly BASE_URL = '/auth';
 
-	async register(data: IRegisterInputs) {
+	async register(data: IRegisterFields) {
 		const response = await apiPublic.post<IAuthResponse>(
 			`${this.BASE_URL}/register`,
 			data,
@@ -23,7 +24,7 @@ class AuthService {
 		return response.data;
 	}
 
-	async login(data: ILoginInputs) {
+	async login(data: ILoginFields) {
 		const response = await apiPublic.post<IAuthResponse>(
 			`${this.BASE_URL}/login`,
 			data,
@@ -38,7 +39,9 @@ class AuthService {
 	}
 
 	async getNewTokens() {
-		const response = await apiPublic.get(`${this.BASE_URL}/access-token`);
+		const response = await apiPublic.get<IGetNewTokensResponse>(
+			`${this.BASE_URL}/access-token`,
+		);
 
 		const accessToken = response.data.accessToken;
 		if (accessToken) {

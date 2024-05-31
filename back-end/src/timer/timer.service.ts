@@ -1,8 +1,8 @@
+import { PrismaService } from '@/prisma.service';
+import { UpdateSessionDto } from '@/timer/dto/update-timer-session-dto';
+import { UpdateTimerSettingsDto } from '@/timer/dto/update-timer-settings.dto';
+import { UserService } from '@/user/user.service';
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
-import { UserService } from 'src/user/user.service';
-import { UpdateSessionDto } from './dto/update-timer-session-dto';
-import { UpdateTimerSettingsDto } from './dto/update-timer-settings.dto';
 
 @Injectable()
 export class TimerService {
@@ -19,7 +19,10 @@ export class TimerService {
 		});
 	}
 
-	async updateSettings(userId: string, updateTimerSettingsDto: UpdateTimerSettingsDto) {
+	async updateSettings(
+		userId: string,
+		updateTimerSettingsDto: UpdateTimerSettingsDto,
+	) {
 		return await this.prismaService.timerSettings.update({
 			where: {
 				userId: userId,
@@ -85,7 +88,11 @@ export class TimerService {
 		});
 	}
 
-	async updateSession(userId: string, sessionId: string, updateSessionDto: UpdateSessionDto) {
+	async updateSession(
+		userId: string,
+		sessionId: string,
+		updateSessionDto: UpdateSessionDto,
+	) {
 		return await this.prismaService.timerSession.update({
 			where: {
 				userId: userId,

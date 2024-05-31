@@ -1,3 +1,7 @@
+import { AuthService } from '@/auth/auth.service';
+import { LoginDto } from '@/auth/dto/login.dto';
+import { RegisterDto } from '@/auth/dto/register.dto';
+import { TokenService } from '@/token/token.service';
 import {
 	Body,
 	Controller,
@@ -9,10 +13,6 @@ import {
 	UnauthorizedException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { TokenService } from 'src/token/token.service';
-import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -27,7 +27,8 @@ export class AuthController {
 		// use { passthrough: true } to manipulate the cookies
 		@Res({ passthrough: true }) res: Response,
 	) {
-		const { refreshToken, ...response } = await this.authService.register(registerDto);
+		const { refreshToken, ...response } =
+			await this.authService.register(registerDto);
 
 		this.tokenService.addRefreshTokenToResponse(res, refreshToken);
 
@@ -41,7 +42,8 @@ export class AuthController {
 		// use { passthrough: true } to manipulate the cookies
 		@Res({ passthrough: true }) res: Response,
 	) {
-		const { refreshToken, ...response } = await this.authService.login(loginDto);
+		const { refreshToken, ...response } =
+			await this.authService.login(loginDto);
 
 		this.tokenService.addRefreshTokenToResponse(res, refreshToken);
 
@@ -63,7 +65,8 @@ export class AuthController {
 		// use { passthrough: true } to manipulate the cookies
 		@Res({ passthrough: true }) res: Response,
 	) {
-		const refreshTokenFromCookies = req.cookies[this.tokenService.REFRESH_TOKEN_NAME];
+		const refreshTokenFromCookies =
+			req.cookies[this.tokenService.REFRESH_TOKEN_NAME];
 
 		if (!refreshTokenFromCookies) {
 			this.tokenService.removeRefreshTokenFromResponse(res);
@@ -71,8 +74,9 @@ export class AuthController {
 			throw new UnauthorizedException('Refresh token not passed!');
 		}
 
-		const { refreshToken, ...response } =
-			await this.tokenService.getNewTokens(refreshTokenFromCookies);
+		const { refreshToken, ...response } = await this.tokenService.getNewTokens(
+			refreshTokenFromCookies,
+		);
 
 		this.tokenService.addRefreshTokenToResponse(res, refreshToken);
 

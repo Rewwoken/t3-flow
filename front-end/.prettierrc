@@ -12,19 +12,22 @@
 	"importOrder": [
 		"<THIRD_PARTY_MODULES>",
 		"^@/app/(.*)$",
+		"^@/hooks/(.*)$",
+		"^@/components/(.*)/hooks/(.*)$",
 		"^@/components/(.*)$",
 		"^@/components/ui/(.*)$",
-		"^@/styles/(.*)$",
 		"^@/api/(.*)$",
 		"^@/services/(.*)$",
 		"^@/constants/(.*)$",
 		"^@/types/(.*)$",
-		"^@/hooks/(.*)$",
 		"^../(.*)",
 		"^./(.*)",
 		"(.css)$"
 	],
 	"importOrderSeparation": false,
 	"importOrderSortSpecifiers": true,
-	"plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"]
+	"plugins": [
+		"@trivago/prettier-plugin-sort-imports",
+		"prettier-plugin-tailwindcss"
+	]
 }

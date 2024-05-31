@@ -1,9 +1,9 @@
 import { apiProtected } from '@/api/interceptors';
 import type {
 	IGetTimerSettingsResponse,
-	IUpdateTimerSettings,
+	IUpdateTimerSettingsFields,
 	IUpdateTimerSettingsResponse,
-} from '@/types/services.types';
+} from '@/types/timer.service.types';
 
 export class TimerService {
 	private readonly BASE_URL = '/timer';
@@ -16,7 +16,7 @@ export class TimerService {
 		return result.data;
 	}
 
-	async updateSettings(data: IUpdateTimerSettings) {
+	async updateSettings(data: IUpdateTimerSettingsFields) {
 		const result = await apiProtected.patch<IUpdateTimerSettingsResponse>(
 			this.BASE_URL,
 			data,

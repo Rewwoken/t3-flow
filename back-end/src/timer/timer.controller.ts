@@ -1,10 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { Protected } from 'src/auth/decorators/protected.decorator';
-import { UpdateTimerRoundDto } from './dto/update-timer-round.dto';
-import { UpdateSessionDto } from './dto/update-timer-session-dto';
-import { UpdateTimerSettingsDto } from './dto/update-timer-settings.dto';
-import { TimerService } from './timer.service';
+import { CurrentUser } from '@/auth/decorators/current-user.decorator';
+import { Protected } from '@/auth/decorators/protected.decorator';
+import { UpdateTimerRoundDto } from '@/timer/dto/update-timer-round.dto';
+import { UpdateSessionDto } from '@/timer/dto/update-timer-session-dto';
+import { UpdateTimerSettingsDto } from '@/timer/dto/update-timer-settings.dto';
+import { TimerService } from '@/timer/timer.service';
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	Patch,
+	Post,
+} from '@nestjs/common';
 
 @Protected()
 @Controller('timer')
@@ -21,7 +29,10 @@ export class TimerController {
 		@CurrentUser('id') userId: string,
 		@Body() updateTimerSettingsDto: UpdateTimerSettingsDto,
 	) {
-		return await this.timerService.updateSettings(userId, updateTimerSettingsDto);
+		return await this.timerService.updateSettings(
+			userId,
+			updateTimerSettingsDto,
+		);
 	}
 
 	@Get('/session/today')
@@ -40,7 +51,11 @@ export class TimerController {
 		@Param('sessionId') sessionId: string,
 		@Body() updateSessionDto: UpdateSessionDto,
 	) {
-		return await this.timerService.updateSession(userId, sessionId, updateSessionDto);
+		return await this.timerService.updateSession(
+			userId,
+			sessionId,
+			updateSessionDto,
+		);
 	}
 
 	@Patch('/round/:roundId')
@@ -52,7 +67,10 @@ export class TimerController {
 	}
 
 	@Delete('/session/:sessionId')
-	async deleteSession(@CurrentUser('id') userId: string, @Param('sessionId') sessionId: string) {
+	async deleteSession(
+		@CurrentUser('id') userId: string,
+		@Param('sessionId') sessionId: string,
+	) {
 		return await this.timerService.deleteSession(userId, sessionId);
 	}
 }

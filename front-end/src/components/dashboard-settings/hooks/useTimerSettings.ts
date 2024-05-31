@@ -1,13 +1,10 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { timerService } from '@/services/timer.service';
-import { QUERY_KEYS } from '@/constants/queryKeys.constants';
-import {
-	IApiErrorResponse,
-	IGetTimerSettingsResponse,
-} from '@/types/services.types';
+import { KEYS } from '@/constants/keys.constants';
+import type { IApiErrorResponse } from '@/types/api.types';
+import type { IGetTimerSettingsResponse } from '@/types/timer.service.types';
 
 /**
  * Custom hook to fetch timer settings.
@@ -34,11 +31,8 @@ import {
  * }
  */
 export function useTimerSettings() {
-	const result = useQuery<
-		IGetTimerSettingsResponse,
-		AxiosError<IApiErrorResponse>
-	>({
-		queryKey: QUERY_KEYS.TIMER_SETTINGS,
+	const result = useQuery<IGetTimerSettingsResponse, IApiErrorResponse>({
+		queryKey: KEYS.QUERY_TIMER_SETTINGS,
 		queryFn: () => timerService.getSettings(),
 	});
 

@@ -3,14 +3,14 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useAuth } from '@/components/auth/hooks/useAuth';
 import { AuthButton } from '@/components/auth/AuthButton';
 import { AuthField } from '@/components/auth/AuthField';
 import s from '@/components/auth/auth.module.css';
 import * as validation from '@/components/auth/auth.validation';
 import { Logo } from '@/components/ui/Logo';
 import { AUTH, DASHBOARD } from '@/constants/routes.constants';
-import type { IRegisterInputs } from '@/types/auth.types';
-import { useAuth } from '@/hooks/useAuth';
+import type { IRegisterFields } from '@/types/auth.types';
 
 export const RegisterForm = () => {
 	const router = useRouter();
@@ -20,7 +20,7 @@ export const RegisterForm = () => {
 		handleSubmit,
 		reset,
 		formState: { errors },
-	} = useForm<IRegisterInputs>({ mode: 'onBlur' });
+	} = useForm<IRegisterFields>({ mode: 'onBlur' });
 
 	const onSuccess = () => {
 		reset();
@@ -30,7 +30,7 @@ export const RegisterForm = () => {
 	const { mutate, isPending, error } = useAuth('register', onSuccess);
 	const message = error?.response?.data.message;
 
-	const onSubmit: SubmitHandler<IRegisterInputs> = (data) => {
+	const onSubmit: SubmitHandler<IRegisterFields> = (data) => {
 		mutate(data);
 	};
 

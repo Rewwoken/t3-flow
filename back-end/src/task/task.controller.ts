@@ -1,9 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { Protected } from 'src/auth/decorators/protected.decorator';
-import { CreateTaskDto } from './dto/create-task-dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
-import { TaskService } from './task.service';
+import { CurrentUser } from '@/auth/decorators/current-user.decorator';
+import { Protected } from '@/auth/decorators/protected.decorator';
+import { CreateTaskDto } from '@/task/dto/create-task-dto';
+import { UpdateTaskDto } from '@/task/dto/update-task.dto';
+import { TaskService } from '@/task/task.service';
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	Patch,
+	Post,
+} from '@nestjs/common';
 
 @Protected()
 @Controller('task')
@@ -16,7 +24,10 @@ export class TaskController {
 	}
 
 	@Post()
-	async create(@CurrentUser('id') userId: string, @Body() createTaskDto: CreateTaskDto) {
+	async create(
+		@CurrentUser('id') userId: string,
+		@Body() createTaskDto: CreateTaskDto,
+	) {
 		return await this.taskService.create(userId, createTaskDto);
 	}
 
@@ -30,7 +41,10 @@ export class TaskController {
 	}
 
 	@Delete('/:taskId')
-	async delete(@CurrentUser('id') userId: string, @Param('taskId') taskId: string) {
+	async delete(
+		@CurrentUser('id') userId: string,
+		@Param('taskId') taskId: string,
+	) {
 		return await this.taskService.delete(userId, taskId);
 	}
 }

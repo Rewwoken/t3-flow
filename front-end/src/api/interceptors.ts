@@ -3,7 +3,7 @@ import { authService } from '@/services/auth.service';
 import { tokenService } from '@/services/token.service';
 
 const options: CreateAxiosDefaults = {
-	baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
+	baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 	headers: {
 		'Content-Type': 'application/json',
 	},
@@ -29,20 +29,19 @@ apiProtected.interceptors.response.use(
 	async (error) => {
 		const originalRequest = error.config;
 
-		// TODO: check if error is being catched
 		if (
 			error.response.status === 401 &&
-			originalRequest &&
-			!originalRequest._isRetry
+			error.config &&
+			!error.config._isRetry
 		) {
-			try {
-				originalRequest._isRetry = true;
+			originalRequest._isRetry = true;
 
+			try {
 				await authService.getNewTokens();
 
 				return apiProtected.request(originalRequest);
 			} catch (err) {
-				tokenService.removeFromStorage();
+				await authService.logout();
 			}
 		}
 
