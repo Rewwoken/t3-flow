@@ -26,11 +26,11 @@ export const Settings = () => {
 
 	const { mutate, error } = useUpdateSettings(async () => {
 		await queryClient.invalidateQueries({
-			queryKey: KEYS.QUERY_USER,
+			queryKey: KEYS.GET_USER,
 		});
 
 		await queryClient.invalidateQueries({
-			queryKey: KEYS.QUERY_TIMER_SETTINGS,
+			queryKey: KEYS.GET_TIMER_SETTINGS,
 		});
 
 		alert('Settings successfully changed!');
@@ -62,8 +62,8 @@ export const Settings = () => {
 					id='name-input'
 					type='text'
 					autoComplete='name'
-					placeholder={user?.profile.name}
-					defaultValue={user?.profile.name}
+					placeholder={user?.name || 'Name'}
+					defaultValue={user?.name || ''}
 					message={errors.user?.name?.message}
 					{...register('user.name', validation.name)}
 				/>
@@ -72,8 +72,8 @@ export const Settings = () => {
 					id='email-input'
 					type='email'
 					autoComplete='email'
-					placeholder={user?.profile.email}
-					defaultValue={user?.profile.email}
+					placeholder={user?.email}
+					defaultValue={user?.email}
 					message={errors.user?.email?.message}
 					{...register('user.email', validation.email)}
 				/>

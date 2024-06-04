@@ -34,7 +34,7 @@ export function useAuth(method: 'login' | 'register', onSuccess?: () => void) {
 		IApiErrorResponse,
 		ILoginFields | IRegisterFields
 	>({
-		mutationKey: [...KEYS.MUTATE_AUTH, method],
+		mutationKey: [...KEYS.AUTH, method],
 		mutationFn: (data) => authService[method](data),
 		onSuccess,
 	});

@@ -1,5 +1,7 @@
 import { apiProtected } from '@/api/interceptors';
 import type {
+	ICreateTaskData,
+	ICreateTaskDataResponse,
 	IGetTaskResponse,
 	IGetTasksResponse,
 	IUpdateTaskResponse,
@@ -7,6 +9,15 @@ import type {
 
 export class TaskService {
 	private readonly BASE_URL = '/task';
+
+	async create(data: ICreateTaskData) {
+		const result = await apiProtected.post<ICreateTaskDataResponse>(
+			this.BASE_URL,
+			data,
+		);
+
+		return result.data;
+	}
 
 	async getAll() {
 		const result = await apiProtected.get<IGetTasksResponse>(this.BASE_URL);

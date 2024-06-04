@@ -10,8 +10,8 @@ export class UserController {
 
 	@Get()
 	@Protected()
-	async profile(@CurrentUser('id') id: string) {
-		return await this.userService.getProfile(id);
+	async getUser(@CurrentUser('id') id: string) {
+		return await this.userService.getUser(id);
 	}
 
 	@Patch()

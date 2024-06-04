@@ -34,7 +34,7 @@ export function useUpdateSettings(onSuccess?: () => void) {
 		IApiErrorResponse,
 		IUpdateSettingsFields
 	>({
-		mutationKey: KEYS.MUTATE_SETTINGS,
+		mutationKey: KEYS.UPDATE_SETTINGS,
 		mutationFn: async (data) => {
 			const timer = await timerService.updateSettings(data.timer);
 			const user = await userService.update(data.user);

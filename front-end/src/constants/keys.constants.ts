@@ -1,11 +1,12 @@
 class Keys {
-	readonly QUERY_USER = ['user'];
-	readonly QUERY_TIMER_SETTINGS = ['timer', 'settings'];
-	readonly QUERY_TASKS = ['tasks'];
+	readonly GET_USER = ['user'];
+	readonly GET_TIMER_SETTINGS = ['timer', 'settings'];
+	readonly GET_TASKS = ['tasks'];
 
-	readonly MUTATE_AUTH = ['auth'];
-	readonly MUTATE_SETTINGS = ['update', 'settings'];
-	readonly MUTATE_TASK = ['update', 'task'];
+	readonly AUTH = ['auth'];
+	readonly UPDATE_SETTINGS = ['update', 'settings'];
+	readonly UPDATE_TASK = ['update', 'task'];
+	readonly CREATE_TASK = ['create', 'task'];
 }
 
 export const KEYS = new Keys();

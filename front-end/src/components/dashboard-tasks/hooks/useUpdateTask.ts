@@ -14,11 +14,11 @@ export function useUpdateTask() {
 		IApiErrorResponse,
 		IUpdateTaskData
 	>({
-		mutationKey: [KEYS.MUTATE_TASK],
+		mutationKey: KEYS.UPDATE_TASK,
 		mutationFn: ({ id, data }) => taskService.update(id, data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: KEYS.QUERY_TASKS,
+				queryKey: KEYS.GET_TASKS,
 			});
 		},
 	});

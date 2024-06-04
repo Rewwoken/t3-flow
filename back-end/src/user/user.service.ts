@@ -3,7 +3,6 @@ import { PrismaService } from '@/prisma.service';
 import { UpdateUserDto } from '@/user/dto/update-user.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { hash } from 'argon2';
-import { startOfDay, subDays } from 'date-fns';
 
 @Injectable()
 export class UserService {
@@ -33,66 +32,10 @@ export class UserService {
 		return user;
 	}
 
-	// TODO: optimize
-	async getProfile(id: string) {
-		const {
-			password,
-			tasks,
-			timeBlocks,
-			timerSessions,
-			timerSettings,
-			...profile
-		} = await this.findOneById(id);
+	async getUser(id: string) {
+		const { password, ...user } = await this.findOneById(id);
 
-		const totalTasks = tasks.length;
-		const completedTasks = tasks.reduce((count, task) => {
-			if (task.isCompleted) return count + 1;
-			else return count;
-		}, 0);
-
-		const now = new Date();
-		const todayStart = startOfDay(now);
-		const weekStart = startOfDay(subDays(now, 7));
-
-		const todayTasks = await this.prismaService.task.count({
-			where: {
-				userId: id,
-				createdAt: {
-					gte: todayStart.toISOString(),
-				},
-			},
-		});
-
-		const thisWeekTasks = await this.prismaService.task.count({
-			where: {
-				userId: id,
-				createdAt: {
-					gte: weekStart.toISOString(),
-				},
-			},
-		});
-
-		const totalTimerSessions = timerSessions.length;
-
-		const totalTimeBlocks = timeBlocks.length;
-		const totalTimeBlocksDuration = timeBlocks.reduce((duration, timeBlock) => {
-			return duration + timeBlock.duration;
-		}, 0);
-
-		// TODO: add more information for the profile
-		return {
-			profile,
-			timerSettings,
-			statistics: {
-				totalTasks,
-				completedTasks,
-				todayTasks,
-				thisWeekTasks,
-				totalTimerSessions,
-				totalTimeBlocks,
-				totalTimeBlocksDuration,
-			},
-		};
+		return user;
 	}
 
 	async findOneByEmail(email: string) {

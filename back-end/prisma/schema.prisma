@@ -39,6 +39,7 @@ model Task {
   name        String
   priority    Priority? @default(low)
   isCompleted Boolean?  @default(false) @map("is_completed")
+  dueDate     DateTime? @map("due_date")
 
   // many to one relation: Task ==> Task[] in User
   user   User   @relation(fields: [userId], references: [id])

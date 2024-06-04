@@ -1,26 +1,15 @@
-import { IBase } from '@/types/api.types';
-import { IRegisterFields } from '@/types/auth.types';
+import type { IBase } from '@/types/api.types';
+import type { IRegisterFields } from '@/types/auth.types';
+import type { IGetTasksResponse } from '@/types/task.service';
+import type { IGetTimerSettingsResponse } from '@/types/timer.service.types';
 
-export interface IGetUserResponse {
-	profile: IBase & {
-		email: string;
-		name: string;
-	};
-	timerSettings: IBase & {
-		workInterval: number;
-		breakInterval: number;
-		intervalsCount: number;
-		userId: string;
-	};
-	statistics: {
-		totalTasks: number;
-		completedTasks: number;
-		todayTasks: number;
-		thisWeekTasks: number;
-		totalTimerSessions: number;
-		totalTimeBlocks: number;
-		totalTimeBlocksDuration: number;
-	};
+export interface IGetUserResponse extends IBase {
+	email: string;
+	name: string | null;
+	tasks: IGetTasksResponse;
+	timerSettings: IGetTimerSettingsResponse;
+	timeBlocks: any[]; // TODO: IGetTimeBlocksResponse
+	timerSessions: any[]; // TODO: IGetTimerSessionsResponse
 }
 
 export interface IUpdateUser extends Partial<IRegisterFields> {}

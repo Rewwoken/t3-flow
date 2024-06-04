@@ -1,4 +1,4 @@
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsEnum, IsOptional, IsString } from 'class-validator';
 import { Priority } from 'prisma/generated/client';
 
 export class CreateTaskDto {
@@ -8,4 +8,8 @@ export class CreateTaskDto {
 	@IsOptional()
 	@IsEnum(Priority)
 	priority?: Priority;
+
+	@IsOptional()
+	@IsDateString()
+	dueDate?: Date;
 }

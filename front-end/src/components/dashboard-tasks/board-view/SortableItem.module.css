@@ -1,0 +1,27 @@
+.item {
+	@apply flex flex-col rounded-md border p-1;
+}
+
+.dragged {
+	@apply animate-pulse bg-muted/20;
+}
+
+.dragged > * {
+	@apply opacity-0;
+}
+
+.title {
+	@apply text-lg;
+}
+
+.priority {
+	@apply rounded-md px-2 py-0.5;
+}
+
+.date {
+	@apply text-muted;
+}
+
+.no-date {
+	@apply italic text-muted;
+}

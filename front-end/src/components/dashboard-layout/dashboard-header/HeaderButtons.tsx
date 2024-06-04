@@ -25,11 +25,11 @@ export const HeaderButtons = () => {
 	return (
 		<ul className='flex items-center gap-x-4'>
 			<li className='flex size-12 items-center justify-center rounded-sm bg-accent text-4xl'>
-				<span>{data?.profile.name.charAt(0)}</span>
+				<span>{data?.name?.charAt(0) || ':)'}</span>
 			</li>
 			<li className='flex flex-col justify-center'>
-				<span className='font-semibold'>{data?.profile.name}</span>
-				<span className='text-muted'>{data?.profile.email}</span>
+				<span className='font-semibold'>{data?.name}</span>
+				<span className='text-muted'>{data?.email}</span>
 			</li>
 			<li>
 				<ThemeSwitcher
