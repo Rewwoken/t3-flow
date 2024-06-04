@@ -1,87 +1,64 @@
 'use client';
 
-import {
-	DndContext,
-	DragEndEvent,
-	DragOverlay,
-	DragStartEvent,
-	closestCorners,
-	useDroppable,
-} from '@dnd-kit/core';
-import {
-	SortableContext,
-	verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+import { useDroppable } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { Plus } from 'lucide-react';
 import React from 'react';
+import { SortableTask } from '@/components/dashboard-tasks/board-view/SortableTask';
 import { IGetTaskResponse } from '@/types/task.service';
-import { Item } from './Item';
-import { SortableItem } from './SortableItem';
+
 
 interface IColumnProps {
 	title: string;
 	id: string;
-	data: IGetTaskResponse[];
+	tasks: IGetTaskResponse[] | undefined;
 }
 
-export const Column = ({ title, id, data }: IColumnProps) => {
-	const [tasks, setTasks] = React.useState<IGetTaskResponse[]>(data);
-	const [active, setActive] = React.useState<IGetTaskResponse | null>(null);
+export const Column = ({ title, id, tasks }: IColumnProps) => {
+	const [column, setColumn] = React.useState<IGetTaskResponse[]>(tasks || []);
 
-	const { setNodeRef } = useDroppable({ id });
+	const { setNodeRef } = useDroppable({
+		id,
+		data: { type: 'column', setColumn },
+	});
+
+	const items = React.useMemo(() => {
+		return column.map((task) => task.id);
+	}, [column]);
 
 	const createTask = () => {
 		// TODO...
 	};
 
-	const items = React.useMemo(() => {
-		return tasks.map((task) => task.id);
-	}, [tasks]);
-
-	const handleDragStart = (e: DragStartEvent) => {
-		const { active } = e;
-
-		setActive(active.data.current as IGetTaskResponse);
-	};
-
-	const handleDragEnd = (e: DragEndEvent) => {
-		setActive(null);
-	};
-
 	return (
-		<DndContext
-			collisionDetection={closestCorners}
-			onDragStart={handleDragStart}
-			onDragEnd={handleDragEnd}
-		>
-			<li className='w-60 border-x px-4'>
-				<header className='mb-4 flex items-center justify-between border-b'></header>
-				<h3 className='text-2xl'>{title}</h3>
+		<li className='w-72 border-x px-4'>
+			<header className='mb-4 flex items-center justify-between border-b'></header>
+			<h3 className='text-2xl'>{title}</h3>
+			<SortableContext
+				items={items}
+				strategy={verticalListSortingStrategy}
+			>
 				<ul
 					className='space-y-4'
 					ref={setNodeRef}
 				>
-					<SortableContext
-						items={items}
-						strategy={verticalListSortingStrategy}
-					>
-						{tasks.map((task) => (
-							<SortableItem
-								task={task}
-								id={task.id}
-								key={task.id}
-							/>
-						))}
-					</SortableContext>
-					<DragOverlay>{active && <Item task={active} />}</DragOverlay>
+					{column.map((task) => (
+						<SortableTask
+							colId={id}
+							setColumn={setColumn}
+							id={task.id}
+							task={task}
+							key={task.id}
+						/>
+					))}
 				</ul>
-				<div className='mt-4 flex cursor-pointer justify-center self-center rounded-xl border py-0.5'>
-					<Plus
-						strokeWidth={1}
-						onClick={createTask}
-					/>
-				</div>
-			</li>
-		</DndContext>
+			</SortableContext>
+			<div className='mt-4 flex cursor-pointer justify-center self-center rounded-xl border py-0.5'>
+				<Plus
+					strokeWidth={1}
+					onClick={createTask}
+				/>
+			</div>
+		</li>
 	);
 };

@@ -3,41 +3,48 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
-import s from '@/components/dashboard-tasks/board-view/SortableItem.module.css';
+import s from '@/components/dashboard-tasks/board-view/task.module.css';
 import { IGetTaskResponse } from '@/types/task.service';
 
 interface ISortableItemProps {
+	colId: string;
+	setColumn: React.Dispatch<React.SetStateAction<IGetTaskResponse[]>>;
 	id: string;
 	task: IGetTaskResponse;
 }
-
-export const SortableItem = ({ id, task }: ISortableItemProps) => {
-	const {
-		attributes,
-		listeners,
-		setNodeRef,
-		transform,
-		transition,
-		isDragging,
-	} = useSortable({ id, data: task });
+export const SortableTask = ({
+	colId,
+	setColumn,
+	id,
+	task,
+}: ISortableItemProps) => {
+	const sort = useSortable({
+		id,
+		data: {
+			type: 'task',
+			colId,
+			setColumn,
+			task,
+		},
+	});
 
 	const style = {
-		transform: CSS.Transform.toString(transform),
-		transition,
+		transform: CSS.Transform.toString(sort.transform),
+		transition: sort.transition,
 	};
 
 	const dtf = Intl.DateTimeFormat('en');
 
-	const dueDate = dtf.format(new Date(task.dueDate));
+	const changeTask = () => {};
 
 	return (
 		<li
-			ref={setNodeRef}
+			ref={sort.setNodeRef}
+			{...sort.attributes}
+			{...sort.listeners}
 			style={style}
-			{...attributes}
-			{...listeners}
-			className={clsx(s.item, {
-				[s.dragged]: isDragging,
+			className={clsx(s.task, {
+				[s.dragged]: sort.isDragging,
 			})}
 		>
 			<h4 className={s.title}>{task.name}</h4>
@@ -54,9 +61,9 @@ export const SortableItem = ({ id, task }: ISortableItemProps) => {
 				</span>
 			</p>
 			{task.dueDate ? (
-				<p className={s.date}>Due {dueDate}</p>
+				<p className={s.date}>Due {dtf.format(new Date(task.dueDate))}</p>
 			) : (
-				<p className={s['no-date']}>No due date...</p>
+				<p className={s.dateless}>No due date...</p>
 			)}
 		</li>
 	);

@@ -4,7 +4,7 @@ export interface IGetTaskResponse extends IBase {
 	name: string;
 	priority: 'low' | 'medium' | 'high';
 	isCompleted: boolean;
-	dueDate: string; // ISODate
+	dueDate: string | null; // ISODate
 	relativeDiffInDays: number | null;
 	userId: string;
 }
@@ -13,7 +13,7 @@ export interface ICreateTaskData {
 	name: string;
 	priority?: 'low' | 'medium' | 'high';
 	isCompleted?: boolean;
-	dueDate?: Date;
+	dueDate?: string | null;
 }
 
 export interface ICreateTaskDataResponse extends IGetTaskResponse {}

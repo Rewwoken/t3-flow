@@ -1,4 +1,6 @@
 export const daysDiff = (ISODate: string | null) => {
+	// console.log('Days diff');
+
 	if (ISODate === null) return null;
 
 	const millisDiff = new Date(ISODate).getTime() - Date.now();

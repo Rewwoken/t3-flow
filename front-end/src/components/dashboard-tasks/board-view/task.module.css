@@ -1,9 +1,9 @@
-.item {
-	@apply flex flex-col rounded-md border p-1;
+.task {
+	@apply flex flex-col rounded-md border p-1 px-4;
 }
 
 .dragged {
-	@apply animate-pulse bg-muted/20;
+	@apply animate-pulse border-transparent bg-muted/20;
 }
 
 .dragged > * {
@@ -22,6 +22,6 @@
 	@apply text-muted;
 }
 
-.no-date {
+.dateless {
 	@apply italic text-muted;
 }
