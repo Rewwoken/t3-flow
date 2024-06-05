@@ -3,71 +3,81 @@
 import { DragEndEvent, DragOverEvent, DragStartEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import React from 'react';
+import { useTasks } from '@/components/dashboard-tasks/hooks/useTasks';
+import { useUpdateTask } from '@/components/dashboard-tasks/hooks/useUpdateTask';
+import { due } from '@/components/dashboard-tasks/due.data';
+import {
+	TTaskGroupId,
+	groupTasks,
+} from '@/components/dashboard-tasks/utils/groupTasks';
 import { IGetTaskResponse } from '@/types/task.service';
-import { due } from '../due.data';
-import { useUpdateTask } from './useUpdateTask';
 
+/**
+ * Custom hook to manage drag-and-drop functionality for tasks.
+ *
+ * @returns {Object} Object containing task groups, active task, and event handlers for drag operations.
+ */
 export function useDrag() {
+	const { data } = useTasks();
 	const { mutate } = useUpdateTask();
-	const [active, setActive] = React.useState<IGetTaskResponse | null>(null);
+	const [taskGroups, setTaskGroups] = React.useState(groupTasks(data));
+	const [active, setActive] = React.useState<IGetTaskResponse | null>(null); // active task (for dragOverlay)
+
+	React.useEffect(() => {
+		setTaskGroups(groupTasks(data));
+	}, [data]);
 
 	const handleDragStart = (e: DragStartEvent) => {
 		const { active } = e;
 
 		if (!active.data.current) return null;
 
-		active.data.current.roma = 1;
-		setActive(active.data.current?.task);
+		setActive(active.data.current?.task); // set active task
 	};
 
 	const handleDragOver = (e: DragOverEvent) => {
 		const { active, over } = e;
 
-		if (!over || active.id === over.id) return null;
+		const activeColId: TTaskGroupId = active.data.current?.colId;
+		const overColId: TTaskGroupId = over?.data.current?.colId;
 
-		const newTask: IGetTaskResponse = {
+		if (!over || active.id === over.id || activeColId === overColId)
+			return null;
+
+		const from = active.data.current?.sortable.index; // dragged task index
+
+		const newTask = {
 			...active.data.current?.task,
-			dueDate: due[over.data.current?.colId],
+			dueDate: due[overColId],
 		};
 
-		// handle the same columns tasks case
-		if (
-			over.data.current?.type === 'task' &&
-			active.data.current?.colId === over.data.current?.colId
-		) {
-			active.data.current?.setColumn((prev: IGetTaskResponse[]) => {
-				const from = active.data.current?.sortable.index;
-				const to = over.data.current?.sortable.index;
+		if (over.data.current?.type === 'column') {
+			setTaskGroups((prev) => {
+				const oldColumn = prev[activeColId].toSpliced(from, 1); // remove dragged task from it's column
+				const newColumn = [...prev[overColId], newTask]; // add dragged task to overed column
 
-				return arrayMove(prev, from, to);
+				return {
+					...prev,
+					[activeColId]: oldColumn,
+					[overColId]: newColumn,
+				};
 			});
 
 			return null;
 		}
 
-		// handle the case where task is over a different column
-		if (active.data.current?.colId !== over.data.current?.colId) {
-			// remove active task from it's previous column
-			active.data.current?.setColumn((prev: IGetTaskResponse[]) => {
-				const from = active.data.current?.sortable.index;
-
-				return prev.toSpliced(from, 1);
-			});
-
-			if (over.data.current?.type === 'column') {
-				over.data.current?.setColumn((prev: IGetTaskResponse[]) => [
-					...prev,
-					newTask,
-				]);
-
-				return null;
-			}
-
-			over.data.current?.setColumn((prev: IGetTaskResponse[]) => {
+		if (over.data.current?.type === 'task') {
+			setTaskGroups((prev) => {
 				const to = over.data.current?.sortable.index;
 
-				// insert an active task to the index it is overing
-				return prev.toSpliced(to, 0, newTask);
+				const oldColumn = prev[activeColId].toSpliced(from, 1); // remove dragged task from it's column
+				const newColumn = prev[overColId].toSpliced(to, 0, newTask); // add dragged task to overed column
+
+				return {
+					...prev,
+					[activeColId]: oldColumn,
+					[overColId]: newColumn,
+				};
 			});
 
 			return null;
@@ -77,30 +87,38 @@ export function useDrag() {
 	};
 
 	const handleDragEnd = (e: DragEndEvent) => {
-		setActive(null);
+		setActive(null); // remove active task on drag end
 
 		const { active, over } = e;
 
 		if (!over) return null;
 
-		const dueDate = due[over.data.current?.colId];
+		const activeColId: TTaskGroupId = active.data.current?.colId;
 
 		if (over.data.current?.type !== 'column') {
-			active.data.current?.setColumn((prev: IGetTaskResponse[]) => {
+			setTaskGroups((prev) => {
 				const from = active.data.current?.sortable.index;
-				const to = over.data.current?.sortable.index;
+				const to = over?.data.current?.sortable.index;
 
-				return arrayMove(prev, from, to);
+				const newColumn = arrayMove(prev[activeColId], from, to);
+
+				const newTasks = {
+					...prev,
+					[activeColId]: newColumn,
+				};
+
+				return newTasks;
 			});
 		}
 
+		// TODO: fix useless mutation when task hasn't changed the column
 		mutate({
 			id: active.id as string,
-			data: { dueDate },
+			data: { dueDate: due[activeColId] },
 		});
 
 		return null;
 	};
 
-	return { active, handleDragStart, handleDragOver, handleDragEnd };
+	return { taskGroups, active, handleDragStart, handleDragOver, handleDragEnd };
 }

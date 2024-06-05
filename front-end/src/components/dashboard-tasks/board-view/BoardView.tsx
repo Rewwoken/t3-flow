@@ -1,28 +1,26 @@
 'use client';
 
-import { DndContext, closestCenter, rectIntersection } from '@dnd-kit/core';
-import React from 'react';
+import { DndContext, rectIntersection } from '@dnd-kit/core';
 import { useDrag } from '@/components/dashboard-tasks/hooks/useDrag';
-import { useTasks } from '@/components/dashboard-tasks/hooks/useTasks';
 import { Column } from '@/components/dashboard-tasks/board-view/Column';
 import { TaskOverlay } from '@/components/dashboard-tasks/board-view/TaskOverlay';
-import { groupTasks } from '@/components/dashboard-tasks/utils/group';
-import { Skeleton } from '@/components/ui/Skeleton';
+import { TTaskGroupId } from '@/components/dashboard-tasks/utils/groupTasks';
 
-const dtf = new Intl.DateTimeFormat('en');
-const todayDate = dtf.format(Date.now());
+const todayDate = Intl.DateTimeFormat('en').format(Date.now());
+
+const columns: Array<{ title: string; id: TTaskGroupId }> = [
+	{ title: 'Overdue', id: 'overdue' },
+	{ title: 'No date', id: 'noDate' },
+	{ title: 'Today', id: 'today' },
+	{ title: 'Tomorrow', id: 'tomorrow' },
+	{ title: 'This week', id: 'thisWeek' },
+	{ title: 'Later', id: 'later' },
+	{ title: 'Completed', id: 'completed' },
+];
 
 export const BoardView = () => {
-	const { data } = useTasks();
-
-	const tasks = React.useMemo(() => {
-		return groupTasks(data);
-	}, [data]);
-
-	const { active, handleDragStart, handleDragOver, handleDragEnd } = useDrag();
-
-	// TODO: skeleton design
-	if (!data) return <Skeleton />;
+	const { taskGroups, active, handleDragStart, handleDragOver, handleDragEnd } =
+		useDrag();
 
 	return (
 		<>
@@ -34,36 +32,14 @@ export const BoardView = () => {
 					onDragOver={handleDragOver}
 					onDragEnd={handleDragEnd}
 				>
-					<Column
-						title='Overdue'
-						id='overdue'
-						tasks={tasks.overdue}
-					/>
-					<Column
-						title='No date'
-						id='noDate'
-						tasks={tasks.noDate}
-					/>
-					<Column
-						title='Today'
-						id='today'
-						tasks={tasks.today}
-					/>
-					<Column
-						title='Tomorrow'
-						id='tomorrow'
-						tasks={tasks.tomorrow}
-					/>
-					<Column
-						title='This week'
-						id='thisWeek'
-						tasks={tasks.thisWeek}
-					/>
-					<Column
-						title='Later'
-						id='later'
-						tasks={tasks.later}
-					/>
+					{columns.map((column) => (
+						<Column
+							key={column.id}
+							title={column.title}
+							id={column.id}
+							tasks={taskGroups[column.id]}
+						/>
+					))}
 					<TaskOverlay active={active} />
 				</DndContext>
 			</ul>

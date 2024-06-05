@@ -4,29 +4,23 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
 import React from 'react';
+import { TTaskGroupId } from '@/components/dashboard-tasks//utils/groupTasks';
 import s from '@/components/dashboard-tasks/board-view/task.module.css';
 import { IGetTaskResponse } from '@/types/task.service';
 
 const dtf = Intl.DateTimeFormat('en');
 
 interface ISortableItemProps {
-	colId: string;
-	setColumn: React.Dispatch<React.SetStateAction<IGetTaskResponse[]>>;
+	colId: TTaskGroupId;
 	id: string;
 	task: IGetTaskResponse;
 }
-export const SortableTask = ({
-	colId,
-	setColumn,
-	id,
-	task,
-}: ISortableItemProps) => {
+const SortableTaskComponent = ({ colId, id, task }: ISortableItemProps) => {
 	const sort = useSortable({
 		id,
 		data: {
 			type: 'task',
 			colId,
-			setColumn,
 			task,
 		},
 	});
@@ -71,4 +65,4 @@ export const SortableTask = ({
 	);
 };
 
-// export const SortableTask = React.memo(SortableTaskComponent);
+export const SortableTask = React.memo(SortableTaskComponent);

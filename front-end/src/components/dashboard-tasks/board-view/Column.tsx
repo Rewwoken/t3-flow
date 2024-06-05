@@ -1,30 +1,31 @@
 'use client';
 
 import { useDroppable } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import {
+	SortableContext,
+	verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import { Plus } from 'lucide-react';
 import React from 'react';
+import { TTaskGroupId } from '@/components/dashboard-tasks//utils/groupTasks';
 import { SortableTask } from '@/components/dashboard-tasks/board-view/SortableTask';
 import { IGetTaskResponse } from '@/types/task.service';
 
-
 interface IColumnProps {
 	title: string;
-	id: string;
-	tasks: IGetTaskResponse[] | undefined;
+	id: TTaskGroupId;
+	tasks: IGetTaskResponse[];
 }
 
-export const Column = ({ title, id, tasks }: IColumnProps) => {
-	const [column, setColumn] = React.useState<IGetTaskResponse[]>(tasks || []);
-
+const ColumnComponent = ({ title, id, tasks }: IColumnProps) => {
 	const { setNodeRef } = useDroppable({
 		id,
-		data: { type: 'column', colId: id, setColumn, column },
+		data: { type: 'column', colId: id },
 	});
 
 	const items = React.useMemo(() => {
-		return column.map((task) => task.id);
-	}, [column]);
+		return tasks.map((task) => task.id);
+	}, [tasks]);
 
 	const createTask = () => {
 		// TODO...
@@ -33,7 +34,7 @@ export const Column = ({ title, id, tasks }: IColumnProps) => {
 	return (
 		<li className='h-full w-72 border-x px-4'>
 			<h3 className='mb-4 border-b text-2xl'>
-				{column.length}&nbsp;{title}
+				{tasks.length}&nbsp;{title}
 			</h3>
 			<SortableContext
 				items={items}
@@ -43,10 +44,9 @@ export const Column = ({ title, id, tasks }: IColumnProps) => {
 					className='h-full space-y-4'
 					ref={setNodeRef}
 				>
-					{column.map((task) => (
+					{tasks.map((task) => (
 						<SortableTask
 							colId={id}
-							setColumn={setColumn}
 							id={task.id}
 							task={task}
 							key={task.id}
@@ -65,4 +65,4 @@ export const Column = ({ title, id, tasks }: IColumnProps) => {
 	);
 };
 
-// export const Column = React.memo(ColumnComponent);
+export const Column = React.memo(ColumnComponent);
