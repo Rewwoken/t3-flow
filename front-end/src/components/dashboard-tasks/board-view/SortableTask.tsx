@@ -3,8 +3,11 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
+import React from 'react';
 import s from '@/components/dashboard-tasks/board-view/task.module.css';
 import { IGetTaskResponse } from '@/types/task.service';
+
+const dtf = Intl.DateTimeFormat('en');
 
 interface ISortableItemProps {
 	colId: string;
@@ -28,14 +31,15 @@ export const SortableTask = ({
 		},
 	});
 
-	const style = {
-		transform: CSS.Transform.toString(sort.transform),
-		transition: sort.transition,
-	};
+	const style = React.useMemo(
+		() => ({
+			transform: CSS.Transform.toString(sort.transform),
+			transition: sort.transition,
+		}),
+		[sort.transform, sort.transition],
+	);
 
-	const dtf = Intl.DateTimeFormat('en');
-
-	const changeTask = () => {};
+	const changeTask = React.useCallback(() => {}, []);
 
 	return (
 		<li
@@ -47,19 +51,17 @@ export const SortableTask = ({
 				[s.dragged]: sort.isDragging,
 			})}
 		>
+			<div
+				className={clsx(s.priority, {
+					'bg-red-500': task.priority === 'high',
+					'bg-orange-500': task.priority === 'medium',
+					'bg-green-500': task.priority === 'low',
+				})}
+			>
+				{/* priority colored line on the left */}
+			</div>
 			<h4 className={s.title}>{task.name}</h4>
-			<p>
-				Priority:&nbsp;
-				<span
-					className={clsx(s.priority, {
-						'bg-red-500': task.priority === 'high',
-						'bg-orange-500': task.priority === 'medium',
-						'bg-green-500': task.priority === 'low',
-					})}
-				>
-					{task.priority}
-				</span>
-			</p>
+			<p>Priority:&nbsp;{task.priority}</p>
 			{task.dueDate ? (
 				<p className={s.date}>Due {dtf.format(new Date(task.dueDate))}</p>
 			) : (
@@ -68,3 +70,5 @@ export const SortableTask = ({
 		</li>
 	);
 };
+
+// export const SortableTask = React.memo(SortableTaskComponent);

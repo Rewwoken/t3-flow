@@ -19,7 +19,7 @@ export const Column = ({ title, id, tasks }: IColumnProps) => {
 
 	const { setNodeRef } = useDroppable({
 		id,
-		data: { type: 'column', setColumn },
+		data: { type: 'column', colId: id, setColumn, column },
 	});
 
 	const items = React.useMemo(() => {
@@ -31,15 +31,16 @@ export const Column = ({ title, id, tasks }: IColumnProps) => {
 	};
 
 	return (
-		<li className='w-72 border-x px-4'>
-			<header className='mb-4 flex items-center justify-between border-b'></header>
-			<h3 className='text-2xl'>{title}</h3>
+		<li className='h-full w-72 border-x px-4'>
+			<h3 className='mb-4 border-b text-2xl'>
+				{column.length}&nbsp;{title}
+			</h3>
 			<SortableContext
 				items={items}
 				strategy={verticalListSortingStrategy}
 			>
 				<ul
-					className='space-y-4'
+					className='h-full space-y-4'
 					ref={setNodeRef}
 				>
 					{column.map((task) => (
@@ -51,14 +52,17 @@ export const Column = ({ title, id, tasks }: IColumnProps) => {
 							key={task.id}
 						/>
 					))}
+					<div className='flex cursor-pointer justify-center self-center rounded-xl border-2 py-0.5'>
+						<Plus
+							strokeWidth={1}
+							onClick={createTask}
+							className='stroke-muted'
+						/>
+					</div>
 				</ul>
 			</SortableContext>
-			<div className='mt-4 flex cursor-pointer justify-center self-center rounded-xl border py-0.5'>
-				<Plus
-					strokeWidth={1}
-					onClick={createTask}
-				/>
-			</div>
 		</li>
 	);
 };
+
+// export const Column = React.memo(ColumnComponent);

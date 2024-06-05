@@ -1,5 +1,5 @@
 .task {
-	@apply flex flex-col rounded-md border p-1 px-4;
+	@apply relative flex flex-col rounded-md border p-1 px-4;
 }
 
 .dragged {
@@ -15,7 +15,7 @@
 }
 
 .priority {
-	@apply rounded-md px-2 py-0.5;
+	@apply absolute left-0 top-0 h-full w-2 rounded-l-md;
 }
 
 .date {

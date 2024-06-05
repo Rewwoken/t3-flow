@@ -2,8 +2,6 @@ import { daysDiff } from '@/components/dashboard-tasks/utils/daysDiff';
 import { IGetTaskResponse } from '@/types/task.service';
 
 export const groupTasks = (data: IGetTaskResponse[] | undefined) => {
-	// console.log('Group tasks');
-
 	if (!data) return {};
 
 	return Object.groupBy(data, (task) => {
