@@ -1,12 +1,11 @@
 import { Metadata } from 'next';
-import { Settings } from '@/components/dashboard-settings/Settings';
 import { NO_INDEX_PAGE } from '@/constants/seo.constants';
 
 export const metadata: Metadata = {
-	title: 'Settings',
+	title: 'Tasks',
 	...NO_INDEX_PAGE,
 };
 
-export default function SettingsPage() {
-	return <Settings />;
+export default function TasksLayout({ children }: React.PropsWithChildren) {
+	return children;
 }

@@ -6,7 +6,10 @@ import { KEYS } from '@/constants/keys.constants';
 import { IApiErrorResponse } from '@/types/api.types';
 import { IUpdateTaskData, IUpdateTaskResponse } from '@/types/task.service';
 
-export function useUpdateTask(invalidate: boolean = false) {
+interface IUseUpdateTaskParams {
+	invalidate: boolean;
+}
+export function useUpdateTask(params?: IUseUpdateTaskParams) {
 	const queryClient = useQueryClient();
 
 	const result = useMutation<
@@ -17,7 +20,7 @@ export function useUpdateTask(invalidate: boolean = false) {
 		mutationKey: KEYS.UPDATE_TASK,
 		mutationFn: ({ id, data }) => taskService.update(id, data),
 		onSuccess: () => {
-			if (invalidate) {
+			if (params?.invalidate) {
 				queryClient.invalidateQueries({
 					queryKey: KEYS.GET_TASKS,
 				});

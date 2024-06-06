@@ -5,63 +5,79 @@ import {
 	SortableContext,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { Plus } from 'lucide-react';
 import React from 'react';
-import { TTaskGroupId } from '@/components/dashboard-tasks//utils/groupTasks';
-import { SortableTask } from '@/components/dashboard-tasks/board-view/SortableTask';
-import { IGetTaskResponse } from '@/types/task.service';
+import { useCreateTask } from '@/components/dashboard-tasks/hooks/useCreateTask';
+import { SortableTask } from '@/components/dashboard-tasks/board-view/task/SortableTask';
+import { CreateTaskModal } from '@/components/dashboard-tasks/task-modal/CreateTaskModal';
+import { TTaskGroupId } from '@/components/dashboard-tasks/utils/groupTasks';
+import { ModalWrapper } from '@/components/ui/ModalWrapper';
+import { ICreateTaskData, IGetTaskResponse } from '@/types/task.service';
 
 interface IColumnProps {
 	title: string;
 	id: TTaskGroupId;
 	tasks: IGetTaskResponse[];
 }
-
 const ColumnComponent = ({ title, id, tasks }: IColumnProps) => {
+	const { mutate } = useCreateTask({ invalidate: true });
 	const { setNodeRef } = useDroppable({
 		id,
 		data: { type: 'column', colId: id },
 	});
 
+	const [showModal, setShowModal] = React.useState(false);
+
 	const items = React.useMemo(() => {
 		return tasks.map((task) => task.id);
 	}, [tasks]);
 
-	const createTask = () => {
-		// TODO...
+	const createTask = (data: ICreateTaskData) => {
+		mutate(data);
 	};
 
 	return (
-		<li className='h-full w-72 border-x px-4'>
-			<h3 className='mb-4 border-b text-2xl'>
-				{tasks.length}&nbsp;{title}
-			</h3>
-			<SortableContext
-				items={items}
-				strategy={verticalListSortingStrategy}
-			>
-				<ul
-					className='h-full space-y-4'
-					ref={setNodeRef}
+		<>
+			<li className='h-full w-72 border-x px-4'>
+				<header className='mb-4 flex min-w-64 items-center bg-secondary p-2'>
+					<h3 className='text-2xl'>
+						{tasks.length}&nbsp;{title}
+					</h3>
+				</header>
+				<SortableContext
+					items={items}
+					strategy={verticalListSortingStrategy}
 				>
-					{tasks.map((task) => (
-						<SortableTask
-							colId={id}
-							id={task.id}
-							task={task}
-							key={task.id}
-						/>
-					))}
-					<div className='flex cursor-pointer justify-center self-center rounded-xl border-2 py-0.5'>
-						<Plus
-							strokeWidth={1}
-							onClick={createTask}
-							className='stroke-muted'
-						/>
-					</div>
-				</ul>
-			</SortableContext>
-		</li>
+					<ul
+						className='h-full space-y-4'
+						ref={setNodeRef}
+					>
+						{tasks.map((task) => (
+							<SortableTask
+								colId={id}
+								id={task.id}
+								task={task}
+								key={task.id}
+							/>
+						))}
+						<button
+							onClick={() => setShowModal(true)}
+							disabled={showModal}
+							className='text-muted hover:underline'
+						>
+							+ Add Task
+						</button>
+					</ul>
+				</SortableContext>
+			</li>
+			{showModal && (
+				<ModalWrapper>
+					<CreateTaskModal
+						onSuccess={createTask}
+						onClose={() => setShowModal(false)}
+					/>
+				</ModalWrapper>
+			)}
+		</>
 	);
 };
 

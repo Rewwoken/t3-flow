@@ -47,15 +47,6 @@ export class TimeBlockController {
 		);
 	}
 
-	@Post('/reorder')
-	@HttpCode(200)
-	async updateOrder(
-		@CurrentUser('id') userId: string,
-		@Body() updateOrderDto: UpdateOrderDto,
-	) {
-		return await this.timeBlockService.updateOrder(userId, updateOrderDto);
-	}
-
 	@Delete('/:timeBlockId')
 	async delete(
 		@CurrentUser('id') userId: string,

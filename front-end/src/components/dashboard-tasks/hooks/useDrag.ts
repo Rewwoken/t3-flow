@@ -49,6 +49,7 @@ export function useDrag() {
 		const newTask = {
 			...active.data.current?.task,
 			dueDate: due[overColId],
+			isCompleted: overColId === 'completed',
 		};
 
 		if (over.data.current?.type === 'column') {
@@ -86,6 +87,7 @@ export function useDrag() {
 		return null;
 	};
 
+	// TODO: add order synch
 	const handleDragEnd = (e: DragEndEvent) => {
 		setActive(null); // remove active task on drag end
 
@@ -114,7 +116,10 @@ export function useDrag() {
 		// TODO: fix useless mutation when task hasn't changed the column
 		mutate({
 			id: active.id as string,
-			data: { dueDate: due[activeColId] },
+			data: {
+				dueDate: due[activeColId],
+				isCompleted: active.data.current?.task.isCompleted,
+			},
 		});
 
 		return null;

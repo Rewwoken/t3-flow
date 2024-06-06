@@ -14,7 +14,7 @@ export class TimeBlockService {
 				userId: userId,
 			},
 			orderBy: {
-				order: 'asc',
+				rank: 'asc',
 			},
 		});
 	}
@@ -53,19 +53,5 @@ export class TimeBlockService {
 				userId: userId, // just for the safety; can be removed
 			},
 		});
-	}
-
-	async updateOrder(userId: string, updateOrderDto: UpdateOrderDto) {
-		return this.prismaService.$transaction(
-			updateOrderDto.ids.map((id, index) =>
-				this.prismaService.timeBlock.update({
-					where: {
-						id: id,
-						userId: userId, // just for the safety; can be removed
-					},
-					data: { order: index },
-				}),
-			),
-		);
 	}
 }

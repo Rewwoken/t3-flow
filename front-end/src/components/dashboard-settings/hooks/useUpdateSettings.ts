@@ -8,7 +8,7 @@ import type { IApiErrorResponse } from '@/types/api.types';
 import type {
 	IUpdateSettingsFields,
 	IUpdateSettingsResponse,
-} from '@/types/services.types';
+} from '@/types/settings.types';
 
 /**
  * Custom hook to update settings for both timer and user.

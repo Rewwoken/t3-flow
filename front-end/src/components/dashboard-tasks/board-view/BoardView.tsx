@@ -3,10 +3,9 @@
 import { DndContext, rectIntersection } from '@dnd-kit/core';
 import { useDrag } from '@/components/dashboard-tasks/hooks/useDrag';
 import { Column } from '@/components/dashboard-tasks/board-view/Column';
-import { TaskOverlay } from '@/components/dashboard-tasks/board-view/TaskOverlay';
+import { TaskOverlay } from '@/components/dashboard-tasks/board-view/task/TaskOverlay';
+import { beautyDate } from '@/components/dashboard-tasks/utils/beautyDate';
 import { TTaskGroupId } from '@/components/dashboard-tasks/utils/groupTasks';
-
-const todayDate = Intl.DateTimeFormat('en').format(Date.now());
 
 const columns: Array<{ title: string; id: TTaskGroupId }> = [
 	{ title: 'Overdue', id: 'overdue' },
@@ -24,7 +23,7 @@ export const BoardView = () => {
 
 	return (
 		<>
-			<p className='mb-4 text-xl'>Today is {todayDate}</p>
+			<p className='mb-4 text-xl'>Today is {beautyDate(new Date())}</p>
 			<ul className='flex h-full'>
 				<DndContext
 					collisionDetection={rectIntersection}

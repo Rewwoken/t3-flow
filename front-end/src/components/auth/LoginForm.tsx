@@ -1,68 +1,61 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '@/components/auth/hooks/useAuth';
 import { AuthButton } from '@/components/auth/AuthButton';
-import { AuthField } from '@/components/auth/AuthField';
 import s from '@/components/auth/auth.module.css';
-import * as validation from '@/components/auth/auth.validation';
+import * as v from '@/components/auth/auth.validation';
+import { FieldWrapper } from '@/components/ui/FieldWrapper';
 import { Logo } from '@/components/ui/Logo';
-import { AUTH, DASHBOARD } from '@/constants/routes.constants';
+import { AUTH } from '@/constants/routes.constants';
 import type { ILoginFields } from '@/types/auth.types';
 
 export const LoginForm = () => {
-	const router = useRouter();
-
-	const {
-		register,
-		handleSubmit,
-		reset,
-		formState: { errors },
-	} = useForm<ILoginFields>({ mode: 'onBlur' });
-
-	const onSuccess = () => {
-		reset();
-		router.push(DASHBOARD.ROOT);
-	};
-
-	const { mutate, isPending, error } = useAuth('login', onSuccess);
-	const message = error?.response?.data.message;
-
-	const onSubmit: SubmitHandler<ILoginFields> = (data) => {
-		mutate(data);
-	};
+	const { register, isValid, formErrors, onSubmit, isPending, formMessage } =
+		useAuth<ILoginFields>('login');
 
 	return (
 		<div className={s.wrapper}>
 			<Logo className='size-24' />
 			<h1 className={s.heading}>Welcome back!</h1>
 			<form
-				onSubmit={handleSubmit(onSubmit)}
+				onSubmit={onSubmit}
 				className={s.form}
 			>
-				<AuthField
+				<FieldWrapper
 					label='Email'
-					id='email-input'
-					type='email'
-					autoComplete='email'
-					placeholder='a.langley@gmail.com'
-					message={errors.email?.message}
-					{...register('email', validation.email)}
-				/>
-				<AuthField
+					htmlFor='email-input'
+					message={formErrors.email?.message}
+					className='bg-background'
+				>
+					<input
+						autoFocus
+						id='email-input'
+						type='email'
+						autoComplete='email'
+						placeholder='a.langley@gmail.com'
+						className={s.input}
+						{...register('email', v.email)}
+					/>
+				</FieldWrapper>
+				<FieldWrapper
 					label='Password'
-					id='password-input'
-					type='password'
-					autoComplete='current-password'
-					placeholder='********'
-					message={errors.password?.message}
-					{...register('password', { required: 'Password is required!' })}
-				/>
-				{message && <span className={s.message}>{message}</span>}
+					htmlFor='password-input'
+					message={formErrors.password?.message}
+					className='bg-background'
+				>
+					<input
+						id='password-input'
+						type='password'
+						autoComplete='current-password'
+						placeholder='********'
+						className={s.input}
+						{...register('password', { required: 'Password is required!' })}
+					/>
+				</FieldWrapper>
+				{formMessage && <span className={s.message}>{formMessage}</span>}
 				<AuthButton
-					isValid={!Object.keys(errors).length}
+					isValid={isValid}
 					isPending={isPending}
 				>
 					Login

@@ -17,6 +17,7 @@ export class TaskService {
 		return await this.prismaService.task.create({
 			data: {
 				...createTaskDto,
+				rank: '', // TODO!!!
 				user: {
 					connect: { id: userId },
 				},

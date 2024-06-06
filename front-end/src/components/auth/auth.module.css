@@ -10,16 +10,8 @@
 	@apply mt-2 flex flex-col gap-y-3 rounded-sm border p-4;
 }
 
-.label {
-	@apply absolute -top-2 left-2 bg-background px-1 text-xs;
-}
-
 .input {
 	@apply rounded-sm border p-1 outline-accent;
-}
-
-.error {
-	@apply ml-2 text-xs text-danger;
 }
 
 .message {

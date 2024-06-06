@@ -4,11 +4,10 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
 import React from 'react';
-import { TTaskGroupId } from '@/components/dashboard-tasks//utils/groupTasks';
-import s from '@/components/dashboard-tasks/board-view/task.module.css';
+import { Task } from '@/components/dashboard-tasks/board-view/task/Task';
+import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
+import { TTaskGroupId } from '@/components/dashboard-tasks/utils/groupTasks';
 import { IGetTaskResponse } from '@/types/task.service';
-
-const dtf = Intl.DateTimeFormat('en');
 
 interface ISortableItemProps {
 	colId: TTaskGroupId;
@@ -45,22 +44,7 @@ const SortableTaskComponent = ({ colId, id, task }: ISortableItemProps) => {
 				[s.dragged]: sort.isDragging,
 			})}
 		>
-			<div
-				className={clsx(s.priority, {
-					'bg-red-500': task.priority === 'high',
-					'bg-orange-500': task.priority === 'medium',
-					'bg-green-500': task.priority === 'low',
-				})}
-			>
-				{/* priority colored line on the left */}
-			</div>
-			<h4 className={s.title}>{task.name}</h4>
-			<p>Priority:&nbsp;{task.priority}</p>
-			{task.dueDate ? (
-				<p className={s.date}>Due {dtf.format(new Date(task.dueDate))}</p>
-			) : (
-				<p className={s.dateless}>No due date...</p>
-			)}
+			<Task task={task} />
 		</li>
 	);
 };

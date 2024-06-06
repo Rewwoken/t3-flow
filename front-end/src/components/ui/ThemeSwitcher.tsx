@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import { THEMES } from '@/constants/themes.constants';
 import { Skeleton } from './Skeleton';
 
 export const ThemeSwitcher = ({
@@ -25,22 +24,22 @@ export const ThemeSwitcher = ({
 		);
 	}
 
-	if (resolvedTheme === THEMES.DARK)
+	if (resolvedTheme === 'dark')
 		return (
 			<Moon
 				size={size}
 				strokeWidth={1}
-				onClick={() => setTheme(THEMES.LIGHT)}
+				onClick={() => setTheme('light')}
 				className={clsx(className, 'cursor-pointer')}
 			/>
 		);
 
-	if (resolvedTheme === THEMES.LIGHT)
+	if (resolvedTheme === 'light')
 		return (
 			<Sun
 				size={size}
 				strokeWidth={1}
-				onClick={() => setTheme(THEMES.DARK)}
+				onClick={() => setTheme('dark')}
 				className={clsx(className, 'cursor-pointer')}
 			/>
 		);

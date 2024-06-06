@@ -23,7 +23,7 @@ export const HeaderButtons = () => {
 	}
 
 	return (
-		<ul className='flex items-center gap-x-4'>
+		<ul className='absolute right-12 flex items-center gap-x-4'>
 			<li className='flex size-12 items-center justify-center rounded-sm bg-accent text-4xl'>
 				<span>{data?.name?.charAt(0) || ':)'}</span>
 			</li>

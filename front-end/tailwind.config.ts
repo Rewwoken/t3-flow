@@ -11,6 +11,7 @@ const config: Config = {
 		extend: {
 			colors: {
 				primary: 'rgba(var(--primary-color))',
+				secondary: 'rgba(var(--secondary-color))',
 				muted: 'rgba(var(--muted-color))',
 				accent: 'rgba(var(--accent-color))',
 				background: 'rgba(var(--background-color))',

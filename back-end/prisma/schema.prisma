@@ -38,6 +38,7 @@ model Task {
 
   name        String
   priority    Priority? @default(low)
+  rank        String // lexorank
   isCompleted Boolean?  @default(false) @map("is_completed")
   dueDate     DateTime? @map("due_date")
 
@@ -63,7 +64,7 @@ model TimeBlock {
   name     String
   color    String?
   duration Int
-  order    Int     @default(0) // 0 index in array
+  rank     String? // lexorank
 
   // many to one relation: TimeBlock ==> TimeBlock[] in User
   user   User?  @relation(fields: [userId], references: [id])

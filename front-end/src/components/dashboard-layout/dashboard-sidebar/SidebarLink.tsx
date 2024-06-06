@@ -12,13 +12,12 @@ interface SidebarLinkProps {
 		Omit<LucideProps, 'ref'> & React.RefAttributes<SVGSVGElement>
 	>;
 }
-
 export const SidebarLink = ({ route, icon: Icon, text }: SidebarLinkProps) => {
 	const pathname = usePathname();
 
 	return (
 		<li
-			className={clsx('border-l-2 px-2 py-1 hover:bg-muted/10', {
+			className={clsx('border-l-2 px-4 py-1 hover:bg-muted/10', {
 				'border-l-transparent': pathname !== route,
 				'border-l-accent bg-muted/10': pathname === route,
 			})}
@@ -29,7 +28,7 @@ export const SidebarLink = ({ route, icon: Icon, text }: SidebarLinkProps) => {
 			>
 				<Icon
 					strokeWidth={1}
-					size={40}
+					size={50}
 				/>
 				<span className='text-xl'>{text}</span>
 			</Link>

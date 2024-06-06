@@ -5,11 +5,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useUser } from '@/hooks/useUser';
 import { useTimerSettings } from '@/components/dashboard-settings/hooks/useTimerSettings';
 import { useUpdateSettings } from '@/components/dashboard-settings/hooks/useUpdateSettings';
-import { SettingsField } from '@/components/dashboard-settings/SettingsField';
 import s from '@/components/dashboard-settings/settings.module.css';
 import * as validation from '@/components/dashboard-settings/settings.validation';
+import { FormField } from '@/components/ui/FormField';
 import { KEYS } from '@/constants/keys.constants';
-import { IUpdateSettingsFields } from '@/types/services.types';
+import { IUpdateSettingsFields } from '@/types/settings.types';
 
 export const Settings = () => {
 	const { isPending: isProfile, data: user } = useUser();
@@ -57,7 +57,7 @@ export const Settings = () => {
 		>
 			<fieldset className={s.fieldset}>
 				<legend className={s.legend}>User settings:</legend>
-				<SettingsField
+				<FormField
 					label='Name'
 					id='name-input'
 					type='text'
@@ -67,7 +67,7 @@ export const Settings = () => {
 					message={errors.user?.name?.message}
 					{...register('user.name', validation.name)}
 				/>
-				<SettingsField
+				<FormField
 					label='Email'
 					id='email-input'
 					type='email'
@@ -77,7 +77,7 @@ export const Settings = () => {
 					message={errors.user?.email?.message}
 					{...register('user.email', validation.email)}
 				/>
-				<SettingsField
+				<FormField
 					label='Password'
 					id='password-input'
 					type='password'
@@ -90,7 +90,7 @@ export const Settings = () => {
 			</fieldset>
 			<fieldset className={s.fieldset}>
 				<legend className={s.legend}>Timer settings:</legend>
-				<SettingsField
+				<FormField
 					label='Work interval'
 					id='work-interval-input'
 					type='number'
@@ -100,7 +100,7 @@ export const Settings = () => {
 					message={errors.timer?.workInterval?.message}
 					{...register('timer.workInterval', validation.workInterval)}
 				/>
-				<SettingsField
+				<FormField
 					label='Break interval'
 					id='break-interval-input'
 					type='number'
@@ -110,7 +110,7 @@ export const Settings = () => {
 					message={errors.timer?.breakInterval?.message}
 					{...register('timer.breakInterval', validation.breakInterval)}
 				/>
-				<SettingsField
+				<FormField
 					label='Intervals count'
 					id='intervals-count-input'
 					type='number'

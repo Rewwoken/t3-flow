@@ -5,11 +5,10 @@ interface IAuthButtonProps {
 	isPending: boolean;
 	isValid: boolean;
 }
-
 export const AuthButton = ({
-	children,
 	isPending,
 	isValid,
+	children,
 }: React.PropsWithChildren<IAuthButtonProps>) => {
 	return (
 		<button

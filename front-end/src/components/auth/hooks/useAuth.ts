@@ -1,8 +1,11 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import { authService } from '@/services/auth.service';
 import { KEYS } from '@/constants/keys.constants';
+import { DASHBOARD } from '@/constants/routes.constants';
 import { IApiErrorResponse } from '@/types/api.types';
 import type {
 	IAuthResponse,
@@ -10,34 +13,42 @@ import type {
 	IRegisterFields,
 } from '@/types/auth.types';
 
-/**
- * Custom hook for user authentication.
- *
- * This hook uses `useMutation` from `@tanstack/react-query` to handle user authentication.
- * It sends a request using the `authService[method](data)` and executes
- * the provided `onSuccess` callback upon successful registration.
- *
- * @param {'login' | 'register'} method - authService method to be executed
- * @param {Function} onSuccess - Callback function to be called on successful registration.
- * @returns The result of the mutation.
- *
- * @example
- * const { mutate, isLoading, error } = useAuth('register', () => {
- *   alert('Registration successful!');
- * });
- *
- * mutate(data);
- */
-export function useAuth(method: 'login' | 'register', onSuccess?: () => void) {
-	const result = useMutation<
+export function useAuth<IFields extends ILoginFields | IRegisterFields>(
+	method: 'login' | 'register',
+) {
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors },
+	} = useForm<IFields>({ mode: 'onBlur' });
+
+	const router = useRouter();
+
+	const { mutate, isPending, error } = useMutation<
 		IAuthResponse,
 		IApiErrorResponse,
-		ILoginFields | IRegisterFields
+		IFields
 	>({
 		mutationKey: [...KEYS.AUTH, method],
 		mutationFn: (data) => authService[method](data),
-		onSuccess,
+		onSuccess: () => {
+			reset();
+
+			router.push(DASHBOARD.ROOT);
+		},
 	});
 
-	return result;
+	const onSubmit = handleSubmit((data: IFields) => {
+		mutate(data);
+	});
+
+	return {
+		register,
+		isValid: !Object.keys(errors).length,
+		formErrors: errors,
+		onSubmit,
+		isPending,
+		formMessage: error?.response?.data.message,
+	};
 }

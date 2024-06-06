@@ -3,9 +3,10 @@
 @tailwind utilities;
 
 html.light {
-	--primary-color: 25, 22, 69;
-	--muted-color: 138, 138, 138;
+	--primary-color: 101, 91, 255;
+	--secondary-color: 236, 236, 236;
 	--accent-color: 67, 198, 172;
+	--muted-color: 138, 138, 138;
 	--background-color: 255, 255, 255;
 	--text-color: 32, 33, 36;
 	--border-color: 225, 225, 225;
@@ -13,9 +14,10 @@ html.light {
 }
 
 html.dark {
-	--primary-color: 25, 22, 69;
-	--muted-color: 196, 196, 196;
+	--primary-color: 101, 91, 255;
+	--secondary-color: 51, 51, 53;
 	--accent-color: 67, 198, 172;
+	--muted-color: 196, 196, 196;
 	--background-color: 32, 33, 36;
 	--text-color: 255, 255, 255;
 	--border-color: 73, 73, 73;
@@ -31,3 +33,4 @@ html {
 	/* leave all other elemnts' `background-color: transparent` */
 	background-color: rgba(var(--background-color));
 }
+

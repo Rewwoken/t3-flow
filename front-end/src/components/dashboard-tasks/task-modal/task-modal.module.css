@@ -1,0 +1,11 @@
+.wrapper {
+	@apply w-96 rounded-md bg-secondary p-2 shadow-lg;
+}
+
+.input {
+	@apply w-full rounded-sm border-2 bg-secondary px-2 py-2 outline-none focus:border-accent;
+}
+
+.select {
+	@apply w-full rounded-sm border-2 bg-secondary px-2 py-2 outline-none focus:border-accent;
+}

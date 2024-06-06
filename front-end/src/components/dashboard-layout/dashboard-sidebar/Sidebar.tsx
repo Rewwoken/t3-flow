@@ -1,69 +1,65 @@
 'use client';
 
-import {
-	AlarmClock,
-	BarChartHorizontalBig,
-	CalendarRange,
-	ListTodo,
-	Settings,
-} from 'lucide-react';
+import { Pin, PinOff } from 'lucide-react';
 import Link from 'next/link';
+import React from 'react';
+import { SidebarLink } from '@/components/dashboard-layout/dashboard-sidebar/SidebarLink';
+import { links } from '@/components/dashboard-layout/dashboard-sidebar/sidebar.data';
 import { DASHBOARD } from '@/constants/routes.constants';
-import { SidebarLink } from './SidebarLink';
 
 export const Sidebar = () => {
+	const [isPinned, setIsPinned] = React.useState(false);
+
+	const pin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		// TODO: pin sidebar logic
+		setIsPinned((prev) => !prev);
+	};
+
 	return (
-		<aside className='flex flex-col items-center justify-between border-r'>
-			<nav>
-				<ul className='py-4'>
-					<SidebarLink
-						icon={BarChartHorizontalBig}
-						route={DASHBOARD.ROOT}
-						text='Dashboard'
-					/>
-					<SidebarLink
-						icon={ListTodo}
-						route={DASHBOARD.TASKS}
-						text='Tasks'
-					/>
-					<SidebarLink
-						icon={AlarmClock}
-						route={DASHBOARD.TIMER}
-						text='Timer'
-					/>
-					<SidebarLink
-						icon={CalendarRange}
-						route={DASHBOARD.TIME_BLOCKING}
-						text='Time Blocking'
-					/>
-					<SidebarLink
-						icon={Settings}
-						route={DASHBOARD.SETTINGS}
-						text='Settings'
-					/>
+		<aside className='flex min-w-60 flex-col items-center justify-between border-r'>
+			<div className='flex w-full items-center justify-between p-4'>
+				<Link
+					href={DASHBOARD.ABOUT}
+					className='text-muted hover:underline'
+				>
+					About
+				</Link>
+				<button onClick={pin}>
+					{isPinned ? (
+						<PinOff className='stroke-muted' />
+					) : (
+						<Pin className='stroke-muted' />
+					)}
+				</button>
+			</div>
+			<nav className='flex h-full flex-col justify-center'>
+				<ul className='space-y-8 py-4'>
+					{links.map((linkProps) => (
+						<SidebarLink
+							key={linkProps.route}
+							{...linkProps}
+						/>
+					))}
 				</ul>
 			</nav>
-			<ul className='mb-2 text-sm text-muted/90'>
-				<li>
-					<span>Made by&nbsp;</span>
-					<Link
-						href='https://github.com/Rewwoken'
-						target='_blank'
-						className='text-muted hover:underline'
-					>
-						Rewwoken
-					</Link>
-				</li>
-				<li className='text-center text-muted'>
-					<Link
-						href='https://github.com/Rewwoken/horizon'
-						target='_blank'
-						className='text-muted hover:underline'
-					>
-						Open source
-					</Link>
-				</li>
-			</ul>
+			<p className='mb-2 text-center text-sm'>
+				<span>Made by&nbsp;</span>
+				<Link
+					href='https://github.com/Rewwoken'
+					target='_blank'
+					className='text-muted hover:underline'
+				>
+					Rewwoken
+				</Link>
+				<br />
+				<Link
+					href='https://github.com/Rewwoken/horizon'
+					target='_blank'
+					className='text-muted hover:underline'
+				>
+					Open source
+				</Link>
+			</p>
 		</aside>
 	);
 };

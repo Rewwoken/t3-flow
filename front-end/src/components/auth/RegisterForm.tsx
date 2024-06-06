@@ -1,77 +1,77 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '@/components/auth/hooks/useAuth';
 import { AuthButton } from '@/components/auth/AuthButton';
-import { AuthField } from '@/components/auth/AuthField';
 import s from '@/components/auth/auth.module.css';
-import * as validation from '@/components/auth/auth.validation';
+import * as v from '@/components/auth/auth.validation';
+import { FieldWrapper } from '@/components/ui/FieldWrapper';
 import { Logo } from '@/components/ui/Logo';
-import { AUTH, DASHBOARD } from '@/constants/routes.constants';
+import { AUTH } from '@/constants/routes.constants';
 import type { IRegisterFields } from '@/types/auth.types';
 
 export const RegisterForm = () => {
-	const router = useRouter();
-
-	const {
-		register,
-		handleSubmit,
-		reset,
-		formState: { errors },
-	} = useForm<IRegisterFields>({ mode: 'onBlur' });
-
-	const onSuccess = () => {
-		reset();
-		router.push(DASHBOARD.ROOT);
-	};
-
-	const { mutate, isPending, error } = useAuth('register', onSuccess);
-	const message = error?.response?.data.message;
-
-	const onSubmit: SubmitHandler<IRegisterFields> = (data) => {
-		mutate(data);
-	};
+	const { register, isValid, formErrors, onSubmit, isPending, formMessage } =
+		useAuth<IRegisterFields>('register');
 
 	return (
 		<div className={s.wrapper}>
 			<Logo className='size-24' />
 			<h1 className={s.heading}>Create an account</h1>
 			<form
-				onSubmit={handleSubmit(onSubmit)}
+				onSubmit={onSubmit}
 				className={s.form}
 			>
-				<AuthField
+				<FieldWrapper
 					label='Name'
-					id='name-input'
-					type='text'
-					autoComplete='name'
-					placeholder='Asuka Langley'
-					message={errors.name?.message}
-					{...register('name', validation.name)}
-				/>
-				<AuthField
+					htmlFor='name-input'
+					message={formErrors.name?.message}
+					className='bg-background'
+				>
+					<input
+						autoFocus
+						id='name-input'
+						type='text'
+						autoComplete='name'
+						placeholder='Asuka Langley'
+						className={s.input}
+						{...register('name', v.name)}
+					/>
+				</FieldWrapper>
+				<FieldWrapper
 					label='Email'
-					id='email-input'
-					type='email'
-					autoComplete='email'
-					placeholder='a.langley@gmail.com'
-					message={errors.email?.message}
-					{...register('email', validation.email)}
-				/>
-				<AuthField
+					htmlFor='email-input'
+					message={formErrors.email?.message}
+					className='bg-background'
+				>
+					<input
+						id='email-input'
+						type='email'
+						autoComplete='email'
+						placeholder='a.langley@gmail.com'
+						className={s.input}
+						{...register('email', v.email)}
+					/>
+				</FieldWrapper>
+				<FieldWrapper
 					label='Password'
-					id='password-input'
-					type='password'
-					autoComplete='current-password'
-					placeholder='********'
-					message={errors.password?.message}
-					{...register('password', validation.password)}
-				/>
-				{message && <span className={s.message}>{message}</span>}
+					htmlFor='password-input'
+					message={formErrors.password?.message}
+					className='bg-background'
+				>
+					<input
+						id='password-input'
+						type='password'
+						autoComplete='current-password'
+						placeholder='********'
+						className={s.input}
+						{...register('password', v.password)}
+					/>
+				</FieldWrapper>
+
+				{formMessage && <span className={s.message}>{formMessage}</span>}
 				<AuthButton
-					isValid={!Object.keys(errors).length}
+					isValid={isValid}
 					isPending={isPending}
 				>
 					Register

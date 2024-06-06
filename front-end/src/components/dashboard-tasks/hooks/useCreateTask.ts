@@ -5,16 +5,21 @@ import { taskService } from '@/services/task.service';
 import { KEYS } from '@/constants/keys.constants';
 import { ICreateTaskData } from '@/types/task.service';
 
-export function useCreateTask() {
+interface IUseCreateTaskParams {
+	invalidate: boolean;
+}
+export function useCreateTask(params?: IUseCreateTaskParams) {
 	const queryClient = useQueryClient();
 
 	const result = useMutation({
 		mutationKey: KEYS.CREATE_TASK,
 		mutationFn: (data: ICreateTaskData) => taskService.create(data),
 		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: KEYS.GET_TASKS,
-			});
+			if (params?.invalidate) {
+				queryClient.invalidateQueries({
+					queryKey: KEYS.GET_TASKS,
+				});
+			}
 		},
 	});
 
