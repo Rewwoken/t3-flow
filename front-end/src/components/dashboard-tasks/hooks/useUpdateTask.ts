@@ -20,11 +20,13 @@ export function useUpdateTask(params?: IUseUpdateTaskParams) {
 		mutationKey: KEYS.UPDATE_TASK,
 		mutationFn: ({ id, data }) => taskService.update(id, data),
 		onSuccess: () => {
-			if (params?.invalidate) {
-				queryClient.invalidateQueries({
-					queryKey: KEYS.GET_TASKS,
-				});
+			if (!params?.invalidate) {
+				return null;
 			}
+			
+			queryClient.invalidateQueries({
+				queryKey: KEYS.GET_TASKS,
+			});
 		},
 	});
 

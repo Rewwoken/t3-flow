@@ -3,14 +3,11 @@
 import { DragEndEvent, DragOverEvent, DragStartEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import React from 'react';
-import { useTasks } from '@/components/dashboard-tasks/hooks/useTasks';
+import { useTaskGroups } from '@/components/dashboard-tasks/hooks/useTaskGroups';
 import { useUpdateTask } from '@/components/dashboard-tasks/hooks/useUpdateTask';
 import { due } from '@/components/dashboard-tasks/due.data';
-import {
-	TTaskGroupId,
-	groupTasks,
-} from '@/components/dashboard-tasks/utils/groupTasks';
 import { IGetTaskResponse } from '@/types/task.service';
+import { TTaskGroupId } from '@/types/tasks.types';
 import { genRank } from '@/utils/genRank';
 
 /**
@@ -19,22 +16,18 @@ import { genRank } from '@/utils/genRank';
  * @returns {Object} Object containing task groups, active task, and event handlers for drag operations.
  */
 export function useDrag() {
-	const { data } = useTasks(); // Fetch all tasks
-	const { mutate } = useUpdateTask({ invalidate: false }); // Get task reorder method
-	const [taskGroups, setTaskGroups] = React.useState(groupTasks(data)); // Group tasks into time columns
+	const { taskGroups, setTaskGroups } = useTaskGroups(); // Get taskGroups state, setState
+	const { mutate: reorder } = useUpdateTask({ invalidate: false }); // Get task reorder method
 	const [active, setActive] = React.useState<IGetTaskResponse | null>(null); // Active task state (for DragOverlay)
-	const changed = React.useRef<boolean>(false); // A ref used to avoid making redundant requests when task didn't change the order
-
-	React.useEffect(() => {
-		setTaskGroups(groupTasks(data));
-	}, [data]);
+	const identifier = React.useRef<any>({}); // A ref used to avoid making redundant requests when task didn't change the order
 
 	const handleDragStart = (e: DragStartEvent) => {
-		changed.current = false;
-
 		const { active } = e;
 
-		if (!active.data.current) return null;
+		identifier.current = {
+			colId: active.data.current?.colId,
+			index: active.data.current?.sortable.index,
+		};
 
 		setActive(active.data.current?.task); // Set dragged task as active
 	};
@@ -47,8 +40,6 @@ export function useDrag() {
 
 		const activeColId: TTaskGroupId = active.data.current?.colId;
 		const overColId: TTaskGroupId = over?.data.current?.colId;
-
-		changed.current = true; // explicitly mark that task `changed` it's position
 
 		// Do nothing if the same column,
 		// because handleDragEnd will handle this case
@@ -104,8 +95,14 @@ export function useDrag() {
 
 		const { active, over } = e;
 
-		// Do nothing if no over or task didn't change it's order
-		if (!over || !changed.current) return null; // TODO: improve `changed` check
+		// Do nothing if no over or task didn't change it's position
+		if (
+			!over ||
+			(over.data.current?.type === 'task' &&
+				identifier.current.colId === over?.data.current?.colId &&
+				identifier.current.index === over?.data.current?.sortable.index)
+		)
+			return null;
 
 		const overColId: TTaskGroupId = over.data.current?.colId;
 		const updatedTask = {
@@ -128,7 +125,7 @@ export function useDrag() {
 				// then take it's rank as next, otherwise null
 				const nextRank = newOverCol[to + 1]?.rank ?? null;
 
-				mutate({
+				reorder({
 					id: active.id as string,
 					data: {
 						...updatedTask,
@@ -144,8 +141,6 @@ export function useDrag() {
 				return newTaskGroups;
 			});
 
-			changed.current = false; // Reset `changed` ref
-
 			return null;
 		}
 
@@ -155,7 +150,7 @@ export function useDrag() {
 				over.data.current?.tasks.length === 0 ||
 				over.data.current?.tasks.length === 1
 			) {
-				mutate({
+				reorder({
 					id: active.id as string,
 					data: {
 						...updatedTask,
@@ -163,23 +158,19 @@ export function useDrag() {
 					},
 				});
 
-				changed.current = false; // Reset `changed` ref
-
 				return null;
 			}
 
 			const overTasks = over.data.current?.tasks;
 			const prevRank = overTasks[overTasks.length - 1].rank;
 
-			mutate({
+			reorder({
 				id: active.id as string,
 				data: {
 					...updatedTask,
 					rank: genRank(prevRank, null),
 				},
 			});
-
-			changed.current = false; // Reset `changed` ref
 
 			return null;
 		}

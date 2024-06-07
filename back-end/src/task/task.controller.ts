@@ -9,8 +9,10 @@ import {
 	Delete,
 	Get,
 	Param,
+	ParseBoolPipe,
 	Patch,
 	Post,
+	Query,
 } from '@nestjs/common';
 
 @Protected()
@@ -19,8 +21,11 @@ export class TaskController {
 	constructor(private readonly taskService: TaskService) {}
 
 	@Get()
-	async getAll(@CurrentUser('id') userId: string) {
-		return await this.taskService.getAll(userId);
+	async getAll(
+		@CurrentUser('id') userId: string,
+		@Query('group', new ParseBoolPipe({ optional: true })) group: boolean | undefined,
+	) {
+		return await this.taskService.getAll(userId, group);
 	}
 
 	@Post()

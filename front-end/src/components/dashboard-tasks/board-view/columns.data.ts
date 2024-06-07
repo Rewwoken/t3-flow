@@ -1,5 +1,5 @@
 import { addDays, endOfWeek, format, subDays } from 'date-fns';
-import { TTaskGroupId } from '../utils/groupTasks';
+import { TTaskGroupId } from '@/types/tasks.types';
 
 const now = new Date();
 const f = (date: Date | string) => format(date, 'eeee, LLL d');

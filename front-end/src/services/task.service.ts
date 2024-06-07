@@ -1,3 +1,4 @@
+import { ITaskGroups } from '@/components/dashboard-tasks/utils/groupTasks';
 import { apiProtected } from '@/api/interceptors';
 import type {
 	ICreateTaskData,
@@ -11,17 +12,25 @@ import type {
 export class TaskService {
 	private readonly BASE_URL = '/task';
 
-	async create(data: ICreateTaskData) {
-		const result = await apiProtected.post<ICreateTaskDataResponse>(
-			this.BASE_URL,
-			{ ...data, rank: null },
+	async getAll() {
+		const result = await apiProtected.get<IGetTasksResponse>(this.BASE_URL);
+
+		return result.data;
+	}
+
+	async getAllGrouped() {
+		const result = await apiProtected.get<ITaskGroups>(
+			`${this.BASE_URL}?group=true`,
 		);
 
 		return result.data;
 	}
 
-	async getAll() {
-		const result = await apiProtected.get<IGetTasksResponse>(this.BASE_URL);
+	async create(data: ICreateTaskData) {
+		const result = await apiProtected.post<ICreateTaskDataResponse>(
+			this.BASE_URL,
+			{ ...data, rank: null },
+		);
 
 		return result.data;
 	}

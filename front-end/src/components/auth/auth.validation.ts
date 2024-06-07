@@ -1,5 +1,8 @@
 import { RegisterOptions } from 'react-hook-form';
-import { REGEX } from '@/constants/regex.constants';
+
+const isEmail = new RegExp(
+	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+);
 
 export const name: RegisterOptions = {
 	maxLength: {
@@ -11,7 +14,7 @@ export const name: RegisterOptions = {
 export const email: RegisterOptions = {
 	required: 'Email is required!',
 	pattern: {
-		value: REGEX.IS_EMAIL,
+		value: isEmail,
 		message: 'Invalid email address!',
 	},
 };
