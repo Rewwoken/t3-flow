@@ -36,7 +36,7 @@ export const CreateTaskModal = ({ onSuccess, onClose }: ICreateTaskModal) => {
 		onSuccess({ ...values, rank: null });
 		// console.log({ values });
 	};
-	//
+
 	return (
 		<div
 			ref={ref}

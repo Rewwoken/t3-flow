@@ -1,6 +1,6 @@
-import { Check, Clock } from 'lucide-react';
+import { format } from 'date-fns';
+import { CalendarDays, Check } from 'lucide-react';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
-import { beautyDate } from '@/components/dashboard-tasks/utils/beautyDate';
 
 interface ITaskStatusProps {
 	isCompleted: boolean;
@@ -25,11 +25,11 @@ export const TaskStatus = ({ isCompleted, dueDate }: ITaskStatusProps) => {
 
 		return (
 			<span className={s.date}>
-				<Clock
+				<CalendarDays
 					className='stroke-muted'
 					size={19}
 				/>
-				{beautyDate(date)}
+				{format(date, 'eeee, LLL d')}
 			</span>
 		);
 	}

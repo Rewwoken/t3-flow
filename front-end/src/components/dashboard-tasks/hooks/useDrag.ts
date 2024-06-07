@@ -105,7 +105,7 @@ export function useDrag() {
 		const { active, over } = e;
 
 		// Do nothing if no over or task didn't change it's order
-		if (!over || !changed.current) return null;
+		if (!over || !changed.current) return null; // TODO: improve `changed` check
 
 		const overColId: TTaskGroupId = over.data.current?.colId;
 		const updatedTask = {
@@ -120,7 +120,7 @@ export function useDrag() {
 			setTaskGroups((prev) => {
 				const newOverCol = arrayMove(prev[overColId], from, to);
 
-				// if there is a task before dropped one,
+				// if there is a task before the dropped one,
 				// then take it's rank as prev, otherwise null
 				const prevRank = newOverCol[to - 1]?.rank ?? null;
 

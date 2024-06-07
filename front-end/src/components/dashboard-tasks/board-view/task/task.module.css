@@ -1,5 +1,9 @@
 .task {
-	@apply relative flex flex-col border bg-secondary p-1 px-4;
+	@apply relative flex flex-col bg-secondary p-1 pl-4;
+}
+
+.delete {
+	@apply absolute right-1 top-1;
 }
 
 .dragged {
@@ -11,7 +15,7 @@
 }
 
 .title {
-	@apply text-lg font-medium;
+	@apply my-1 text-lg font-medium leading-5;
 }
 
 .priority {

@@ -29,16 +29,12 @@ export const groupTasks = (
 		return getGroup(task);
 	});
 
-	const sorted: Partial<Record<TTaskGroupId, IGetTaskResponse[]>> = {};
+	const sorted = { ...initialGroups };
 
 	for (const key in initialGroups) {
 		const group = groups[key as TTaskGroupId];
 
-		if (!group) {
-			sorted[key as TTaskGroupId] = [];
-
-			continue;
-		}
+		if (!group) continue;
 
 		sorted[key as TTaskGroupId] = group.toSorted((a, b) => {
 			if (a.rank === null) {
@@ -53,5 +49,5 @@ export const groupTasks = (
 		});
 	}
 
-	return { ...initialGroups, ...sorted };
+	return sorted;
 };

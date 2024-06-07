@@ -24,7 +24,8 @@ export const Task = ({ task }: ITaskProps) => {
 			<button
 				// onClick={deleteTask}
 				type='button'
-				className='absolute right-1 top-1'
+				className={s.delete}
+				title='Delete this task'
 				onClick={deleteTask}
 			>
 				<X className='stroke-muted' />
@@ -34,7 +35,7 @@ export const Task = ({ task }: ITaskProps) => {
 					'bg-red-500': task.priority === 'high',
 					'bg-orange-500': task.priority === 'medium',
 					'bg-green-500': task.priority === 'low',
-					'bg-neutral-300': task.isCompleted,
+					'bg-transparent': task.isCompleted,
 				})}
 			></div>
 			<h4 className={s.title}>{task.name}</h4>

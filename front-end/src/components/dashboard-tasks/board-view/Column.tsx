@@ -5,21 +5,19 @@ import {
 	SortableContext,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { SquarePlus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import React from 'react';
 import { useCreateTask } from '@/components/dashboard-tasks/hooks/useCreateTask';
+import { IColumnData } from '@/components/dashboard-tasks/board-view/columns.data';
 import { SortableTask } from '@/components/dashboard-tasks/board-view/task/SortableTask';
 import { CreateTaskModal } from '@/components/dashboard-tasks/task-modal/CreateTaskModal';
-import { TTaskGroupId } from '@/components/dashboard-tasks/utils/groupTasks';
 import { ModalWrapper } from '@/components/ui/ModalWrapper';
 import { ICreateTaskData, IGetTaskResponse } from '@/types/task.service';
 
-interface IColumnProps {
-	title: string;
-	id: TTaskGroupId;
+interface IColumnProps extends IColumnData {
 	tasks: IGetTaskResponse[];
 }
-const ColumnComponent = ({ title, id, tasks }: IColumnProps) => {
+const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 	const { mutate } = useCreateTask({ invalidate: true });
 	const { setNodeRef } = useDroppable({
 		id,
@@ -39,6 +37,7 @@ const ColumnComponent = ({ title, id, tasks }: IColumnProps) => {
 	return (
 		<>
 			<li className='h-full w-72 px-4'>
+				<span className='mb-1 flex justify-center text-muted'>{dateSpan}</span>
 				<header className='mb-4 flex min-w-64 items-center justify-between bg-secondary p-2'>
 					<h3 className='text-2xl'>
 						{tasks.length}&nbsp;{title}
@@ -47,7 +46,7 @@ const ColumnComponent = ({ title, id, tasks }: IColumnProps) => {
 						type='button'
 						onClick={() => setShowModal(true)}
 					>
-						<SquarePlus
+						<Plus
 							size={30}
 							className='stroke-muted'
 						/>

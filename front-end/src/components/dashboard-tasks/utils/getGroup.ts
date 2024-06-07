@@ -1,6 +1,15 @@
+import {
+	endOfWeek,
+	isAfter,
+	isBefore,
+	isThisWeek,
+	isToday,
+	isTomorrow,
+} from 'date-fns';
 import { IGetTaskResponse } from '@/types/task.service';
-import { daysDiff } from './daysDiff';
 import { TTaskGroupId } from './groupTasks';
+
+const now = new Date();
 
 /**
  * Determines the task group based on its due date and completion status.
@@ -8,27 +17,28 @@ import { TTaskGroupId } from './groupTasks';
  * @param {IGetTaskResponse} data - The task data.
  * @returns {TTaskGroupId} The group of the task.
  */
-export const getGroup = (data: IGetTaskResponse): TTaskGroupId => {
-	const diff = daysDiff(data.dueDate);
-
-	if (data.isCompleted) {
+export const getGroup = ({
+	dueDate,
+	isCompleted,
+}: IGetTaskResponse): TTaskGroupId => {
+	if (isCompleted) {
 		return 'completed';
 	}
 
-	if (diff === null) {
-		return 'noDate';
-	}
+	if (dueDate === null) return 'noDate';
 
-	if (diff < 0) {
-		return 'overdue';
-	}
+	if (isToday(dueDate)) return 'today';
 
-	switch (diff) {
-		case 0:
-			return 'today';
-		case 1:
-			return 'tomorrow';
-		default:
-			return diff <= 7 ? 'thisWeek' : 'later';
-	}
+	if (isTomorrow(dueDate)) return 'tomorrow';
+
+	// ! Check if the date is overdue before thisWeek
+	// ! since the task can be this week but overdue
+	if (isBefore(dueDate, now)) return 'overdue';
+
+	// Set `weekStartsOn: 1` to be Monday as week start
+	if (isThisWeek(dueDate, { weekStartsOn: 1 })) return 'thisWeek';
+
+	if (isAfter(dueDate, endOfWeek(now))) return 'later';
+
+	return 'noDate';
 };

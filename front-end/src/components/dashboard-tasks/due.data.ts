@@ -1,13 +1,14 @@
-const oneDayMillis = 24 * 60 * 60 * 1000;
+import { addDays, endOfWeek, subDays } from 'date-fns';
+import { TTaskGroupId } from '@/components/dashboard-tasks/utils/groupTasks';
 
-export const due: Record<
-	'overdue' | 'noDate' | 'today' | 'tomorrow' | 'thisWeek' | 'later' | string,
-	string | null
-> = {
-	overdue: new Date(Date.now() - oneDayMillis).toISOString(),
+const now = new Date();
+
+export const due: Record<TTaskGroupId, string | null> = {
+	overdue: subDays(now, 1).toISOString(),
 	noDate: null,
-	today: new Date().toISOString(),
-	tomorrow: new Date(Date.now() + oneDayMillis).toISOString(),
-	thisWeek: new Date(Date.now() + 2 * oneDayMillis).toISOString(),
-	later: new Date(Date.now() + 8 * oneDayMillis).toISOString(),
+	today: now.toISOString(),
+	tomorrow: addDays(now, 1).toISOString(),
+	thisWeek: addDays(now, 2).toISOString(), // TODO: improve
+	later: addDays(endOfWeek(now, { weekStartsOn: 1 }), 1).toISOString(),
+	completed: null,
 };

@@ -1,21 +1,11 @@
 'use client';
 
 import { DndContext, rectIntersection } from '@dnd-kit/core';
+import { format } from 'date-fns';
 import { useDrag } from '@/components/dashboard-tasks/hooks/useDrag';
 import { Column } from '@/components/dashboard-tasks/board-view/Column';
+import { columns } from '@/components/dashboard-tasks/board-view/columns.data';
 import { TaskOverlay } from '@/components/dashboard-tasks/board-view/task/TaskOverlay';
-import { beautyDate } from '@/components/dashboard-tasks/utils/beautyDate';
-import { TTaskGroupId } from '@/components/dashboard-tasks/utils/groupTasks';
-
-const columns: Array<{ title: string; id: TTaskGroupId }> = [
-	{ title: 'Overdue ⏰', id: 'overdue' },
-	{ title: 'No date 🤔', id: 'noDate' },
-	{ title: 'Today 😼', id: 'today' },
-	{ title: 'Tomorrow 🕑', id: 'tomorrow' },
-	{ title: 'This week ⏳', id: 'thisWeek' },
-	{ title: 'Later 😇', id: 'later' },
-	{ title: 'Completed ✅', id: 'completed' },
-];
 
 export const BoardView = () => {
 	const { taskGroups, active, handleDragStart, handleDragOver, handleDragEnd } =
@@ -23,7 +13,9 @@ export const BoardView = () => {
 
 	return (
 		<>
-			<p className='mb-4 text-xl'>Today is {beautyDate(new Date())}</p>
+			<p className='mb-4 text-xl'>
+				Today is {format(new Date(), 'eeee, LLL d yyyy')}
+			</p>
 			<ul className='flex h-full'>
 				<DndContext
 					collisionDetection={rectIntersection}
@@ -34,8 +26,9 @@ export const BoardView = () => {
 					{columns.map((column) => (
 						<Column
 							key={column.id}
-							title={column.title}
 							id={column.id}
+							title={column.title}
+							dateSpan={column.dateSpan}
 							tasks={taskGroups[column.id]}
 						/>
 					))}
