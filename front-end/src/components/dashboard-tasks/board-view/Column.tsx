@@ -5,6 +5,7 @@ import {
 	SortableContext,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { SquarePlus } from 'lucide-react';
 import React from 'react';
 import { useCreateTask } from '@/components/dashboard-tasks/hooks/useCreateTask';
 import { SortableTask } from '@/components/dashboard-tasks/board-view/task/SortableTask';
@@ -22,7 +23,7 @@ const ColumnComponent = ({ title, id, tasks }: IColumnProps) => {
 	const { mutate } = useCreateTask({ invalidate: true });
 	const { setNodeRef } = useDroppable({
 		id,
-		data: { type: 'column', colId: id },
+		data: { type: 'column', colId: id, tasks },
 	});
 
 	const [showModal, setShowModal] = React.useState(false);
@@ -37,11 +38,20 @@ const ColumnComponent = ({ title, id, tasks }: IColumnProps) => {
 
 	return (
 		<>
-			<li className='h-full w-72 border-x px-4'>
-				<header className='mb-4 flex min-w-64 items-center bg-secondary p-2'>
+			<li className='h-full w-72 px-4'>
+				<header className='mb-4 flex min-w-64 items-center justify-between bg-secondary p-2'>
 					<h3 className='text-2xl'>
 						{tasks.length}&nbsp;{title}
 					</h3>
+					<button
+						type='button'
+						onClick={() => setShowModal(true)}
+					>
+						<SquarePlus
+							size={30}
+							className='stroke-muted'
+						/>
+					</button>
 				</header>
 				<SortableContext
 					items={items}
@@ -62,7 +72,7 @@ const ColumnComponent = ({ title, id, tasks }: IColumnProps) => {
 						<button
 							onClick={() => setShowModal(true)}
 							disabled={showModal}
-							className='text-muted hover:underline'
+							className='ml-2 text-muted hover:underline'
 						>
 							+ Add Task
 						</button>

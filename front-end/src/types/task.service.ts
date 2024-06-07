@@ -4,6 +4,7 @@ export interface IGetTaskResponse extends IBase {
 	name: string;
 	priority: 'low' | 'medium' | 'high';
 	isCompleted: boolean;
+	rank: string | null; // lexorank
 	dueDate: string | null; // ISODate
 	relativeDiffInDays: number | null;
 	userId: string;
@@ -26,3 +27,14 @@ export interface IUpdateTaskData {
 }
 
 export interface IUpdateTaskResponse extends IGetTaskResponse {}
+
+export interface IDeleteTaskData {
+	id: string;
+}
+
+export interface IReorderData {
+	id: string;
+	data: Partial<ICreateTaskData>;
+	prevRank: string | null;
+	nextRank: string | null;
+}

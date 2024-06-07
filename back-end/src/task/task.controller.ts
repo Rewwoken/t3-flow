@@ -12,6 +12,7 @@ import {
 	Patch,
 	Post,
 } from '@nestjs/common';
+import { ReorderTaskDto } from './dto/reorder.dto';
 
 @Protected()
 @Controller('task')
@@ -46,5 +47,14 @@ export class TaskController {
 		@Param('taskId') taskId: string,
 	) {
 		return await this.taskService.delete(userId, taskId);
+	}
+
+	@Patch('/reorder/:taskId')
+	async reorder(
+		@CurrentUser('id') userId: string,
+		@Param('taskId') taskId: string,
+		@Body() reorderTaskDto: ReorderTaskDto,
+	) {
+		return await this.taskService.reorder(userId, taskId, reorderTaskDto);
 	}
 }

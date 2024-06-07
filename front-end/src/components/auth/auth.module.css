@@ -11,7 +11,7 @@
 }
 
 .input {
-	@apply rounded-sm border p-1 outline-accent;
+	@apply rounded-sm border p-1 outline-none focus:outline-accent;
 }
 
 .message {

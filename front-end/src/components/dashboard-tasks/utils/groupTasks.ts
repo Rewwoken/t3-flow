@@ -29,5 +29,29 @@ export const groupTasks = (
 		return getGroup(task);
 	});
 
-	return { ...initialGroups, ...groups };
+	const sorted: Partial<Record<TTaskGroupId, IGetTaskResponse[]>> = {};
+
+	for (const key in initialGroups) {
+		const group = groups[key as TTaskGroupId];
+
+		if (!group) {
+			sorted[key as TTaskGroupId] = [];
+
+			continue;
+		}
+
+		sorted[key as TTaskGroupId] = group.toSorted((a, b) => {
+			if (a.rank === null) {
+				return 1;
+			}
+
+			if (b.rank === null) {
+				return -1;
+			}
+
+			return a.rank.localeCompare(b.rank);
+		});
+	}
+
+	return { ...initialGroups, ...sorted };
 };

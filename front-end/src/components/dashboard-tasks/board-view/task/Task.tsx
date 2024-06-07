@@ -1,4 +1,8 @@
+'use client';
+
 import clsx from 'clsx';
+import { X } from 'lucide-react';
+import { useDeleteTask } from '@/components/dashboard-tasks/hooks/useDeleteTask';
 import { TaskStatus } from '@/components/dashboard-tasks/board-view/task/TaskStatus';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 import { IGetTaskResponse } from '@/types/task.service';
@@ -7,8 +11,24 @@ interface ITaskProps {
 	task: IGetTaskResponse;
 }
 export const Task = ({ task }: ITaskProps) => {
+	const { mutate } = useDeleteTask();
+
+	const deleteTask = () => {
+		console.log('delete', task.id);
+
+		// mutate({ id: task.id });
+	};
+
 	return (
 		<>
+			<button
+				// onClick={deleteTask}
+				type='button'
+				className='absolute right-1 top-1'
+				onClick={deleteTask}
+			>
+				<X className='stroke-muted' />
+			</button>
 			<div
 				className={clsx(s.priority, {
 					'bg-red-500': task.priority === 'high',

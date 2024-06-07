@@ -4,6 +4,7 @@ import type {
 	ICreateTaskDataResponse,
 	IGetTaskResponse,
 	IGetTasksResponse,
+	IReorderData,
 	IUpdateTaskResponse,
 } from '@/types/task.service';
 
@@ -13,7 +14,7 @@ export class TaskService {
 	async create(data: ICreateTaskData) {
 		const result = await apiProtected.post<ICreateTaskDataResponse>(
 			this.BASE_URL,
-			data,
+			{ ...data, rank: null },
 		);
 
 		return result.data;
@@ -37,6 +38,21 @@ export class TaskService {
 		const result = await apiProtected.patch<IUpdateTaskResponse>(
 			`${this.BASE_URL}/${id}`,
 			data,
+		);
+
+		return result.data;
+	}
+
+	async delete(id: string) {
+		const result = await apiProtected.delete<void>(`${this.BASE_URL}/${id}`);
+
+		return result.data;
+	}
+
+	async reorder({ id, ...body }: IReorderData) {
+		const result = await apiProtected.patch<void>(
+			`${this.BASE_URL}/reorder/${id}`,
+			body,
 		);
 
 		return result.data;

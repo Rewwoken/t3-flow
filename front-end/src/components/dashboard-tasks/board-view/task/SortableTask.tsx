@@ -8,6 +8,7 @@ import { Task } from '@/components/dashboard-tasks/board-view/task/Task';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 import { TTaskGroupId } from '@/components/dashboard-tasks/utils/groupTasks';
 import { IGetTaskResponse } from '@/types/task.service';
+import { useDeleteTask } from '../../hooks/useDeleteTask';
 
 interface ISortableItemProps {
 	colId: TTaskGroupId;
