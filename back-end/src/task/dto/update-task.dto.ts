@@ -1,16 +1,4 @@
-import { IsBoolean, IsEnum, IsOptional, IsString } from 'class-validator';
-import { Priority } from 'prisma/generated/client';
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateTaskDto } from './create-task-dto';
 
-export class UpdateTaskDto {
-	@IsOptional()
-	@IsString()
-	name?: string;
-
-	@IsOptional()
-	@IsBoolean()
-	isCompleted?: boolean;
-
-	@IsOptional()
-	@IsEnum(Priority)
-	priority?: Priority;
-}
+export class UpdateTaskDto extends PartialType(CreateTaskDto) {}

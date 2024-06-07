@@ -8,7 +8,6 @@ class Keys {
 	readonly UPDATE_TASK = ['update', 'task'];
 	readonly CREATE_TASK = ['create', 'task'];
 	readonly DELETE_TASK = ['delete', 'task'];
-	readonly REORDER = ['reorder'];
 }
 
 export const KEYS = new Keys();

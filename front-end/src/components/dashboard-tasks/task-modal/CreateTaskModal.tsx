@@ -33,10 +33,10 @@ export const CreateTaskModal = ({ onSuccess, onClose }: ICreateTaskModal) => {
 	}, [dueDate, setValue]);
 
 	const onSubmit = (values: ICreateTaskData) => {
-		onSuccess(values);
+		onSuccess({ ...values, rank: null });
 		// console.log({ values });
 	};
-
+	//
 	return (
 		<div
 			ref={ref}

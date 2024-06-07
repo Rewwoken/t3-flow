@@ -13,8 +13,9 @@ export interface IGetTaskResponse extends IBase {
 export interface ICreateTaskData {
 	name: string;
 	priority?: 'low' | 'medium' | 'high';
-	isCompleted?: boolean;
+	rank: string | null;
 	dueDate?: string | null;
+	isCompleted?: boolean;
 }
 
 export interface ICreateTaskDataResponse extends IGetTaskResponse {}
@@ -23,7 +24,9 @@ export interface IGetTasksResponse extends Array<IGetTaskResponse> {}
 
 export interface IUpdateTaskData {
 	id: string;
-	data: Partial<ICreateTaskData>;
+	data: Partial<ICreateTaskData> & {
+		rank: string | null;
+	};
 }
 
 export interface IUpdateTaskResponse extends IGetTaskResponse {}

@@ -33,4 +33,3 @@ html {
 	/* leave all other elemnts' `background-color: transparent` */
 	background-color: rgba(var(--background-color));
 }
-

@@ -4,13 +4,14 @@ import { DragEndEvent, DragOverEvent, DragStartEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import React from 'react';
 import { useTasks } from '@/components/dashboard-tasks/hooks/useTasks';
+import { useUpdateTask } from '@/components/dashboard-tasks/hooks/useUpdateTask';
 import { due } from '@/components/dashboard-tasks/due.data';
 import {
 	TTaskGroupId,
 	groupTasks,
 } from '@/components/dashboard-tasks/utils/groupTasks';
 import { IGetTaskResponse } from '@/types/task.service';
-import { useReorder } from './useReorder';
+import { genRank } from '@/utils/genRank';
 
 /**
  * Custom hook to manage drag-and-drop functionality for tasks.
@@ -19,7 +20,7 @@ import { useReorder } from './useReorder';
  */
 export function useDrag() {
 	const { data } = useTasks(); // Fetch all tasks
-	const { mutate: reorder } = useReorder(); // Get task reorder method
+	const { mutate } = useUpdateTask({ invalidate: false }); // Get task reorder method
 	const [taskGroups, setTaskGroups] = React.useState(groupTasks(data)); // Group tasks into time columns
 	const [active, setActive] = React.useState<IGetTaskResponse | null>(null); // Active task state (for DragOverlay)
 	const changed = React.useRef<boolean>(false); // A ref used to avoid making redundant requests when task didn't change the order
@@ -108,11 +109,8 @@ export function useDrag() {
 
 		const overColId: TTaskGroupId = over.data.current?.colId;
 		const updatedTask = {
-			id: active.id as string,
-			data: {
-				dueDate: due[overColId],
-				isCompleted: overColId === 'completed',
-			},
+			dueDate: due[overColId],
+			isCompleted: overColId === 'completed',
 		};
 
 		if (over.data.current?.type === 'task') {
@@ -130,10 +128,12 @@ export function useDrag() {
 				// then take it's rank as next, otherwise null
 				const nextRank = newOverCol[to + 1]?.rank ?? null;
 
-				reorder({
-					...updatedTask,
-					prevRank,
-					nextRank,
+				mutate({
+					id: active.id as string,
+					data: {
+						...updatedTask,
+						rank: genRank(prevRank, nextRank),
+					},
 				});
 
 				const newTaskGroups = {
@@ -155,10 +155,12 @@ export function useDrag() {
 				over.data.current?.tasks.length === 0 ||
 				over.data.current?.tasks.length === 1
 			) {
-				reorder({
-					...updatedTask,
-					prevRank: null,
-					nextRank: null,
+				mutate({
+					id: active.id as string,
+					data: {
+						...updatedTask,
+						rank: genRank(null, null),
+					},
 				});
 
 				changed.current = false; // Reset `changed` ref
@@ -169,10 +171,12 @@ export function useDrag() {
 			const overTasks = over.data.current?.tasks;
 			const prevRank = overTasks[overTasks.length - 1].rank;
 
-			reorder({
-				...updatedTask,
-				prevRank,
-				nextRank: null,
+			mutate({
+				id: active.id as string,
+				data: {
+					...updatedTask,
+					rank: genRank(prevRank, null),
+				},
 			});
 
 			changed.current = false; // Reset `changed` ref

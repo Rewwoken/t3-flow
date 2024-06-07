@@ -47,9 +47,6 @@ importers:
       cookie-parser:
         specifier: ^1.4.6
         version: 1.4.6
-      lexorank:
-        specifier: ^1.0.5
-        version: 1.0.5
       passport:
         specifier: ^0.7.0
         version: 0.7.0
@@ -2040,9 +2037,6 @@ packages:
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
-
-  lexorank@1.0.5:
-    resolution: {integrity: sha512-K1B/Yr/gIU0wm68hk/yB0p/mv6xM3ShD5aci42vOwcjof8slG8Kpo3Q7+1WTv7DaRHKWRgLPqrFDt+4GtuFAtA==}
 
   libphonenumber-js@1.11.1:
     resolution: {integrity: sha512-Wze1LPwcnzvcKGcRHFGFECTaLzxOtujwpf924difr5zniyYv1C2PiW0419qDR7m8lKDxsImu5mwxFuXhXpjmvw==}
@@ -5444,8 +5438,6 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
-
-  lexorank@1.0.5: {}
 
   libphonenumber-js@1.11.1: {}
 
