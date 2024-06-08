@@ -8,11 +8,11 @@ import {
 import { Plus } from 'lucide-react';
 import React from 'react';
 import { useCreateTask } from '@/components/dashboard-tasks/hooks/useCreateTask';
-import { IColumnData } from '@/components/dashboard-tasks/board-view/columns.data';
 import { SortableTask } from '@/components/dashboard-tasks/board-view/task/SortableTask';
 import { CreateTaskModal } from '@/components/dashboard-tasks/task-modal/CreateTaskModal';
 import { ModalWrapper } from '@/components/ui/ModalWrapper';
-import { ICreateTaskData, IGetTaskResponse } from '@/types/task.service';
+import type { ICreateTaskData, IGetTaskResponse } from '@/types/task.service';
+import type { IColumnData } from '@/types/tasks.types';
 
 interface IColumnProps extends IColumnData {
 	tasks: IGetTaskResponse[];

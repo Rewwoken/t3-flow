@@ -6,6 +6,11 @@ import { KEYS } from '@/constants/keys.constants';
 import { IApiErrorResponse } from '@/types/api.types';
 import { IDeleteTaskData } from '@/types/task.service';
 
+/**
+ * A custom hook to delete a task.
+ *
+ * @returns An object with the result of the mutation.
+ */
 export function useDeleteTask() {
 	const queryClient = useQueryClient();
 

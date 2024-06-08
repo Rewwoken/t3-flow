@@ -7,24 +7,29 @@ import { useTaskGroups } from '@/components/dashboard-tasks/hooks/useTaskGroups'
 import { useUpdateTask } from '@/components/dashboard-tasks/hooks/useUpdateTask';
 import { due } from '@/components/dashboard-tasks/due.data';
 import { IGetTaskResponse } from '@/types/task.service';
-import { TTaskGroupId } from '@/types/tasks.types';
+import { IStartPositionRef, TTaskGroupId } from '@/types/tasks.types';
 import { genRank } from '@/utils/genRank';
+
+const resetPosition: IStartPositionRef = {
+	colId: null,
+	index: null,
+};
 
 /**
  * Custom hook to manage drag-and-drop functionality for tasks.
  *
  * @returns {Object} Object containing task groups, active task, and event handlers for drag operations.
  */
-export function useDrag() {
+export function useDragTasks() {
 	const { taskGroups, setTaskGroups } = useTaskGroups(); // Get taskGroups state, setState
-	const { mutate: reorder } = useUpdateTask({ invalidate: false }); // Get task reorder method
+	const { mutate: updateTask } = useUpdateTask({ invalidate: false }); // Get task update method
 	const [active, setActive] = React.useState<IGetTaskResponse | null>(null); // Active task state (for DragOverlay)
-	const identifier = React.useRef<any>({}); // A ref used to avoid making redundant requests when task didn't change the order
+	const startPositionRef = React.useRef<IStartPositionRef>(resetPosition); // A ref used to check if task changed it's position
 
 	const handleDragStart = (e: DragStartEvent) => {
 		const { active } = e;
 
-		identifier.current = {
+		startPositionRef.current = {
 			colId: active.data.current?.colId,
 			index: active.data.current?.sortable.index,
 		};
@@ -36,51 +41,48 @@ export function useDrag() {
 	const handleDragOver = (e: DragOverEvent) => {
 		const { active, over } = e;
 
-		if (!over || active.id === over.id) return null;
-
 		const activeColId: TTaskGroupId = active.data.current?.colId;
 		const overColId: TTaskGroupId = over?.data.current?.colId;
 
-		// Do nothing if the same column,
-		// because handleDragEnd will handle this case
-		if (activeColId === overColId) return null;
+		if (!over || active.id === over.id || activeColId === overColId)
+			return null;
 
-		const from = active.data.current?.sortable.index; // dragged task index
-
+		// const task = active.data.current?.task;
 		const updatedTask = {
 			...active.data.current?.task,
 			dueDate: due[overColId],
 			isCompleted: overColId === 'completed',
 		};
+		const fromIndex = active.data.current?.sortable.index; // dragged task index
 
-		// Handle the case where task is over a different column
-		if (over.data.current?.type === 'column') {
+		// Handle the case where task is over a task in a different column
+		if (over.data.current?.type === 'task') {
 			setTaskGroups((prev) => {
-				const oldColumn = prev[activeColId].toSpliced(from, 1); // Remove dragged task from it's column
-				const newColumn = [...prev[overColId], updatedTask]; // Add dragged task to overed column
+				const toIndex = over.data.current?.sortable.index;
+
+				const newActiveCol = prev[activeColId].toSpliced(fromIndex, 1); // Remove dragged task from it's column
+				const newOverCol = prev[overColId].toSpliced(toIndex, 0, updatedTask); // Insert dragged task into overed column
 
 				return {
 					...prev,
-					[activeColId]: oldColumn,
-					[overColId]: newColumn,
+					[activeColId]: newActiveCol,
+					[overColId]: newOverCol,
 				};
 			});
 
 			return null;
 		}
 
-		// Handle the case where task is over a task in a different column
-		if (over.data.current?.type === 'task') {
+		// Handle the case where task is over a different column
+		if (over.data.current?.type === 'column') {
 			setTaskGroups((prev) => {
-				const to = over.data.current?.sortable.index;
-
-				const newActiveCol = prev[activeColId].toSpliced(from, 1); // Remove dragged task from it's column
-				const newOverCol = prev[overColId].toSpliced(to, 0, updatedTask); // Add dragged task to overed column
+				const oldColumn = prev[activeColId].toSpliced(fromIndex, 1); // Remove dragged task from it's column
+				const newColumn = [...prev[overColId], updatedTask]; // Add dragged task to overed column
 
 				return {
 					...prev,
-					[activeColId]: newActiveCol,
-					[overColId]: newOverCol,
+					[activeColId]: oldColumn,
+					[overColId]: newColumn,
 				};
 			});
 
@@ -99,40 +101,45 @@ export function useDrag() {
 		if (
 			!over ||
 			(over.data.current?.type === 'task' &&
-				identifier.current.colId === over?.data.current?.colId &&
-				identifier.current.index === over?.data.current?.sortable.index)
+				startPositionRef.current.colId === over.data.current?.colId &&
+				startPositionRef.current.index === over.data.current?.sortable.index)
 		)
 			return null;
 
+		// Reset startPositonRef
+		startPositionRef.current = resetPosition;
+
 		const overColId: TTaskGroupId = over.data.current?.colId;
-		const updatedTask = {
+		const updatedTaskData = {
 			dueDate: due[overColId],
 			isCompleted: overColId === 'completed',
 		};
 
 		if (over.data.current?.type === 'task') {
-			const from = active.data.current?.sortable.index;
-			const to = over?.data.current?.sortable.index;
+			const fromIndex = active.data.current?.sortable.index;
+			const toIndex = over.data.current?.sortable.index;
 
 			setTaskGroups((prev) => {
-				const newOverCol = arrayMove(prev[overColId], from, to);
+				const newOverCol = arrayMove(prev[overColId], fromIndex, toIndex);
 
 				// if there is a task before the dropped one,
 				// then take it's rank as prev, otherwise null
-				const prevRank = newOverCol[to - 1]?.rank ?? null;
+				const prevRank = newOverCol[toIndex - 1]?.rank ?? null;
 
 				// if there is a task after the dropped one,
 				// then take it's rank as next, otherwise null
-				const nextRank = newOverCol[to + 1]?.rank ?? null;
+				const nextRank = newOverCol[toIndex + 1]?.rank ?? null;
 
-				reorder({
+				// Update task on server
+				updateTask({
 					id: active.id as string,
 					data: {
-						...updatedTask,
+						...updatedTaskData,
 						rank: genRank(prevRank, nextRank),
 					},
 				});
 
+				// Update tasks order on client
 				const newTaskGroups = {
 					...prev,
 					[overColId]: newOverCol,
@@ -145,15 +152,12 @@ export function useDrag() {
 		}
 
 		if (over.data.current?.type === 'column') {
-			// If active task is the only in the column
-			if (
-				over.data.current?.tasks.length === 0 ||
-				over.data.current?.tasks.length === 1
-			) {
-				reorder({
+			// If active task is the only one in the column
+			if (over.data.current?.tasks.length === 1) {
+				updateTask({
 					id: active.id as string,
 					data: {
-						...updatedTask,
+						...updatedTaskData,
 						rank: genRank(null, null),
 					},
 				});
@@ -164,10 +168,10 @@ export function useDrag() {
 			const overTasks = over.data.current?.tasks;
 			const prevRank = overTasks[overTasks.length - 1].rank;
 
-			reorder({
+			updateTask({
 				id: active.id as string,
 				data: {
-					...updatedTask,
+					...updatedTaskData,
 					rank: genRank(prevRank, null),
 				},
 			});

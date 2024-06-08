@@ -2,19 +2,21 @@
 
 import { DndContext, rectIntersection } from '@dnd-kit/core';
 import { format } from 'date-fns';
-import { useDrag } from '@/components/dashboard-tasks/hooks/useDrag';
+import { useDragTasks } from '@/components/dashboard-tasks/hooks/useDragTasks';
 import { Column } from '@/components/dashboard-tasks/board-view/Column';
 import { columns } from '@/components/dashboard-tasks/board-view/columns.data';
 import { TaskOverlay } from '@/components/dashboard-tasks/board-view/task/TaskOverlay';
 
+const now = new Date();
+
 export const BoardView = () => {
 	const { taskGroups, active, handleDragStart, handleDragOver, handleDragEnd } =
-		useDrag();
+		useDragTasks();
 
 	return (
 		<>
 			<p className='mb-4 text-xl'>
-				Today is {format(new Date(), 'eeee, LLL d yyyy')}
+				Today is {format(now, 'eeee, MMMM d, yyyy')}
 			</p>
 			<ul className='flex h-full'>
 				<DndContext

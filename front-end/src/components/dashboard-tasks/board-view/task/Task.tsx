@@ -22,7 +22,6 @@ export const Task = ({ task }: ITaskProps) => {
 	return (
 		<>
 			<button
-				// onClick={deleteTask}
 				type='button'
 				className={s.delete}
 				title='Delete this task'

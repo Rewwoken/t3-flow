@@ -1,16 +1,11 @@
 import { addDays, endOfWeek, format, subDays } from 'date-fns';
-import { TTaskGroupId } from '@/types/tasks.types';
+import type { IColumnData } from '@/types/tasks.types';
 
 const now = new Date();
 const f = (date: Date | string) => format(date, 'eeee, LLL d');
 
 const weekEnd = endOfWeek(now, { weekStartsOn: 1 });
 
-export interface IColumnData {
-	id: TTaskGroupId;
-	title: string;
-	dateSpan: string;
-}
 export const columns: IColumnData[] = [
 	{
 		title: 'Overdue ⏰',

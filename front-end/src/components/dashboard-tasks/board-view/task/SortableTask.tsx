@@ -6,8 +6,8 @@ import clsx from 'clsx';
 import React from 'react';
 import { Task } from '@/components/dashboard-tasks/board-view/task/Task';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
-import { TTaskGroupId } from '@/components/dashboard-tasks/utils/groupTasks';
 import { IGetTaskResponse } from '@/types/task.service';
+import { TTaskGroupId } from '@/types/tasks.types';
 
 interface ISortableItemProps {
 	colId: TTaskGroupId;
@@ -41,7 +41,7 @@ const SortableTaskComponent = ({ colId, id, task }: ISortableItemProps) => {
 			{...sort.listeners}
 			style={style}
 			className={clsx(s.task, {
-				[s.dragged]: sort.isDragging,
+				[s.skeleton]: sort.isDragging,
 			})}
 		>
 			<Task task={task} />

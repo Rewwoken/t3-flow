@@ -19,15 +19,13 @@ const initialGroups: ITaskGroups = {
 
 export function useTaskGroups() {
 	const { data, ...result } = useQuery<ITaskGroups, IApiErrorResponse>({
-		queryKey: KEYS.GET_TASKS,
+		queryKey: KEYS.GET_TASK_GROUPS,
 		queryFn: () => taskService.getAllGrouped(),
 	});
 
 	const [taskGroups, setTaskGroups] = React.useState(data || initialGroups);
 
 	React.useEffect(() => {
-		console.log('SET TASK GROUPS');
-
 		setTaskGroups(data || initialGroups);
 	}, [data]);
 

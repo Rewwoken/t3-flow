@@ -12,32 +12,38 @@ import { LexoRank } from 'lexorank';
  * @returns {string | null} - The new rank as a string, or null if an error occurs.
  */
 export const genRank = (prevRank: string | null, nextRank: string | null) => {
-	// handle dropping to empty column case
-	if (prevRank === null && nextRank === null) {
-		return LexoRank.middle().toString();
-	}
+	try {
+		// handle dropping to empty column case
+		if (prevRank === null && nextRank === null) {
+			return LexoRank.middle().toString();
+		}
 
-	// handle dropping as the first in the column
-	if (prevRank === null && nextRank !== null) {
-		// if(LexoRank.parse(prevRank).isMin()) // TODO: implement rebalance
-		const lexorank = LexoRank.min().between(LexoRank.parse(nextRank));
+		// handle dropping as the first in the column
+		if (prevRank === null && nextRank !== null) {
+			// if(LexoRank.parse(prevRank).isMin()) // TODO: implement rebalance
+			const lexorank = LexoRank.min().between(LexoRank.parse(nextRank));
 
-		return lexorank.toString();
-	}
+			return lexorank.toString();
+		}
 
-	// handle dropping as the last in the column
-	if (prevRank !== null && nextRank === null) {
-		// if (LexoRank.parse(prevRank).isMax()) // TODO: implement rebalance
-		const lexorank = LexoRank.parse(prevRank).between(LexoRank.max());
+		// handle dropping as the last in the column
+		if (prevRank !== null && nextRank === null) {
+			// if (LexoRank.parse(prevRank).isMax()) // TODO: implement rebalance
+			const lexorank = LexoRank.parse(prevRank).between(LexoRank.max());
 
-		return lexorank.toString();
-	}
+			return lexorank.toString();
+		}
 
-	// handle dropping between other tasks
-	if (prevRank !== null && nextRank !== null) {
-		const lexorank = LexoRank.parse(prevRank).between(LexoRank.parse(nextRank));
+		// handle dropping between other tasks
+		if (prevRank !== null && nextRank !== null) {
+			const lexorank = LexoRank.parse(prevRank).between(
+				LexoRank.parse(nextRank),
+			);
 
-		return lexorank.toString();
+			return lexorank.toString();
+		}
+	} catch (err) {
+		return null; // TODO: improve error handling
 	}
 
 	return null;
