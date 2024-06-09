@@ -1,9 +1,10 @@
 import { EnvironmentVaribales } from '@/config/configuration';
-import { JwtToken } from '@/token/interface/jwt-token.interface';
+import { IJwtToken } from '@/token/interface/jwt-token.interface';
 import { UserService } from '@/user/user.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { addDays } from 'date-fns';
 import { CookieOptions, Response } from 'express';
 
 @Injectable()
@@ -24,7 +25,7 @@ export class TokenService {
 	) {}
 
 	issueTokens(userId: string) {
-		const data: JwtToken = { id: userId };
+		const data: IJwtToken = { id: userId };
 
 		const accessToken = this.jwtService.sign(data, {
 			expiresIn: '1h',
@@ -38,8 +39,7 @@ export class TokenService {
 	}
 
 	addRefreshTokenToResponse(res: Response, refreshToken: string) {
-		const expiresIn = new Date();
-		expiresIn.setDate(expiresIn.getDate() + this.REFRESH_TOKEN_EXPIRES);
+		const expiresIn = addDays(new Date(), this.REFRESH_TOKEN_EXPIRES);
 
 		// set the refreshToken httpOnly cookie
 		res.cookie(this.REFRESH_TOKEN_NAME, refreshToken, {

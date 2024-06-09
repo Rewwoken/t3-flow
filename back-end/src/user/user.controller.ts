@@ -1,5 +1,5 @@
-import { CurrentUser } from '@/auth/decorators/current-user.decorator';
-import { Protected } from '@/auth/decorators/protected.decorator';
+import { CurrentUser } from '@/token/decorators/current-user.decorator';
+import { Protected } from '@/token/decorators/protected.decorator';
 import { UpdateUserDto } from '@/user/dto/update-user.dto';
 import { UserService } from '@/user/user.service';
 import { Body, Controller, Get, Patch } from '@nestjs/common';

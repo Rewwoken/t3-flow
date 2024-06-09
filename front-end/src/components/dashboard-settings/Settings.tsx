@@ -61,7 +61,7 @@ export const Settings = () => {
 				<FieldWrapper
 					label='Name'
 					htmlFor='name-input'
-					message={errors.user?.name?.message}
+					error={errors.user?.name?.message}
 					className='bg-background'
 				>
 					<input
@@ -79,7 +79,7 @@ export const Settings = () => {
 				<FieldWrapper
 					label='Email'
 					htmlFor='email-input'
-					message={errors.user?.email?.message}
+					error={errors.user?.email?.message}
 					className='bg-background'
 				>
 					<input
@@ -97,7 +97,7 @@ export const Settings = () => {
 				<FieldWrapper
 					label='Password'
 					htmlFor='password-input'
-					message={errors.user?.password?.message}
+					error={errors.user?.password?.message}
 					className='bg-background'
 				>
 					<input
@@ -118,7 +118,7 @@ export const Settings = () => {
 				<FieldWrapper
 					label='Work interval'
 					htmlFor='work-interval-input'
-					message={errors.timer?.workInterval?.message}
+					error={errors.timer?.workInterval?.message}
 					className='bg-background'
 				>
 					<input
@@ -136,7 +136,7 @@ export const Settings = () => {
 				<FieldWrapper
 					label='Break interval'
 					htmlFor='break-interval-input'
-					message={errors.timer?.breakInterval?.message}
+					error={errors.timer?.breakInterval?.message}
 					className='bg-background'
 				>
 					<input
@@ -154,7 +154,7 @@ export const Settings = () => {
 				<FieldWrapper
 					label='Intervals count'
 					htmlFor='intervals-count-input'
-					message={errors.timer?.intervalsCount?.message}
+					error={errors.timer?.intervalsCount?.message}
 					className='bg-background'
 				>
 					<input

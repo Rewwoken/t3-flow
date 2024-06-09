@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { useAuth } from '@/components/auth/hooks/useAuth';
-import { AuthButton } from '@/components/auth/AuthButton';
 import s from '@/components/auth/auth.module.css';
 import * as v from '@/components/auth/auth.validation';
 import { FieldWrapper } from '@/components/ui/FieldWrapper';
 import { Logo } from '@/components/ui/Logo';
+import { SubmitButton } from '@/components/ui/SubmitButton';
 import { AUTH } from '@/constants/routes.constants';
 import type { IRegisterFields } from '@/types/auth.types';
 
@@ -25,7 +25,7 @@ export const RegisterForm = () => {
 				<FieldWrapper
 					label='Name'
 					htmlFor='name-input'
-					message={formErrors.name?.message}
+					error={formErrors.name?.message}
 					className='bg-background'
 				>
 					<input
@@ -41,7 +41,7 @@ export const RegisterForm = () => {
 				<FieldWrapper
 					label='Email'
 					htmlFor='email-input'
-					message={formErrors.email?.message}
+					error={formErrors.email?.message}
 					className='bg-background'
 				>
 					<input
@@ -56,7 +56,7 @@ export const RegisterForm = () => {
 				<FieldWrapper
 					label='Password'
 					htmlFor='password-input'
-					message={formErrors.password?.message}
+					error={formErrors.password?.message}
 					className='bg-background'
 				>
 					<input
@@ -68,14 +68,14 @@ export const RegisterForm = () => {
 						{...register('password', v.password)}
 					/>
 				</FieldWrapper>
-
+				{/* TODO: add password confirmation */}
 				{formMessage && <span className={s.message}>{formMessage}</span>}
-				<AuthButton
+				<SubmitButton
 					isValid={isValid}
 					isPending={isPending}
 				>
 					Register
-				</AuthButton>
+				</SubmitButton>
 			</form>
 			<Link
 				href={AUTH.LOGIN}

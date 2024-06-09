@@ -1,5 +1,5 @@
 .column {
-	@apply h-full w-72 px-4;
+	@apply min-w-[22rem] px-4;
 }
 
 .datespan {
@@ -7,7 +7,7 @@
 }
 
 .header {
-	@apply mb-4 flex min-w-64 items-center justify-between bg-secondary p-2;
+	@apply mb-4 flex items-center justify-between bg-secondary p-2;
 }
 
 .list {

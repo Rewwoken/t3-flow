@@ -1,9 +1,9 @@
-import { CurrentUser } from '@/auth/decorators/current-user.decorator';
-import { Protected } from '@/auth/decorators/protected.decorator';
 import { UpdateTimerRoundDto } from '@/timer/dto/update-timer-round.dto';
 import { UpdateSessionDto } from '@/timer/dto/update-timer-session-dto';
 import { UpdateTimerSettingsDto } from '@/timer/dto/update-timer-settings.dto';
 import { TimerService } from '@/timer/timer.service';
+import { CurrentUser } from '@/token/decorators/current-user.decorator';
+import { Protected } from '@/token/decorators/protected.decorator';
 import {
 	Body,
 	Controller,

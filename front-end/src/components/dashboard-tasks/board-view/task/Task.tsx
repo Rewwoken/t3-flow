@@ -10,32 +10,30 @@ interface ITaskProps {
 	task: IGetTaskResponse;
 	listeners?: SyntheticListenerMap; // draggable listeners from useSortable(...)
 }
-const TaskComponent = ({ task, listeners }: ITaskProps) => {
-	return (
-		<>
-			<div
-				{...listeners}
-				className={clsx(s.priority, {
-					'bg-red-500': task.priority === 'high',
-					'bg-orange-500': task.priority === 'medium',
-					'bg-green-500': task.priority === 'low',
-					'bg-transparent': task.isCompleted,
-				})}
-			></div>
-			<article
-				{...listeners}
-				className={s.text}
-			>
-				<h4 className={s.title}>{task.name}</h4>
-				<p>Priority:&nbsp;{task.priority}</p>
-				<TaskStatus
-					isCompleted={task.isCompleted}
-					dueDate={task.dueDate}
-				/>
-			</article>
-			<TaskControls taskId={task.id} />
-		</>
-	);
-};
+const TaskComponent = ({ task, listeners }: ITaskProps) => (
+	<>
+		<div
+			{...listeners}
+			className={clsx(s.priority, {
+				'bg-red-500': task.priority === 'high',
+				'bg-orange-500': task.priority === 'medium',
+				'bg-green-500': task.priority === 'low',
+				'bg-transparent': task.isCompleted,
+			})}
+		></div>
+		<article
+			{...listeners}
+			className={s.text}
+		>
+			<h4 className={s.title}>{task.name}</h4>
+			<p>Priority:&nbsp;{task.priority}</p>
+			<TaskStatus
+				isCompleted={task.isCompleted}
+				dueDate={task.dueDate}
+			/>
+		</article>
+		<TaskControls taskId={task.id} />
+	</>
+);
 
 export const Task = React.memo(TaskComponent);

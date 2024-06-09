@@ -1,15 +1,13 @@
-import { CurrentUser } from '@/auth/decorators/current-user.decorator';
-import { Protected } from '@/auth/decorators/protected.decorator';
 import { CreateTimeBlockDto } from '@/time-block/dto/create-time-block.dto';
-import { UpdateOrderDto } from '@/time-block/dto/update-order.dto';
 import { UpdateTimeBlockDto } from '@/time-block/dto/update-time-block.dto';
 import { TimeBlockService } from '@/time-block/time-block.service';
+import { CurrentUser } from '@/token/decorators/current-user.decorator';
+import { Protected } from '@/token/decorators/protected.decorator';
 import {
 	Body,
 	Controller,
 	Delete,
 	Get,
-	HttpCode,
 	Param,
 	Patch,
 	Post,

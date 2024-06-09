@@ -1,20 +1,19 @@
 import { Loader } from 'lucide-react';
-import s from '@/components/auth/auth.module.css';
 
-interface IAuthButtonProps {
+interface ISubmitButtonProps {
 	isPending: boolean;
 	isValid: boolean;
 }
-export const AuthButton = ({
+export const SubmitButton = ({
 	isPending,
 	isValid,
 	children,
-}: React.PropsWithChildren<IAuthButtonProps>) => {
+}: React.PropsWithChildren<ISubmitButtonProps>) => {
 	return (
 		<button
 			disabled={isPending || !isValid}
 			type='submit'
-			className={s.submit}
+			className='rounded-sm bg-accent py-1 text-white hover:bg-accent disabled:bg-muted/10 disabled:text-muted/80'
 		>
 			{isPending ? (
 				<Loader

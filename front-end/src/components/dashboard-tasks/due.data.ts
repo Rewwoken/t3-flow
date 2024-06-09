@@ -1,4 +1,4 @@
-import { addDays, endOfWeek, subDays } from 'date-fns';
+import { addDays, addWeeks, nextSunday, subDays } from 'date-fns';
 import { TTaskGroupId } from '@/types/tasks.types';
 
 const now = new Date();
@@ -8,7 +8,7 @@ export const due: Record<TTaskGroupId, string | null> = {
 	noDate: null,
 	today: now.toISOString(),
 	tomorrow: addDays(now, 1).toISOString(),
-	thisWeek: addDays(now, 2).toISOString(), // TODO: improve
-	later: addDays(endOfWeek(now, { weekStartsOn: 1 }), 1).toISOString(),
+	theseTwoWeeks: addWeeks(nextSunday(now), 1).toISOString(),
+	later: addDays(addWeeks(nextSunday(now), 1), 1).toISOString(),
 	completed: null,
 };

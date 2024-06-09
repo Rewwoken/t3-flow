@@ -13,7 +13,7 @@ const initialGroups: ITaskGroups = {
 	overdue: [],
 	today: [],
 	tomorrow: [],
-	thisWeek: [],
+	theseTwoWeeks: [],
 	later: [],
 };
 

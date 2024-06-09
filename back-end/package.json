@@ -1,7 +1,6 @@
 {
-	"name": "back-end",
+	"name": "horizon",
 	"version": "0.0.1",
-	"description": "",
 	"author": "Rewwoken",
 	"private": true,
 	"license": "MIT",

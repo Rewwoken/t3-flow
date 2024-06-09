@@ -2,85 +2,56 @@ import { PrismaService } from '@/prisma.service';
 import { CreateTaskDto } from '@/task/dto/create-task-dto';
 import { UpdateTaskDto } from '@/task/dto/update-task.dto';
 import { Injectable } from '@nestjs/common';
-import {
-	endOfWeek,
-	isAfter,
-	isBefore,
-	isThisWeek,
-	isToday,
-	isTomorrow,
-} from 'date-fns';
+import { addWeeks, isBefore, isToday, isTomorrow, nextSunday } from 'date-fns';
 
 @Injectable()
 export class TaskService {
 	constructor(private readonly prismaService: PrismaService) {}
 
 	async getAll(userId: string, group: boolean | undefined) {
-		const result = await this.prismaService.task.findMany({
-			where: { userId: userId },
+		const tasks = await this.prismaService.task.findMany({
+			where: { userId },
+			orderBy: { rank: 'asc' }, // ! It is important to order by lexorank
 		});
 
-		if (!group) return result;
+		if (!group) return tasks;
 
-		const now = new Date();
-
-		const groups = {
+		const groups: Record<string, typeof tasks> = {
 			completed: [],
 			noDate: [],
 			overdue: [],
 			today: [],
 			tomorrow: [],
-			thisWeek: [],
+			theseTwoWeeks: [],
 			later: [],
 		};
 
-		for (const task of result) {
-			switch (true) {
-				case task.isCompleted:
-					groups.completed.push(task);
-					break;
-				case task.dueDate === null:
-					groups.noDate.push(task);
-					break;
-				case isToday(task.dueDate):
-					groups.today.push(task);
-					break;
-				case isTomorrow(task.dueDate):
-					groups.tomorrow.push(task);
-					break;
-				// ! Check if the date is overdue before thisWeek
-				// ! since the task can be this week but overdue
-				case isBefore(task.dueDate, now):
-					groups.overdue.push(task);
-					break;
-				// Set `weekStartsOn: 1` to be Monday as week start
-				case isThisWeek(task.dueDate, { weekStartsOn: 1 }):
-					groups.thisWeek.push(task);
-					break;
-				case isAfter(task.dueDate, endOfWeek(now, { weekStartsOn: 1 })):
-					groups.later.push(task);
-					break;
-				default:
-					groups.noDate.push(task);
-					break;
-			}
-		}
+		for (const task of tasks) {
+			const groupKey = this.getGroupKey(task);
 
-		for (const key in groups) {
-			groups[key] = groups[key].sort((a, b) => {
-				if (a.rank === null) {
-					return 1;
-				}
-
-				if (b.rank === null) {
-					return -1;
-				}
-
-				return a.rank.localeCompare(b.rank);
-			});
+			groups[groupKey].push(task);
 		}
 
 		return groups;
+	}
+
+	private getGroupKey(task: { isCompleted: boolean; dueDate: Date | null }) {
+		const now = new Date();
+
+		if (task.isCompleted) return 'completed';
+
+		if (task.dueDate === null) return 'noDate';
+
+		if (isToday(task.dueDate)) return 'today';
+
+		if (isBefore(task.dueDate, now)) return 'overdue';
+
+		if (isTomorrow(task.dueDate)) return 'tomorrow';
+
+		if (isBefore(task.dueDate, addWeeks(nextSunday(now), 1)))
+			return 'theseTwoWeeks';
+
+		return 'later';
 	}
 
 	async create(userId: string, createTaskDto: CreateTaskDto) {

@@ -1,4 +1,4 @@
-import { IGetTaskResponse } from '@/types/task.service';
+import { ICreateTaskData, IGetTaskResponse } from '@/types/task.service';
 
 export type TTaskGroupId =
 	| 'completed'
@@ -6,7 +6,7 @@ export type TTaskGroupId =
 	| 'overdue'
 	| 'today'
 	| 'tomorrow'
-	| 'thisWeek'
+	| 'theseTwoWeeks'
 	| 'later';
 
 export interface IColumnData {
@@ -21,3 +21,5 @@ export interface IStartPositionRef {
 	colId: TTaskGroupId | null;
 	index: number | null;
 }
+
+export interface ICreateTaskFields extends Omit<ICreateTaskData, 'rank'> {}

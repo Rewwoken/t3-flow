@@ -1,8 +1,8 @@
-import { CurrentUser } from '@/auth/decorators/current-user.decorator';
-import { Protected } from '@/auth/decorators/protected.decorator';
 import { CreateTaskDto } from '@/task/dto/create-task-dto';
 import { UpdateTaskDto } from '@/task/dto/update-task.dto';
 import { TaskService } from '@/task/task.service';
+import { CurrentUser } from '@/token/decorators/current-user.decorator';
+import { Protected } from '@/token/decorators/protected.decorator';
 import {
 	Body,
 	Controller,

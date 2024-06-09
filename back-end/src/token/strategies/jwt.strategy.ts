@@ -1,11 +1,11 @@
 // https://docs.nestjs.com/recipes/passport#implementing-passport-jwt
+import { EnvironmentVaribales } from '@/config/configuration';
+import { IJwtToken } from '@/token/interface/jwt-token.interface';
+import { UserService } from '@/user/user.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { EnvironmentVaribales } from '@/config/configuration';
-import { JwtToken } from '@/token/interface/jwt-token.interface';
-import { UserService } from '@/user/user.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -29,11 +29,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 	 * Passport will build a user object based on the return value of our validate() method,
 	 * and attach it as a property on the Request object.
 	 */
-	async validate(token: JwtToken) {
+	async validate(token: IJwtToken) {
 		const findUser = await this.userService.findOneById(token.id);
 
 		if (!findUser) {
-			throw new UnauthorizedException();
+			throw new UnauthorizedException('Invalid access token!');
 		}
 
 		const { password, ...user } = findUser;

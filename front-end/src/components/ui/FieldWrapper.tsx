@@ -3,25 +3,26 @@ import React from 'react';
 
 interface IFormFieldProps extends React.ComponentProps<'label'> {
 	label: string;
-	message?: string | undefined;
+	error?: string | undefined;
 }
 export const FieldWrapper = ({
 	label,
-	message,
+	error,
 	className,
 	children,
-	...props
 }: IFormFieldProps) => (
-	<div className='relative w-full'>
+	<div
+		className='relative w-full'
+		title={label}
+	>
 		<label
-			{...props}
 			className={clsx('absolute -top-2 left-2 px-1 text-xs', className, {
-				'text-danger': !!message,
+				'!text-danger': !!error,
 			})}
 		>
 			{label}
 		</label>
 		{children}
-		<p className='ml-2 text-xs text-danger'>{message}</p>
+		<p className='ml-2 text-xs text-danger'>{error}</p>
 	</div>
 );

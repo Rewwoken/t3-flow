@@ -1,40 +1,40 @@
 import clsx from 'clsx';
-import { CircleX } from 'lucide-react';
+import { format } from 'date-fns';
+import { X } from 'lucide-react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useOutside } from '@/hooks/useOutside';
-import { TaskModalDay } from '@/components/dashboard-tasks/task-modal/TaskModalDay';
 import * as v from '@/components/dashboard-tasks/task-modal/create-task.validation';
 import s from '@/components/dashboard-tasks/task-modal/task-modal.module.css';
 import { FieldWrapper } from '@/components/ui/FieldWrapper';
-import { ICreateTaskData } from '@/types/task.service';
-import 'react-day-picker/dist/style.css';
+import { SubmitButton } from '@/components/ui/SubmitButton';
+import { ICreateTaskFields } from '@/types/tasks.types';
 
 interface ICreateTaskModal extends React.ComponentProps<'div'> {
 	onClose: () => void;
-	onSuccess: (data: ICreateTaskData) => void;
 }
-export const CreateTaskModal = ({ onSuccess, onClose }: ICreateTaskModal) => {
+export const CreateTaskModal = ({ onClose }: ICreateTaskModal) => {
 	const { ref } = useOutside(onClose);
 
 	const {
-		handleSubmit,
 		register,
+		handleSubmit,
 		formState: { errors },
-		setValue,
-	} = useForm<ICreateTaskData>({
-		mode: 'onSubmit',
-		defaultValues: { dueDate: new Date().toISOString() },
+	} = useForm<ICreateTaskFields>({
+		mode: 'onChange',
+		defaultValues: { dueDate: format(new Date(), 'yyyy-MM-dd') },
 	});
 
-	const setDate = (value: string) => {
-		setValue('dueDate', value);
-	};
+	const onSubmit = (values: ICreateTaskFields) => {
+		if (values.dueDate) {
+			values.dueDate = new Date(values.dueDate).toISOString();
+		}
 
-	const onSubmit = (values: ICreateTaskData) => {
-		onSuccess({ ...values, rank: null });
-
-		onClose();
+		if (!values.dueDate) {
+			values.dueDate = null;
+		}
+		// onClose();
+		debugger;
 	};
 
 	return (
@@ -42,10 +42,10 @@ export const CreateTaskModal = ({ onSuccess, onClose }: ICreateTaskModal) => {
 			ref={ref}
 			className={s.wrapper}
 		>
-			<header className='flex items-center justify-between'>
+			<header className={s.heading}>
 				<h3 className='text-2xl'>New task creation</h3>
 				<button onClick={onClose}>
-					<CircleX
+					<X
 						size={27}
 						className='stroke-text/50'
 					/>
@@ -53,14 +53,14 @@ export const CreateTaskModal = ({ onSuccess, onClose }: ICreateTaskModal) => {
 			</header>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
-				className='mt-4 flex flex-col gap-y-4'
+				className={s.form}
 				autoComplete='off'
 			>
 				<FieldWrapper
 					label='Task name'
+					error={errors.name?.message}
 					htmlFor='name-input'
-					message={errors.name?.message}
-					className='bg-secondary'
+					className='text-muted'
 				>
 					<input
 						autoFocus
@@ -69,21 +69,21 @@ export const CreateTaskModal = ({ onSuccess, onClose }: ICreateTaskModal) => {
 						type='text'
 						placeholder='Your task name...'
 						{...register('name', v.name)}
-						className={clsx(s.input, {
-							'border-danger': !!errors.name?.message,
+						className={clsx(s.field, {
+							[s.invalid]: !!errors.name?.message,
 						})}
 					/>
 				</FieldWrapper>
 				<FieldWrapper
 					label='Task priority'
+					error={errors.priority?.message}
 					htmlFor='priority-select'
-					className='bg-secondary'
+					className='text-muted'
 				>
 					<select
 						id='priority-select'
-						defaultValue={v.Priority.low}
 						{...register('priority', v.priority)}
-						className={s.select}
+						className={clsx(s.field, 'cursor-pointer')}
 					>
 						<option value={v.Priority.low}>Low</option>
 						<option value={v.Priority.medium}>Medium</option>
@@ -92,17 +92,36 @@ export const CreateTaskModal = ({ onSuccess, onClose }: ICreateTaskModal) => {
 				</FieldWrapper>
 				<FieldWrapper
 					label='Task date'
-					id='date-input'
-					className='bg-secondary'
+					error={errors.dueDate?.message}
+					htmlFor='date-input'
+					className='text-muted'
 				>
-					<TaskModalDay setDate={setDate} />
+					<input
+						type='date'
+						id='date-input'
+						{...register('dueDate')}
+						className={s.field}
+					/>
 				</FieldWrapper>
-				<button
-					type='submit'
-					className='mt-5 rounded-sm bg-accent py-2 text-white'
+				<div className='flex gap-x-2'>
+					<input
+						type='checkbox'
+						id='is-completed'
+						{...register('isCompleted')}
+					/>
+					<label
+						htmlFor='is-completed'
+						className='text-sm'
+					>
+						Is completed?
+					</label>
+				</div>
+				<SubmitButton
+					isValid={!Object.keys(errors).length}
+					isPending={false}
 				>
-					Submit
-				</button>
+					Create
+				</SubmitButton>
 			</form>
 		</div>
 	);

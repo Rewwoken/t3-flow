@@ -26,8 +26,8 @@ export const CurrentUser = createParamDecorator(
 			throw new InternalServerErrorException('No user object!');
 		}
 
-		// if the key is provided, return the specified property
-		// otherwise, return the whole user object
+		// if the key is provided, return the specified
+		// property, otherwise return the whole user object
 		return key ? user[key] : user;
 	},
 );

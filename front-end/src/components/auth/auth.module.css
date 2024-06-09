@@ -18,10 +18,6 @@
 	@apply w-full rounded-sm bg-danger/20 p-0.5 px-1 text-danger;
 }
 
-.submit {
-	@apply rounded-sm bg-accent/70 py-1 text-white hover:bg-accent disabled:bg-muted/10 disabled:text-muted/80;
-}
-
 .link {
 	@apply text-sm text-muted hover:underline;
 }

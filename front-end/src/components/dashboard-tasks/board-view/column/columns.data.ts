@@ -1,10 +1,8 @@
-import { addDays, endOfWeek, format, subDays } from 'date-fns';
+import { addDays, addWeeks, format, nextSunday, subDays } from 'date-fns';
 import type { IColumnData } from '@/types/tasks.types';
 
 const now = new Date();
 const f = (date: Date | string) => format(date, 'eeee, LLL d');
-
-const weekEnd = endOfWeek(now, { weekStartsOn: 1 });
 
 export const columns: IColumnData[] = [
 	{
@@ -28,14 +26,14 @@ export const columns: IColumnData[] = [
 		dateSpan: f(addDays(now, 1)),
 	},
 	{
-		title: 'This week ⏳',
-		id: 'thisWeek',
-		dateSpan: `${f(addDays(now, 2))} --> ${f(weekEnd)}`,
+		title: 'These two weeks ⏳',
+		id: 'theseTwoWeeks',
+		dateSpan: `${f(addDays(now, 2))} --> ${f(addWeeks(nextSunday(now), 1))}`,
 	},
 	{
 		title: 'Later 😇',
 		id: 'later',
-		dateSpan: `${f(addDays(weekEnd, 1))} --> . . .`,
+		dateSpan: `${f(addDays(addWeeks(nextSunday(now), 1), 1))} --> . . .`,
 	},
 	{
 		title: 'Completed 🎉',

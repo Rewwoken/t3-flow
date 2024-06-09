@@ -2,8 +2,7 @@
 
 import { useDroppable } from '@dnd-kit/core';
 import React from 'react';
-import { useCreateTask } from '@/components/dashboard-tasks/hooks/useCreateTask';
-import type { ICreateTaskData, IGetTaskResponse } from '@/types/task.service';
+import type { IGetTaskResponse } from '@/types/task.service';
 
 interface IUseColumnParams {
 	id: string;
@@ -21,10 +20,8 @@ interface IUseColumnParams {
  *   @property {boolean} showModal - A boolean indicating whether the modal is visible.
  *   @property {function} setShowModal - A function to set the visibility of the modal.
  *   @property {Array<string>} ids - An array of memoized task IDs, should be passed to items prop of SortableContext.
- *   @property {function} createTask - A function to create a new task in the column.
  */
 export function useColumn({ id, tasks }: IUseColumnParams) {
-	const { mutate } = useCreateTask({ invalidate: true });
 	const { setNodeRef } = useDroppable({
 		id,
 		data: { type: 'column', colId: id, tasks },
@@ -36,16 +33,10 @@ export function useColumn({ id, tasks }: IUseColumnParams) {
 		return tasks.map((task) => task.id);
 	}, [tasks]);
 
-	const createTask = (data: ICreateTaskData) => {
-		// TODO: add column id...
-		mutate(data);
-	};
-
 	return {
 		listRef: setNodeRef,
 		showModal,
 		setShowModal,
 		ids,
-		createTask,
 	};
 }

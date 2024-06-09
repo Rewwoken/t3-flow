@@ -18,7 +18,7 @@ interface IColumnProps extends IColumnData {
 	tasks: IGetTaskResponse[];
 }
 const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
-	const { listRef, showModal, setShowModal, ids, createTask } = useColumn({
+	const { listRef, showModal, setShowModal, ids } = useColumn({
 		id,
 		tasks,
 	});
@@ -69,10 +69,7 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 			</li>
 			{showModal && (
 				<ModalWrapper>
-					<CreateTaskModal
-						onSuccess={createTask}
-						onClose={() => setShowModal(false)}
-					/>
+					<CreateTaskModal onClose={() => setShowModal(false)} />
 				</ModalWrapper>
 			)}
 		</>

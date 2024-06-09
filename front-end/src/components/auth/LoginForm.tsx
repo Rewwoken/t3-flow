@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { useAuth } from '@/components/auth/hooks/useAuth';
-import { AuthButton } from '@/components/auth/AuthButton';
 import s from '@/components/auth/auth.module.css';
 import * as v from '@/components/auth/auth.validation';
 import { FieldWrapper } from '@/components/ui/FieldWrapper';
 import { Logo } from '@/components/ui/Logo';
+import { SubmitButton } from '@/components/ui/SubmitButton';
 import { AUTH } from '@/constants/routes.constants';
 import type { ILoginFields } from '@/types/auth.types';
 
@@ -25,7 +25,7 @@ export const LoginForm = () => {
 				<FieldWrapper
 					label='Email'
 					htmlFor='email-input'
-					message={formErrors.email?.message}
+					error={formErrors.email?.message}
 					className='bg-background'
 				>
 					<input
@@ -41,7 +41,7 @@ export const LoginForm = () => {
 				<FieldWrapper
 					label='Password'
 					htmlFor='password-input'
-					message={formErrors.password?.message}
+					error={formErrors.password?.message}
 					className='bg-background'
 				>
 					<input
@@ -54,12 +54,12 @@ export const LoginForm = () => {
 					/>
 				</FieldWrapper>
 				{formMessage && <span className={s.message}>{formMessage}</span>}
-				<AuthButton
+				<SubmitButton
 					isValid={isValid}
 					isPending={isPending}
 				>
 					Login
-				</AuthButton>
+				</SubmitButton>
 			</form>
 			<Link
 				href={AUTH.REGISTER}
