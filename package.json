@@ -1,0 +1,20 @@
+{
+	"name": "horizon",
+	"version": "1.0.0",
+	"description": "",
+	"author": "Rewwoken",
+	"license": "MIT",
+	"scripts": {
+		"dev:server": "cd ./back-end && pnpm run start:dev",
+		"dev:client": "cd ./front-end && pnpm run dev",
+		"dev": "concurrently \"pnpm run dev:server\" \"pnpm run dev:client\"",
+
+		"format:server": "cd ./back-end && pnpm run format",
+		"format:client": "cd ./front-end && pnpm run format",
+		"format": "concurrently \"pnpm run format:server\" \"pnpm run format:client\""
+	},
+	"keywords": [],
+	"devDependencies": {
+		"concurrently": "^8.2.2"
+	}
+}

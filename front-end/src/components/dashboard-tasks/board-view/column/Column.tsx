@@ -1,44 +1,33 @@
 'use client';
 
-import { useDroppable } from '@dnd-kit/core';
 import {
 	SortableContext,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { Plus } from 'lucide-react';
 import React from 'react';
-import { useCreateTask } from '@/components/dashboard-tasks/hooks/useCreateTask';
+import { useColumn } from '@/components/dashboard-tasks/hooks/useColumn';
+import s from '@/components/dashboard-tasks/board-view/column/column.module.css';
 import { SortableTask } from '@/components/dashboard-tasks/board-view/task/SortableTask';
 import { CreateTaskModal } from '@/components/dashboard-tasks/task-modal/CreateTaskModal';
 import { ModalWrapper } from '@/components/ui/ModalWrapper';
-import type { ICreateTaskData, IGetTaskResponse } from '@/types/task.service';
+import type { IGetTaskResponse } from '@/types/task.service';
 import type { IColumnData } from '@/types/tasks.types';
 
 interface IColumnProps extends IColumnData {
 	tasks: IGetTaskResponse[];
 }
 const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
-	const { mutate } = useCreateTask({ invalidate: true });
-	const { setNodeRef } = useDroppable({
+	const { listRef, showModal, setShowModal, ids, createTask } = useColumn({
 		id,
-		data: { type: 'column', colId: id, tasks },
+		tasks,
 	});
-
-	const [showModal, setShowModal] = React.useState(false);
-
-	const items = React.useMemo(() => {
-		return tasks.map((task) => task.id);
-	}, [tasks]);
-
-	const createTask = (data: ICreateTaskData) => {
-		mutate(data);
-	};
 
 	return (
 		<>
-			<li className='h-full w-72 px-4'>
-				<span className='mb-1 flex justify-center text-muted'>{dateSpan}</span>
-				<header className='mb-4 flex min-w-64 items-center justify-between bg-secondary p-2'>
+			<li className={s.column}>
+				<span className={s.datespan}>{dateSpan}</span>
+				<header className={s.header}>
 					<h3 className='text-2xl'>
 						{tasks.length}&nbsp;{title}
 					</h3>
@@ -53,17 +42,17 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 					</button>
 				</header>
 				<SortableContext
-					items={items}
+					items={ids}
 					strategy={verticalListSortingStrategy}
 				>
 					<ul
-						className='h-full space-y-4'
-						ref={setNodeRef}
+						className={s.list}
+						ref={listRef}
 					>
 						{tasks.map((task) => (
 							<SortableTask
 								colId={id}
-								id={task.id}
+								taskId={task.id}
 								task={task}
 								key={task.id}
 							/>
@@ -71,7 +60,7 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 						<button
 							onClick={() => setShowModal(true)}
 							disabled={showModal}
-							className='ml-2 text-muted hover:underline'
+							className={s.add}
 						>
 							+ Add Task
 						</button>

@@ -3,8 +3,8 @@
 import { DndContext, rectIntersection } from '@dnd-kit/core';
 import { format } from 'date-fns';
 import { useDragTasks } from '@/components/dashboard-tasks/hooks/useDragTasks';
-import { Column } from '@/components/dashboard-tasks/board-view/Column';
-import { columns } from '@/components/dashboard-tasks/board-view/columns.data';
+import { Column } from '@/components/dashboard-tasks/board-view/column/Column';
+import { columns } from '@/components/dashboard-tasks/board-view/column/columns.data';
 import { TaskOverlay } from '@/components/dashboard-tasks/board-view/task/TaskOverlay';
 
 const now = new Date();

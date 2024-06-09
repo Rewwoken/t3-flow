@@ -1,5 +1,33 @@
 .task {
-	@apply relative flex flex-col bg-secondary p-1 pl-4 hover:cursor-grab;
+	@apply flex bg-secondary;
+}
+
+.priority {
+	@apply w-2 hover:cursor-grab;
+}
+
+.text {
+	@apply w-full py-1.5 pl-2 hover:cursor-grab;
+}
+
+.title {
+	@apply my-1 text-lg font-medium leading-5;
+}
+
+.date {
+	@apply flex items-center gap-1 text-muted;
+}
+
+.dateless {
+	@apply italic text-muted;
+}
+
+.completed {
+	@apply flex items-center;
+}
+
+.controls {
+	@apply flex flex-col gap-y-2 py-1.5 pr-1;
 }
 
 .overlay {
@@ -12,27 +40,4 @@
 
 .skeleton > * {
 	@apply opacity-0;
-}
-
-.delete {
-	@apply absolute right-1 top-1;
-}
-.title {
-	@apply my-1 text-lg font-medium leading-5;
-}
-
-.priority {
-	@apply absolute left-0 top-0 h-full w-2;
-}
-
-.completed {
-	@apply flex items-center;
-}
-
-.date {
-	@apply flex items-center gap-1 text-muted;
-}
-
-.dateless {
-	@apply italic text-muted;
 }

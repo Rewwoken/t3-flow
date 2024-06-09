@@ -1,3 +1,8 @@
+### root ###
+
+# dependencies
+node_modules
+
 ### back-end ###
 
 # Prisma

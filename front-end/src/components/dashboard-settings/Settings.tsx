@@ -1,13 +1,14 @@
 'use client';
 
 import { useQueryClient } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useUser } from '@/hooks/useUser';
 import { useTimerSettings } from '@/components/dashboard-settings/hooks/useTimerSettings';
 import { useUpdateSettings } from '@/components/dashboard-settings/hooks/useUpdateSettings';
 import s from '@/components/dashboard-settings/settings.module.css';
 import * as validation from '@/components/dashboard-settings/settings.validation';
-import { FormField } from '@/components/ui/FormField';
+import { FieldWrapper } from '@/components/ui/FieldWrapper';
 import { KEYS } from '@/constants/keys.constants';
 import { IUpdateSettingsFields } from '@/types/settings.types';
 
@@ -57,69 +58,117 @@ export const Settings = () => {
 		>
 			<fieldset className={s.fieldset}>
 				<legend className={s.legend}>User settings:</legend>
-				<FormField
+				<FieldWrapper
 					label='Name'
-					id='name-input'
-					type='text'
-					autoComplete='name'
-					placeholder={user?.name || 'Name'}
-					defaultValue={user?.name || ''}
+					htmlFor='name-input'
 					message={errors.user?.name?.message}
-					{...register('user.name', validation.name)}
-				/>
-				<FormField
+					className='bg-background'
+				>
+					<input
+						id='name-input'
+						type='text'
+						autoComplete='name'
+						placeholder={user?.name || 'Name'}
+						defaultValue={user?.name || ''}
+						{...register('user.name', validation.name)}
+						className={clsx(s.input, {
+							'border-danger': !!errors.user?.name?.message,
+						})}
+					/>
+				</FieldWrapper>
+				<FieldWrapper
 					label='Email'
-					id='email-input'
-					type='email'
-					autoComplete='email'
-					placeholder={user?.email}
-					defaultValue={user?.email}
+					htmlFor='email-input'
 					message={errors.user?.email?.message}
-					{...register('user.email', validation.email)}
-				/>
-				<FormField
+					className='bg-background'
+				>
+					<input
+						id='email-input'
+						type='email'
+						autoComplete='email'
+						placeholder={user?.email}
+						defaultValue={user?.email}
+						{...register('user.email', validation.email)}
+						className={clsx(s.input, {
+							'border-danger': !!errors.user?.email?.message,
+						})}
+					/>
+				</FieldWrapper>
+				<FieldWrapper
 					label='Password'
-					id='password-input'
-					type='password'
-					autoComplete='off'
-					defaultValue=''
-					placeholder='********'
+					htmlFor='password-input'
 					message={errors.user?.password?.message}
-					{...register('user.password', validation.password)}
-				/>
+					className='bg-background'
+				>
+					<input
+						id='password-input'
+						type='password'
+						autoComplete='off'
+						defaultValue=''
+						placeholder='********'
+						{...register('user.password', validation.password)}
+						className={clsx(s.input, {
+							'border-danger': !!errors.user?.password?.message,
+						})}
+					/>
+				</FieldWrapper>
 			</fieldset>
 			<fieldset className={s.fieldset}>
 				<legend className={s.legend}>Timer settings:</legend>
-				<FormField
+				<FieldWrapper
 					label='Work interval'
-					id='work-interval-input'
-					type='number'
-					autoComplete='off'
-					placeholder={String(timerSettings?.workInterval)}
-					defaultValue={timerSettings?.workInterval}
+					htmlFor='work-interval-input'
 					message={errors.timer?.workInterval?.message}
-					{...register('timer.workInterval', validation.workInterval)}
-				/>
-				<FormField
+					className='bg-background'
+				>
+					<input
+						id='work-interval-input'
+						type='number'
+						autoComplete='off'
+						placeholder={String(timerSettings?.workInterval)}
+						defaultValue={timerSettings?.workInterval}
+						{...register('timer.workInterval', validation.workInterval)}
+						className={clsx(s.input, {
+							'border-danger': !!errors.timer?.workInterval?.message,
+						})}
+					/>
+				</FieldWrapper>
+				<FieldWrapper
 					label='Break interval'
-					id='break-interval-input'
-					type='number'
-					autoComplete='off'
-					placeholder={String(timerSettings?.breakInterval)}
-					defaultValue={timerSettings?.breakInterval}
+					htmlFor='break-interval-input'
 					message={errors.timer?.breakInterval?.message}
-					{...register('timer.breakInterval', validation.breakInterval)}
-				/>
-				<FormField
+					className='bg-background'
+				>
+					<input
+						id='break-interval-input'
+						type='number'
+						autoComplete='off'
+						placeholder={String(timerSettings?.breakInterval)}
+						defaultValue={timerSettings?.breakInterval}
+						{...register('timer.breakInterval', validation.breakInterval)}
+						className={clsx(s.input, {
+							'border-danger': !!errors.timer?.breakInterval?.message,
+						})}
+					/>
+				</FieldWrapper>
+				<FieldWrapper
 					label='Intervals count'
-					id='intervals-count-input'
-					type='number'
-					autoComplete='off'
-					placeholder={String(timerSettings?.intervalsCount)}
-					defaultValue={timerSettings?.intervalsCount}
+					htmlFor='intervals-count-input'
 					message={errors.timer?.intervalsCount?.message}
-					{...register('timer.intervalsCount', validation.intervalsCount)}
-				/>
+					className='bg-background'
+				>
+					<input
+						id='intervals-count-input'
+						type='number'
+						autoComplete='off'
+						placeholder={String(timerSettings?.intervalsCount)}
+						defaultValue={timerSettings?.intervalsCount}
+						{...register('timer.intervalsCount', validation.intervalsCount)}
+						className={clsx(s.input, {
+							'border-danger': !!errors.timer?.intervalsCount?.message,
+						})}
+					/>
+				</FieldWrapper>
 			</fieldset>
 			{message && <span className={s.message}>{message}</span>}
 			<button

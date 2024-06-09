@@ -1,5 +1,5 @@
 import { addDays, endOfWeek, subDays } from 'date-fns';
-import { TTaskGroupId } from '@/components/dashboard-tasks/utils/groupTasks';
+import { TTaskGroupId } from '@/types/tasks.types';
 
 const now = new Date();
 

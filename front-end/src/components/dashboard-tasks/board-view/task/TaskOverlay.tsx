@@ -8,7 +8,7 @@ import { IGetTaskResponse } from '@/types/task.service';
 interface ITaskOverlayProps {
 	active: IGetTaskResponse | null;
 }
-export const TaskOverlayComponent = ({ active }: ITaskOverlayProps) => {
+const TaskOverlayComponent = ({ active }: ITaskOverlayProps) => {
 	return (
 		<DragOverlay
 			wrapperElement='li'

@@ -47,7 +47,6 @@ export function useDragTasks() {
 		if (!over || active.id === over.id || activeColId === overColId)
 			return null;
 
-		// const task = active.data.current?.task;
 		const updatedTask = {
 			...active.data.current?.task,
 			dueDate: due[overColId],
@@ -92,6 +91,7 @@ export function useDragTasks() {
 		return null;
 	};
 
+	// TODO: fix the issue multiple ranks are calculated wrong if the page is not refreshed
 	const handleDragEnd = (e: DragEndEvent) => {
 		setActive(null); // Reset active task state on drag end, since the active task is dropped
 

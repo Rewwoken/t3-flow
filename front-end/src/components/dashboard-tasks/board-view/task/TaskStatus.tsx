@@ -20,19 +20,16 @@ export const TaskStatus = ({ isCompleted, dueDate }: ITaskStatusProps) => {
 		return <span className={s.dateless}>No due date...</span>;
 	}
 
-	if (dueDate) {
-		const date = new Date(dueDate);
-
+	if (dueDate)
 		return (
 			<span className={s.date}>
 				<CalendarDays
 					className='stroke-muted'
 					size={19}
 				/>
-				{format(date, 'eeee, LLL d')}
+				{format(dueDate, 'eeee, LLL d')}
 			</span>
 		);
-	}
 
 	return null;
 };

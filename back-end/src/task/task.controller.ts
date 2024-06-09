@@ -23,7 +23,8 @@ export class TaskController {
 	@Get()
 	async getAll(
 		@CurrentUser('id') userId: string,
-		@Query('group', new ParseBoolPipe({ optional: true })) group: boolean | undefined,
+		@Query('group', new ParseBoolPipe({ optional: true }))
+		group: boolean | undefined,
 	) {
 		return await this.taskService.getAll(userId, group);
 	}

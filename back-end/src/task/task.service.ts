@@ -57,8 +57,11 @@ export class TaskService {
 				case isThisWeek(task.dueDate, { weekStartsOn: 1 }):
 					groups.thisWeek.push(task);
 					break;
-				case isAfter(task.dueDate, endOfWeek(now)):
+				case isAfter(task.dueDate, endOfWeek(now, { weekStartsOn: 1 })):
 					groups.later.push(task);
+					break;
+				default:
+					groups.noDate.push(task);
 					break;
 			}
 		}

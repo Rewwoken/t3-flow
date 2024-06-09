@@ -38,7 +38,7 @@ model Task {
 
   name        String
   priority    Priority? @default(low)
-  rank        String? // lexorank
+  rank        String? // TODO: remove null case
   isCompleted Boolean?  @default(false) @map("is_completed")
   dueDate     DateTime? @map("due_date")
 

@@ -1,0 +1,19 @@
+.column {
+	@apply h-full w-72 px-4;
+}
+
+.datespan {
+	@apply mb-1 flex justify-center text-muted;
+}
+
+.header {
+	@apply mb-4 flex min-w-64 items-center justify-between bg-secondary p-2;
+}
+
+.list {
+	@apply flex h-full flex-col gap-y-4;
+}
+
+.add {
+	@apply ml-2 text-left text-muted hover:underline;
+}

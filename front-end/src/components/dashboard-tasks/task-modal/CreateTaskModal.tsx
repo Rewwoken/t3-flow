@@ -16,7 +16,6 @@ interface ICreateTaskModal extends React.ComponentProps<'div'> {
 }
 export const CreateTaskModal = ({ onSuccess, onClose }: ICreateTaskModal) => {
 	const { ref } = useOutside(onClose);
-	const [dueDate, setDueDate] = React.useState<Date | undefined>(new Date());
 
 	const {
 		handleSubmit,
@@ -28,13 +27,14 @@ export const CreateTaskModal = ({ onSuccess, onClose }: ICreateTaskModal) => {
 		defaultValues: { dueDate: new Date().toISOString() },
 	});
 
-	React.useEffect(() => {
-		setValue('dueDate', dueDate?.toISOString());
-	}, [dueDate, setValue]);
+	const setDate = (value: string) => {
+		setValue('dueDate', value);
+	};
 
 	const onSubmit = (values: ICreateTaskData) => {
 		onSuccess({ ...values, rank: null });
-		// console.log({ values });
+
+		onClose();
 	};
 
 	return (
@@ -42,7 +42,7 @@ export const CreateTaskModal = ({ onSuccess, onClose }: ICreateTaskModal) => {
 			ref={ref}
 			className={s.wrapper}
 		>
-			<header className='relative flex items-center justify-between'>
+			<header className='flex items-center justify-between'>
 				<h3 className='text-2xl'>New task creation</h3>
 				<button onClick={onClose}>
 					<CircleX
@@ -65,13 +65,13 @@ export const CreateTaskModal = ({ onSuccess, onClose }: ICreateTaskModal) => {
 					<input
 						autoFocus
 						autoComplete='off'
-						type='text'
 						id='name-input'
+						type='text'
+						placeholder='Your task name...'
+						{...register('name', v.name)}
 						className={clsx(s.input, {
 							'border-danger': !!errors.name?.message,
 						})}
-						placeholder='Your task name...'
-						{...register('name', v.name)}
 					/>
 				</FieldWrapper>
 				<FieldWrapper
@@ -95,10 +95,7 @@ export const CreateTaskModal = ({ onSuccess, onClose }: ICreateTaskModal) => {
 					id='date-input'
 					className='bg-secondary'
 				>
-					<TaskModalDay
-						date={dueDate}
-						setDate={setDueDate}
-					/>
+					<TaskModalDay setDate={setDate} />
 				</FieldWrapper>
 				<button
 					type='submit'

@@ -3,19 +3,15 @@
 }
 
 .fieldset {
-	@apply flex flex-col gap-4;
+	@apply flex flex-col gap-8;
 }
 
 .legend {
 	@apply mb-3 text-2xl;
 }
 
-.label {
-	@apply absolute -top-2 left-2 bg-background px-1 text-xs;
-}
-
 .input {
-	@apply w-3/5 rounded-md border p-2;
+	@apply w-3/5 rounded-sm border p-2 outline-none focus:outline-accent;
 }
 
 .error {

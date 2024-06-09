@@ -38,7 +38,7 @@ export const columns: IColumnData[] = [
 		dateSpan: `${f(addDays(weekEnd, 1))} --> . . .`,
 	},
 	{
-		title: 'Completed ✅',
+		title: 'Completed 🎉',
 		id: 'completed',
 		dateSpan: 'Any date!',
 	},

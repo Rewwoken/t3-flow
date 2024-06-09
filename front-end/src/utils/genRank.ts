@@ -1,7 +1,7 @@
 // I decided to move LexoRank logic to client side,
 // because user can switch task order very fast so
-// backend wouldn't able to handle all queries in time
-// so client won't have the up-to-date task rank.
+// backend wouldn't be able to handle all queries in
+// time so client won't have the up-to-date task ranks.
 import { LexoRank } from 'lexorank';
 
 /**

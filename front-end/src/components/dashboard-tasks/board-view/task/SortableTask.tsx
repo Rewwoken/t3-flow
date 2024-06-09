@@ -1,5 +1,3 @@
-'use client';
-
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
@@ -11,12 +9,12 @@ import { TTaskGroupId } from '@/types/tasks.types';
 
 interface ISortableItemProps {
 	colId: TTaskGroupId;
-	id: string;
+	taskId: string;
 	task: IGetTaskResponse;
 }
-const SortableTaskComponent = ({ colId, id, task }: ISortableItemProps) => {
-	const sort = useSortable({
-		id,
+const SortableTaskComponent = ({ colId, taskId, task }: ISortableItemProps) => {
+	const sortArgs = useSortable({
+		id: taskId,
 		data: {
 			type: 'task',
 			colId,
@@ -24,27 +22,24 @@ const SortableTaskComponent = ({ colId, id, task }: ISortableItemProps) => {
 		},
 	});
 
-	const style = React.useMemo(
-		() => ({
-			transform: CSS.Transform.toString(sort.transform),
-			transition: sort.transition,
-		}),
-		[sort.transform, sort.transition],
-	);
-
-	const changeTask = React.useCallback(() => {}, []);
+	const style = {
+		transform: CSS.Transform.toString(sortArgs.transform),
+		transition: sortArgs.transition,
+	};
 
 	return (
 		<li
-			ref={sort.setNodeRef}
-			{...sort.attributes}
-			{...sort.listeners}
+			ref={sortArgs.setNodeRef}
+			{...sortArgs.attributes}
 			style={style}
 			className={clsx(s.task, {
-				[s.skeleton]: sort.isDragging,
+				[s.skeleton]: sortArgs.isDragging,
 			})}
 		>
-			<Task task={task} />
+			<Task
+				task={task}
+				listeners={sortArgs.listeners}
+			/>
 		</li>
 	);
 };
