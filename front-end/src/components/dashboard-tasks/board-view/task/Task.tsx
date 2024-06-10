@@ -25,7 +25,11 @@ const TaskComponent = ({ task, listeners }: ITaskProps) => (
 			{...listeners}
 			className={s.text}
 		>
-			<h4 className={s.title}>{task.name}</h4>
+			<h4
+				className={s.title}
+			>
+				{task.name}
+			</h4>
 			<p>Priority:&nbsp;{task.priority}</p>
 			<TaskStatus
 				isCompleted={task.isCompleted}

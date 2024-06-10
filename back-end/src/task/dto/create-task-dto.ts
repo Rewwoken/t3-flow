@@ -9,7 +9,8 @@ export class CreateTaskDto {
 	@IsEnum(Priority)
 	priority?: Priority;
 
-	rank: string | null;
+	@IsString()
+	rank: string;
 
 	@IsOptional()
 	@IsDateString()

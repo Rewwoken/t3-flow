@@ -1,13 +1,12 @@
-import { ITaskGroups } from '@/components/dashboard-tasks/utils/groupTasks';
 import { apiProtected } from '@/api/interceptors';
 import type {
 	ICreateTaskData,
 	ICreateTaskDataResponse,
 	IGetTaskResponse,
 	IGetTasksResponse,
-	IReorderData,
 	IUpdateTaskResponse,
 } from '@/types/task.service';
+import { ITaskGroups } from '@/types/tasks.types';
 
 export class TaskService {
 	private readonly BASE_URL = '/task';
@@ -29,7 +28,7 @@ export class TaskService {
 	async create(data: ICreateTaskData) {
 		const result = await apiProtected.post<ICreateTaskDataResponse>(
 			this.BASE_URL,
-			{ ...data, rank: null },
+			data,
 		);
 
 		return result.data;
@@ -54,15 +53,6 @@ export class TaskService {
 
 	async delete(id: string) {
 		const result = await apiProtected.delete<void>(`${this.BASE_URL}/${id}`);
-
-		return result.data;
-	}
-
-	async reorder({ id, ...body }: IReorderData) {
-		const result = await apiProtected.patch<void>(
-			`${this.BASE_URL}/reorder/${id}`,
-			body,
-		);
 
 		return result.data;
 	}

@@ -7,19 +7,22 @@ import { LexoRank } from 'lexorank';
 /**
  * Generates a new LexoRank between two provided ranks.
  *
- * @param {string | null} prevRank - The rank immediately before the new rank, or null if it is the first item.
- * @param {string | null} nextRank - The rank immediately after the new rank, or null if it is the last item.
- * @returns {string | null} - The new rank as a string, or null if an error occurs.
+ * @param {string | undefined} prevRank - The rank immediately before the new rank, or undefined if it is the first item.
+ * @param {string | undefined} nextRank - The rank immediately after the new rank, or undefined if it is the last item.
+ * @returns {string | undefined} - The new rank as a string, or undefined if an error occurs.
  */
-export const genRank = (prevRank: string | null, nextRank: string | null) => {
+export const genRank = (
+	prevRank: string | undefined,
+	nextRank: string | undefined,
+) => {
 	try {
 		// handle dropping to empty column case
-		if (prevRank === null && nextRank === null) {
+		if (!prevRank && !nextRank) {
 			return LexoRank.middle().toString();
 		}
 
 		// handle dropping as the first in the column
-		if (prevRank === null && nextRank !== null) {
+		if (!prevRank && nextRank) {
 			// if(LexoRank.parse(prevRank).isMin()) // TODO: implement rebalance
 			const lexorank = LexoRank.min().between(LexoRank.parse(nextRank));
 
@@ -27,7 +30,7 @@ export const genRank = (prevRank: string | null, nextRank: string | null) => {
 		}
 
 		// handle dropping as the last in the column
-		if (prevRank !== null && nextRank === null) {
+		if (prevRank && !nextRank) {
 			// if (LexoRank.parse(prevRank).isMax()) // TODO: implement rebalance
 			const lexorank = LexoRank.parse(prevRank).between(LexoRank.max());
 
@@ -35,7 +38,7 @@ export const genRank = (prevRank: string | null, nextRank: string | null) => {
 		}
 
 		// handle dropping between other tasks
-		if (prevRank !== null && nextRank !== null) {
+		if (prevRank && nextRank) {
 			const lexorank = LexoRank.parse(prevRank).between(
 				LexoRank.parse(nextRank),
 			);
@@ -43,8 +46,8 @@ export const genRank = (prevRank: string | null, nextRank: string | null) => {
 			return lexorank.toString();
 		}
 	} catch (err) {
-		return null; // TODO: improve error handling
+		return undefined; // TODO: improve error handling
 	}
 
-	return null;
+	return undefined;
 };

@@ -1,10 +1,14 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTaskGroups } from '@/components/dashboard-tasks/hooks/useTaskGroups';
+import { getGroupKey } from '@/components/dashboard-tasks/dueDate';
 import { taskService } from '@/services/task.service';
 import { KEYS } from '@/constants/keys.constants';
 import { IApiErrorResponse } from '@/types/api.types';
 import { ICreateTaskData } from '@/types/task.service';
+import { ICreateTaskFields } from '@/types/tasks.types';
+import { genRank } from '@/utils/genRank';
 
 interface IUseCreateTaskParams {
 	invalidate: boolean;
@@ -21,14 +25,32 @@ interface IUseCreateTaskParams {
  */
 export function useCreateTask(params?: IUseCreateTaskParams) {
 	const queryClient = useQueryClient();
+	const { taskGroups } = useTaskGroups();
 
 	const result = useMutation<
 		ICreateTaskData,
 		IApiErrorResponse,
-		ICreateTaskData
+		ICreateTaskFields
 	>({
 		mutationKey: KEYS.CREATE_TASK,
-		mutationFn: (data: ICreateTaskData) => taskService.create(data),
+		mutationFn: (data: ICreateTaskFields) => {
+			const group = taskGroups[getGroupKey(data)];
+
+			if (group.length === 0) {
+				return taskService.create({
+					...data,
+					rank: genRank(null, null),
+				});
+			}
+
+			// Create new task as the last task in the group
+			const prevRank = group[group.length - 1].rank;
+
+			return taskService.create({
+				...data,
+				rank: genRank(prevRank, null),
+			});
+		},
 		onSuccess: () => {
 			if (params?.invalidate) {
 				queryClient.invalidateQueries({

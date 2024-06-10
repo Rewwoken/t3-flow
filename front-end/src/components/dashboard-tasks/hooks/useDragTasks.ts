@@ -5,7 +5,7 @@ import { arrayMove } from '@dnd-kit/sortable';
 import React from 'react';
 import { useTaskGroups } from '@/components/dashboard-tasks/hooks/useTaskGroups';
 import { useUpdateTask } from '@/components/dashboard-tasks/hooks/useUpdateTask';
-import { due } from '@/components/dashboard-tasks/due.data';
+import { dueDate } from '@/components/dashboard-tasks/dueDate';
 import { IGetTaskResponse } from '@/types/task.service';
 import { IStartPositionRef, TTaskGroupId } from '@/types/tasks.types';
 import { genRank } from '@/utils/genRank';
@@ -49,7 +49,7 @@ export function useDragTasks() {
 
 		const updatedTask = {
 			...active.data.current?.task,
-			dueDate: due[overColId],
+			dueDate: dueDate[overColId],
 			isCompleted: overColId === 'completed',
 		};
 		const fromIndex = active.data.current?.sortable.index; // dragged task index
@@ -111,7 +111,7 @@ export function useDragTasks() {
 
 		const overColId: TTaskGroupId = over.data.current?.colId;
 		const updatedTaskData = {
-			dueDate: due[overColId],
+			dueDate: dueDate[overColId],
 			isCompleted: overColId === 'completed',
 		};
 
@@ -124,26 +124,34 @@ export function useDragTasks() {
 
 				// if there is a task before the dropped one,
 				// then take it's rank as prev, otherwise null
-				const prevRank = newOverCol[toIndex - 1]?.rank ?? null;
+				const prevRank = newOverCol[toIndex - 1]?.rank;
 
 				// if there is a task after the dropped one,
 				// then take it's rank as next, otherwise null
-				const nextRank = newOverCol[toIndex + 1]?.rank ?? null;
+				const nextRank = newOverCol[toIndex + 1]?.rank;
+
+				const rank = genRank(prevRank, nextRank) as string;
+
+				const newTask = {
+					...active.data.current?.task,
+					updatedTaskData,
+					rank,
+				};
+
+				// Update tasks order on client
+				const newTaskGroups = {
+					...prev,
+					[overColId]: newOverCol.toSpliced(toIndex, 1, newTask),
+				};
 
 				// Update task on server
 				updateTask({
 					id: active.id as string,
 					data: {
 						...updatedTaskData,
-						rank: genRank(prevRank, nextRank),
+						rank,
 					},
 				});
-
-				// Update tasks order on client
-				const newTaskGroups = {
-					...prev,
-					[overColId]: newOverCol,
-				};
 
 				return newTaskGroups;
 			});
@@ -154,11 +162,22 @@ export function useDragTasks() {
 		if (over.data.current?.type === 'column') {
 			// If active task is the only one in the column
 			if (over.data.current?.tasks.length === 1) {
+				const rank = genRank(undefined, undefined) as string;
+
+				// Update tasks order on client
+				setTaskGroups((prev) => ({
+					...prev,
+					[overColId]: [
+						{ ...active.data.current?.task, updatedTaskData, rank },
+					],
+				}));
+
+				// Update task on server
 				updateTask({
 					id: active.id as string,
 					data: {
 						...updatedTaskData,
-						rank: genRank(null, null),
+						rank,
 					},
 				});
 
@@ -168,11 +187,22 @@ export function useDragTasks() {
 			const overTasks = over.data.current?.tasks;
 			const prevRank = overTasks[overTasks.length - 1].rank;
 
+			const rank = genRank(prevRank, undefined) as string;
+
+			// Update tasks order on client
+			setTaskGroups((prev) => ({
+				...prev,
+				[overColId]: [
+					...prev[overColId],
+					{ ...active.data.current?.task, updatedTaskData, rank },
+				],
+			}));
+
 			updateTask({
 				id: active.id as string,
 				data: {
 					...updatedTaskData,
-					rank: genRank(prevRank, null),
+					rank,
 				},
 			});
 

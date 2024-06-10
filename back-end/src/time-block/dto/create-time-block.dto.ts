@@ -11,7 +11,6 @@ export class CreateTimeBlockDto {
 	@IsNumber()
 	duration: number;
 
-	@IsOptional()
-	@IsNumber()
-	order: number;
+	@IsString()
+	rank: string;
 }

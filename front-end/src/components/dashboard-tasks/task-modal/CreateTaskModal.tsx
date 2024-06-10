@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useOutside } from '@/hooks/useOutside';
+import { useCreateTask } from '@/components/dashboard-tasks/hooks/useCreateTask';
 import * as v from '@/components/dashboard-tasks/task-modal/create-task.validation';
 import s from '@/components/dashboard-tasks/task-modal/task-modal.module.css';
 import { FieldWrapper } from '@/components/ui/FieldWrapper';
@@ -14,6 +15,7 @@ interface ICreateTaskModal extends React.ComponentProps<'div'> {
 	onClose: () => void;
 }
 export const CreateTaskModal = ({ onClose }: ICreateTaskModal) => {
+	const { mutate: createTask } = useCreateTask({ invalidate: true });
 	const { ref } = useOutside(onClose);
 
 	const {
@@ -33,8 +35,10 @@ export const CreateTaskModal = ({ onClose }: ICreateTaskModal) => {
 		if (!values.dueDate) {
 			values.dueDate = null;
 		}
-		// onClose();
-		debugger;
+
+		createTask(values);
+
+		onClose();
 	};
 
 	return (
@@ -43,7 +47,7 @@ export const CreateTaskModal = ({ onClose }: ICreateTaskModal) => {
 			className={s.wrapper}
 		>
 			<header className={s.heading}>
-				<h3 className='text-2xl'>New task creation</h3>
+				<h3 className='text-2xl'>Task creation</h3>
 				<button onClick={onClose}>
 					<X
 						size={27}

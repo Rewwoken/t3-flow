@@ -34,6 +34,7 @@ const SortableTaskComponent = ({ colId, taskId, task }: ISortableItemProps) => {
 			style={style}
 			className={clsx(s.task, {
 				[s.skeleton]: sortArgs.isDragging,
+				'italic line-through': task.isCompleted,
 			})}
 		>
 			<Task
