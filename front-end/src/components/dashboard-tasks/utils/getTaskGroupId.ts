@@ -1,5 +1,5 @@
 import { addWeeks, isBefore, isToday, isTomorrow, nextSunday } from 'date-fns';
-import { TTaskGroupId } from '@/types/tasks.types';
+import type { TTaskGroupId } from '@/types/tasks.types';
 
 /**
  * ! The algorithm must be the same as on the backend.

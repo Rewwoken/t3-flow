@@ -1,5 +1,5 @@
 import { addDays, addWeeks, nextSunday, subDays } from 'date-fns';
-import { TTaskGroupId } from '@/types/tasks.types';
+import type { TTaskGroupId } from '@/types/tasks.types';
 
 const now = new Date();
 

@@ -4,11 +4,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTaskGroups } from '@/components/dashboard-tasks/hooks/useTaskGroups';
 import { getTaskGroupId } from '@/components/dashboard-tasks/utils/getTaskGroupId';
 import { taskService } from '@/services/task.service';
-import { KEYS } from '@/constants/keys.constants';
-import { IApiErrorResponse } from '@/types/api.types';
-import { ICreateTaskData } from '@/types/task.service';
-import { ICreateTaskFields } from '@/types/tasks.types';
 import { genRank } from '@/utils/genRank';
+import { KEYS } from '@/constants/keys.constants';
+import type { IApiErrorResponse } from '@/types/api.types';
+import type { ICreateTaskData } from '@/types/task.service';
+import type { ICreateTaskFields } from '@/types/tasks.types';
 
 interface IUseCreateTaskParams {
 	invalidate: boolean;
@@ -17,9 +17,9 @@ interface IUseCreateTaskParams {
  * A custom hook to create a new task.
  *
  * @param params An object with an optional invalidate property.
- *   The invalidate property is a boolean that, if set to true,
- *   will invalidate the query cache for the GET_TASKS query after
- *   the task is created.
+ * The invalidate property is a boolean that, if set to true,
+ * will invalidate the query cache for the GET_TASKS query after
+ * the task is created.
  *
  * @returns An object with the result of the mutation.
  */
@@ -34,9 +34,11 @@ export function useCreateTask(params?: IUseCreateTaskParams) {
 	>({
 		mutationKey: KEYS.CREATE_TASK,
 		mutationFn: (data: ICreateTaskFields) => {
-			const group = taskGroups[getTaskGroupId(data)];
+			const column = taskGroups[getTaskGroupId(data)];
 
-			if (group.length === 0) {
+			// If the column in empty, create the task
+			// as the first task in the column
+			if (column.length === 0) {
 				return taskService.create({
 					...data,
 					rank: genRank(undefined, undefined) as string,
@@ -44,7 +46,7 @@ export function useCreateTask(params?: IUseCreateTaskParams) {
 			}
 
 			// Create new task as the last task in the group
-			const prevRank = group[group.length - 1].rank;
+			const prevRank = column[column.length - 1].rank;
 
 			return taskService.create({
 				...data,

@@ -4,8 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { taskService } from '@/services/task.service';
 import { KEYS } from '@/constants/keys.constants';
-import { IApiErrorResponse } from '@/types/api.types';
-import { ITaskGroups } from '@/types/tasks.types';
+import type { IApiErrorResponse } from '@/types/api.types';
+import type { ITaskGroups } from '@/types/tasks.types';
 
 const initialGroups: ITaskGroups = {
 	completed: [],

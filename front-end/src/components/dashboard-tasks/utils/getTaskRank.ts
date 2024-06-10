@@ -1,7 +1,7 @@
 import { Active, Over } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
-import { ITaskGroups, TTaskGroupId } from '@/types/tasks.types';
 import { genRank } from '@/utils/genRank';
+import type { ITaskGroups, TTaskGroupId } from '@/types/tasks.types';
 
 /**
  * Returns the new rank for the active task
@@ -10,6 +10,7 @@ import { genRank } from '@/utils/genRank';
  * @param {Active} active - The `DragEnd` active task object.
  * @param {Over} over - The `DragEnd` over object.
  * @param {ITaskGroups} taskGroups - The task groups object.
+ *
  * @returns {string | undefined} The new rank for the task.
  */
 export const getNewTaskRank = (

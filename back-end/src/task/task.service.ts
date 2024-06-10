@@ -14,6 +14,8 @@ export class TaskService {
 			orderBy: { rank: 'asc' }, // ! It is important to order by lexorank
 		});
 
+		// TODO: implement rebalance
+
 		if (!group) return tasks;
 
 		const groups: Record<string, typeof tasks> = {

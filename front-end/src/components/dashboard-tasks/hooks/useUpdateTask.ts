@@ -3,8 +3,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { taskService } from '@/services/task.service';
 import { KEYS } from '@/constants/keys.constants';
-import { IApiErrorResponse } from '@/types/api.types';
-import { IUpdateTaskData, IUpdateTaskResponse } from '@/types/task.service';
+import type { IApiErrorResponse } from '@/types/api.types';
+import type {
+	IUpdateTaskData,
+	IUpdateTaskResponse,
+} from '@/types/task.service';
 
 interface IUseUpdateTaskParams {
 	invalidate: boolean;
@@ -13,9 +16,9 @@ interface IUseUpdateTaskParams {
  * A custom hook to update a task.
  *
  * @param params An object with an optional invalidate property.
- *   The invalidate property is a boolean that, if set to true,
- *   will invalidate the query cache for the GET_TASKS query after
- *   the task is updated.
+ * The invalidate property is a boolean that, if set to true,
+ * will invalidate the query cache for the GET_TASKS query after
+ * the task is updated.
  *
  * @returns An object with the result of the mutation.
  */

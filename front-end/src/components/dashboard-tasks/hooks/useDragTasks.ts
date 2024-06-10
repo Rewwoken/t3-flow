@@ -1,14 +1,18 @@
 'use client';
 
-import { DragEndEvent, DragOverEvent, DragStartEvent } from '@dnd-kit/core';
+import type {
+	DragEndEvent,
+	DragOverEvent,
+	DragStartEvent,
+} from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import React from 'react';
 import { useTaskGroups } from '@/components/dashboard-tasks/hooks/useTaskGroups';
 import { useUpdateTask } from '@/components/dashboard-tasks/hooks/useUpdateTask';
 import { dueDate } from '@/components/dashboard-tasks/utils/dueDate';
 import { getNewTaskRank } from '@/components/dashboard-tasks/utils/getTaskRank';
-import { IGetTaskResponse } from '@/types/task.service';
-import { IStartPositionRef, TTaskGroupId } from '@/types/tasks.types';
+import type { IGetTaskResponse } from '@/types/task.service';
+import type { IStartPositionRef, TTaskGroupId } from '@/types/tasks.types';
 
 const resetPosition: IStartPositionRef = {
 	colId: null,
@@ -27,14 +31,14 @@ export function useDragTasks() {
 	const startPositionRef = React.useRef<IStartPositionRef>(resetPosition); // A ref used to check if task changed it's position
 
 	const handleDragStart = (e: DragStartEvent) => {
-		const { active } = e;
+		const currentActive = e.active.data.current;
 
 		startPositionRef.current = {
-			colId: active.data.current?.colId,
-			index: active.data.current?.sortable.index,
+			colId: currentActive?.colId,
+			index: currentActive?.sortable.index,
 		};
 
-		setActive(active.data.current?.task); // Set dragged task as active
+		setActive(currentActive?.task); // Set dragged task as active
 	};
 
 	// Handle cases where task is dragged to another column
@@ -76,15 +80,15 @@ export function useDragTasks() {
 		}
 
 		// Handle the case where task is over a different column
-		if (over.data.current?.type === 'column') {
+		if (currentOver?.type === 'column') {
 			setTaskGroups((prev) => {
-				const oldColumn = prev[activeColId].toSpliced(fromIndex, 1); // Remove dragged task from it's column
-				const newColumn = [...prev[overColId], updatedTask]; // Add dragged task to overed column
+				const newActiveCol = prev[activeColId].toSpliced(fromIndex, 1); // Remove dragged task from it's column
+				const newOverCol = [...prev[overColId], updatedTask]; // Add dragged task to overed column
 
 				return {
 					...prev,
-					[activeColId]: oldColumn,
-					[overColId]: newColumn,
+					[activeColId]: newActiveCol,
+					[overColId]: newOverCol,
 				};
 			});
 
@@ -138,16 +142,14 @@ export function useDragTasks() {
 
 		if (currentOver?.type === 'column')
 			setTaskGroups((prev) => {
-				const isEmpty = prev[overColId].length === 1;
+				const overCol = prev[overColId];
 
-				// If the active task is the only one in the over column,
-				// set the over column to an array only with updated task.
-				// Otherwise, add the updated task to the over column as the last one
+				// Since the task is already in the column, just update it
+				overCol[overCol.length - 1] = updatedTask;
+
 				return {
 					...prev,
-					[overColId]: isEmpty
-						? [updatedTask]
-						: [...prev[overColId], updatedTask],
+					[overColId]: overCol,
 				};
 			});
 

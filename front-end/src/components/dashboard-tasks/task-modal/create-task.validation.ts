@@ -1,4 +1,4 @@
-import { RegisterOptions } from 'react-hook-form';
+import type { RegisterOptions } from 'react-hook-form';
 
 export enum Priority {
 	low = 'low',

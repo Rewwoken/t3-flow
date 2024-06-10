@@ -3,8 +3,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { taskService } from '@/services/task.service';
 import { KEYS } from '@/constants/keys.constants';
-import { IApiErrorResponse } from '@/types/api.types';
-import { IDeleteTaskData } from '@/types/task.service';
+import type { IApiErrorResponse } from '@/types/api.types';
+import type { IDeleteTaskData } from '@/types/task.service';
 
 /**
  * A custom hook to delete a task.

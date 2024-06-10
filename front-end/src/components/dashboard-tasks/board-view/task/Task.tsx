@@ -4,7 +4,7 @@ import React from 'react';
 import { TaskControls } from '@/components/dashboard-tasks/board-view/task/TaskControls';
 import { TaskStatus } from '@/components/dashboard-tasks/board-view/task/TaskStatus';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
-import { IGetTaskResponse } from '@/types/task.service';
+import type { IGetTaskResponse } from '@/types/task.service';
 
 interface ITaskProps {
 	task: IGetTaskResponse;

@@ -9,7 +9,7 @@ import * as v from '@/components/dashboard-tasks/task-modal/create-task.validati
 import s from '@/components/dashboard-tasks/task-modal/task-modal.module.css';
 import { FieldWrapper } from '@/components/ui/FieldWrapper';
 import { SubmitButton } from '@/components/ui/SubmitButton';
-import { ICreateTaskFields } from '@/types/tasks.types';
+import type { ICreateTaskFields } from '@/types/tasks.types';
 
 interface ICreateTaskModal extends React.ComponentProps<'div'> {
 	onClose: () => void;

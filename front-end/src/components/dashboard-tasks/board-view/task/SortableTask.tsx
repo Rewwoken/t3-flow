@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import React from 'react';
 import { Task } from '@/components/dashboard-tasks/board-view/task/Task';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
-import { IGetTaskResponse } from '@/types/task.service';
-import { TTaskGroupId } from '@/types/tasks.types';
+import type { IGetTaskResponse } from '@/types/task.service';
+import type { TTaskGroupId } from '@/types/tasks.types';
 
 interface ISortableItemProps {
 	colId: TTaskGroupId;
