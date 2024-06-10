@@ -3,7 +3,7 @@ import type { TTaskGroupId } from '@/types/tasks.types';
 
 const now = new Date();
 
-export const dueDate: Record<TTaskGroupId, string | null> = {
+export const getDueDate: Record<TTaskGroupId, string | null> = {
 	overdue: subDays(now, 1).toISOString(),
 	noDate: null,
 	today: now.toISOString(),

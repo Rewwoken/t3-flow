@@ -3,7 +3,7 @@
 }
 
 .heading {
-	@apply w-full border-b-2 border-b-accent pb-2 text-center text-3xl font-semibold;
+	@apply w-full select-none border-b-2 border-b-accent pb-2 text-center text-3xl font-semibold;
 }
 
 .form {

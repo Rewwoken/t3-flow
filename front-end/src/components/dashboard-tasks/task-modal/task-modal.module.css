@@ -7,11 +7,11 @@
 }
 
 .form {
-	@apply mt-4 flex flex-col gap-y-7;
+	@apply mt-4 flex flex-col gap-y-7 accent-accent;
 }
 
 .field {
-	@apply mb-1 w-full border-b-2 bg-secondary py-1 pl-2 pt-3 outline-none focus:border-b-accent;
+	@apply mb-1 w-full border-b-2 bg-secondary py-1 pl-1 pt-3 outline-none focus:border-b-accent;
 }
 
 .invalid {

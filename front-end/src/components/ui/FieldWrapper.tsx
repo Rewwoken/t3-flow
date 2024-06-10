@@ -16,9 +16,13 @@ export const FieldWrapper = ({
 		title={label}
 	>
 		<label
-			className={clsx('absolute -top-2 left-2 px-1 text-xs', className, {
-				'!text-danger': !!error,
-			})}
+			className={clsx(
+				'absolute -top-2 left-2 select-none px-1 text-xs',
+				className,
+				{
+					'!text-danger': !!error,
+				},
+			)}
 		>
 			{label}
 		</label>

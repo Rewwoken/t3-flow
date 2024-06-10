@@ -1,6 +1,13 @@
 'use client';
 
-import { DndContext, rectIntersection } from '@dnd-kit/core';
+import {
+	DndContext,
+	MouseSensor,
+	TouchSensor,
+	rectIntersection,
+	useSensor,
+	useSensors,
+} from '@dnd-kit/core';
 import { format } from 'date-fns';
 import { useDragTasks } from '@/components/dashboard-tasks/hooks/useDragTasks';
 import { Column } from '@/components/dashboard-tasks/board-view/column/Column';
@@ -13,6 +20,23 @@ export const BoardView = () => {
 	const { taskGroups, active, handleDragStart, handleDragOver, handleDragEnd } =
 		useDragTasks();
 
+	const mouseSensor = useSensor(MouseSensor, {
+		activationConstraint: {
+			delay: 0,
+			tolerance: 0,
+		},
+	});
+
+	const touchSensor = useSensor(TouchSensor, {
+		// Press delay of 200ms, with tolerance of 5px of movement
+		activationConstraint: {
+			delay: 200,
+			tolerance: 5,
+		},
+	});
+
+	const sensors = useSensors(mouseSensor, touchSensor);
+
 	return (
 		<>
 			<p className='mb-4 text-xl'>
@@ -20,6 +44,7 @@ export const BoardView = () => {
 			</p>
 			<ul className='flex h-full'>
 				<DndContext
+					sensors={sensors}
 					collisionDetection={rectIntersection}
 					onDragStart={handleDragStart}
 					onDragOver={handleDragOver}

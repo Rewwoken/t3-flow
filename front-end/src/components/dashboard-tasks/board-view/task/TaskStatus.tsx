@@ -18,7 +18,7 @@ export const TaskStatus = ({ isCompleted, dueDate }: ITaskStatusProps) => {
 					className='stroke-muted'
 					size={19}
 				/>
-				{format(dueDate, 'eeee, LLL d')}
+				{format(dueDate, 'eeee, LLL d h:mm b')}
 			</span>
 		);
 

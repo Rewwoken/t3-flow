@@ -30,7 +30,7 @@ export const ThemeSwitcher = ({
 				size={size}
 				strokeWidth={1}
 				onClick={() => setTheme('light')}
-				className={clsx(className, 'cursor-pointer')}
+				className={clsx(className, 'cursor-pointer select-none')}
 			/>
 		);
 
@@ -40,7 +40,7 @@ export const ThemeSwitcher = ({
 				size={size}
 				strokeWidth={1}
 				onClick={() => setTheme('dark')}
-				className={clsx(className, 'cursor-pointer')}
+				className={clsx(className, 'cursor-pointer select-none')}
 			/>
 		);
 };

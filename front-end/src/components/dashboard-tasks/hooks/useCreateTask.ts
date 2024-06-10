@@ -7,8 +7,10 @@ import { taskService } from '@/services/task.service';
 import { genRank } from '@/utils/genRank';
 import { KEYS } from '@/constants/keys.constants';
 import type { IApiErrorResponse } from '@/types/api.types';
-import type { ICreateTaskData } from '@/types/task.service';
-import type { ICreateTaskFields } from '@/types/tasks.types';
+import type {
+	ICreateTaskData,
+	ICreateTaskDataResponse,
+} from '@/types/task.service';
 
 interface IUseCreateTaskParams {
 	invalidate: boolean;
@@ -28,12 +30,12 @@ export function useCreateTask(params?: IUseCreateTaskParams) {
 	const { taskGroups } = useTaskGroups();
 
 	const result = useMutation<
-		ICreateTaskData,
+		ICreateTaskDataResponse,
 		IApiErrorResponse,
-		ICreateTaskFields
+		Omit<ICreateTaskData, 'rank'>
 	>({
 		mutationKey: KEYS.CREATE_TASK,
-		mutationFn: (data: ICreateTaskFields) => {
+		mutationFn: (data: Omit<ICreateTaskData, 'rank'>) => {
 			const column = taskGroups[getTaskGroupId(data)];
 
 			// If the column in empty, create the task

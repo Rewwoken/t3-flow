@@ -9,7 +9,7 @@ import { arrayMove } from '@dnd-kit/sortable';
 import React from 'react';
 import { useTaskGroups } from '@/components/dashboard-tasks/hooks/useTaskGroups';
 import { useUpdateTask } from '@/components/dashboard-tasks/hooks/useUpdateTask';
-import { dueDate } from '@/components/dashboard-tasks/utils/dueDate';
+import { getDueDate } from '@/components/dashboard-tasks/utils/getDueDate';
 import { getNewTaskRank } from '@/components/dashboard-tasks/utils/getTaskRank';
 import type { IGetTaskResponse } from '@/types/task.service';
 import type { IStartPositionRef, TTaskGroupId } from '@/types/tasks.types';
@@ -57,7 +57,7 @@ export function useDragTasks() {
 
 		const updatedTask = {
 			...currentActive?.task,
-			dueDate: dueDate[overColId],
+			dueDate: getDueDate[overColId],
 			isCompleted: overColId === 'completed',
 		};
 

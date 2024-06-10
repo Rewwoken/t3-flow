@@ -1,4 +1,4 @@
-import { ICreateTaskData, IGetTaskResponse } from '@/types/task.service';
+import { IGetTaskResponse } from '@/types/task.service';
 
 export type TTaskGroupId =
 	| 'completed'
@@ -22,4 +22,10 @@ export interface IStartPositionRef {
 	index: number | null;
 }
 
-export interface ICreateTaskFields extends Omit<ICreateTaskData, 'rank'> {}
+export interface ICreateTaskFields {
+	name: string;
+	priority: 'low' | 'medium' | 'high';
+	dueDay: string;
+	dueTime: string;
+	isCompleted: boolean;
+}

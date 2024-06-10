@@ -19,7 +19,7 @@ async function bootstrap() {
 		exposedHeaders: 'set-cookie',
 	});
 
-	// turn off `X-Powered-By` response header
+	// Turn off `X-Powered-By` response header.
 	// app.disable('x-powered-by'); requires ts-ignore
 	app.getHttpAdapter().getInstance().disable('x-powered-by');
 

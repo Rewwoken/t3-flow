@@ -1,49 +1,28 @@
 import clsx from 'clsx';
-import { format } from 'date-fns';
+import { formatRelative, isValid } from 'date-fns';
 import { X } from 'lucide-react';
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { useOutside } from '@/hooks/useOutside';
-import { useCreateTask } from '@/components/dashboard-tasks/hooks/useCreateTask';
+import { useCreateTaskModal } from '@/components/dashboard-tasks/task-modal/hooks/useCreateTaskModal';
 import * as v from '@/components/dashboard-tasks/task-modal/create-task.validation';
 import s from '@/components/dashboard-tasks/task-modal/task-modal.module.css';
 import { FieldWrapper } from '@/components/ui/FieldWrapper';
 import { SubmitButton } from '@/components/ui/SubmitButton';
-import type { ICreateTaskFields } from '@/types/tasks.types';
+import type { TTaskGroupId } from '@/types/tasks.types';
 
-interface ICreateTaskModal extends React.ComponentProps<'div'> {
+const now = new Date();
+
+interface ICreateTaskModal {
+	colId: TTaskGroupId;
 	onClose: () => void;
 }
-export const CreateTaskModal = ({ onClose }: ICreateTaskModal) => {
-	const { mutate: createTask } = useCreateTask({ invalidate: true });
-	const { ref } = useOutside(onClose);
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<ICreateTaskFields>({
-		mode: 'onChange',
-		defaultValues: { dueDate: format(new Date(), 'yyyy-MM-dd') },
+export const CreateTaskModal = ({ colId, onClose }: ICreateTaskModal) => {
+	const { modalRef, onSubmit, register, errors, dueDate } = useCreateTaskModal({
+		colId,
+		onClose,
 	});
-
-	const onSubmit = (values: ICreateTaskFields) => {
-		if (values.dueDate) {
-			values.dueDate = new Date(values.dueDate).toISOString();
-		}
-
-		if (!values.dueDate) {
-			values.dueDate = null;
-		}
-
-		createTask(values);
-
-		onClose();
-	};
 
 	return (
 		<div
-			ref={ref}
+			ref={modalRef}
 			className={s.wrapper}
 		>
 			<header className={s.heading}>
@@ -56,7 +35,7 @@ export const CreateTaskModal = ({ onClose }: ICreateTaskModal) => {
 				</button>
 			</header>
 			<form
-				onSubmit={handleSubmit(onSubmit)}
+				onSubmit={onSubmit}
 				className={s.form}
 				autoComplete='off'
 			>
@@ -94,31 +73,51 @@ export const CreateTaskModal = ({ onClose }: ICreateTaskModal) => {
 						<option value={v.Priority.high}>High</option>
 					</select>
 				</FieldWrapper>
-				<FieldWrapper
-					label='Task date'
-					error={errors.dueDate?.message}
-					htmlFor='date-input'
-					className='text-muted'
-				>
-					<input
-						type='date'
-						id='date-input'
-						{...register('dueDate')}
-						className={s.field}
-					/>
-				</FieldWrapper>
-				<div className='flex gap-x-2'>
-					<input
-						type='checkbox'
-						id='is-completed'
-						{...register('isCompleted')}
-					/>
-					<label
-						htmlFor='is-completed'
-						className='text-sm'
+				<div className='grid grid-cols-2 gap-2'>
+					<FieldWrapper
+						label='Due day'
+						error={errors.dueDay?.message}
+						htmlFor='day-input'
+						className='text-muted'
 					>
-						Is completed?
-					</label>
+						<input
+							type='date'
+							id='day-input'
+							{...register('dueDay')}
+							className={s.field}
+						/>
+					</FieldWrapper>
+					<FieldWrapper
+						label='Due time'
+						error={errors.dueTime?.message}
+						htmlFor='time-input'
+						className='text-muted'
+					>
+						<input
+							type='time'
+							id='time-input'
+							{...register('dueTime')}
+							className={s.field}
+						/>
+					</FieldWrapper>
+					<div className='ml-1 flex items-center gap-x-2'>
+						<input
+							type='checkbox'
+							id='is-completed'
+							{...register('isCompleted')}
+						/>
+						<label
+							htmlFor='is-completed'
+							className='text-sm'
+						>
+							Is completed?
+						</label>
+					</div>
+					{isValid(dueDate) && (
+						<span className='mr-1 text-right text-sm capitalize italic text-muted'>
+							{formatRelative(dueDate, now)}
+						</span>
+					)}
 				</div>
 				<SubmitButton
 					isValid={!Object.keys(errors).length}

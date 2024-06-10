@@ -69,7 +69,10 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 			</li>
 			{showModal && (
 				<ModalWrapper>
-					<CreateTaskModal onClose={() => setShowModal(false)} />
+					<CreateTaskModal
+						colId={id}
+						onClose={() => setShowModal(false)}
+					/>
 				</ModalWrapper>
 			)}
 		</>

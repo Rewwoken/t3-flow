@@ -1,5 +1,5 @@
 .task {
-	@apply flex bg-secondary;
+	@apply flex touch-manipulation bg-secondary;
 }
 
 .priority {
@@ -35,7 +35,7 @@
 }
 
 .skeleton {
-	@apply animate-pulse border-transparent bg-muted/20;
+	@apply animate-pulse border-transparent bg-muted/20 hover:cursor-grabbing;
 }
 
 .skeleton > * {

@@ -38,7 +38,7 @@ export const HeaderButtons = () => {
 				/>
 			</li>
 			<li
-				className='cursor-pointer transition-all active:scale-90'
+				className='cursor-pointer select-none transition-all active:scale-90'
 				onClick={logOut}
 			>
 				<LogOut

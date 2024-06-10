@@ -42,7 +42,7 @@ export const Sidebar = () => {
 					))}
 				</ul>
 			</nav>
-			<p className='mb-2 text-center text-sm'>
+			<small className='mb-2 text-center text-xs'>
 				<span>Made by&nbsp;</span>
 				<Link
 					href='https://github.com/Rewwoken'
@@ -59,7 +59,7 @@ export const Sidebar = () => {
 				>
 					Open source
 				</Link>
-			</p>
+			</small>
 		</aside>
 	);
 };
