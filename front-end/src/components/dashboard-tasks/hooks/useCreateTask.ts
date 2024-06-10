@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTaskGroups } from '@/components/dashboard-tasks/hooks/useTaskGroups';
-import { getGroupKey } from '@/components/dashboard-tasks/dueDate';
+import { getTaskGroupId } from '@/components/dashboard-tasks/utils/getTaskGroupId';
 import { taskService } from '@/services/task.service';
 import { KEYS } from '@/constants/keys.constants';
 import { IApiErrorResponse } from '@/types/api.types';
@@ -34,12 +34,12 @@ export function useCreateTask(params?: IUseCreateTaskParams) {
 	>({
 		mutationKey: KEYS.CREATE_TASK,
 		mutationFn: (data: ICreateTaskFields) => {
-			const group = taskGroups[getGroupKey(data)];
+			const group = taskGroups[getTaskGroupId(data)];
 
 			if (group.length === 0) {
 				return taskService.create({
 					...data,
-					rank: genRank(null, null),
+					rank: genRank(undefined, undefined) as string,
 				});
 			}
 
@@ -48,7 +48,7 @@ export function useCreateTask(params?: IUseCreateTaskParams) {
 
 			return taskService.create({
 				...data,
-				rank: genRank(prevRank, null),
+				rank: genRank(prevRank, undefined) as string,
 			});
 		},
 		onSuccess: () => {
