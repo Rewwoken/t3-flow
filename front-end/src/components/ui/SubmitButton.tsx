@@ -18,7 +18,7 @@ export const SubmitButton = ({
 			type='submit'
 			{...props}
 			className={clsx(
-				'rounded-sm bg-accent py-1 text-white hover:bg-accent disabled:bg-muted/10 disabled:text-muted/80',
+				'rounded-sm bg-primary py-1 text-white disabled:bg-muted/10 disabled:text-muted/80',
 				className,
 			)}
 		>

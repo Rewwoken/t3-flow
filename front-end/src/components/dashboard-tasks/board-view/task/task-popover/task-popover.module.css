@@ -1,0 +1,101 @@
+.popover {
+	@apply absolute z-50 animate-[fade-in] border bg-background p-1 shadow-md;
+}
+
+.heading {
+	@apply mb-2 cursor-default text-center;
+}
+
+.form {
+	@apply flex w-48 flex-col gap-y-4;
+}
+
+.label {
+	@apply bg-background text-muted;
+}
+
+.field {
+	@apply w-full border bg-background py-1 pl-1 text-sm outline-none focus:border-accent;
+}
+/* 
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes fade-out {
+	0% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+}
+
+.fade-in {
+	animation: fade-in 0.2s ease-in-out forwards;
+}
+
+.fade-out {
+	animation: fade-out 0.2s ease-in-out forwards;
+}
+
+.slide-in-from-top {
+	animation: slide-in-from-top 0.2s ease forwards;
+}
+
+.slide-in-from-right {
+	animation: slide-in-from-right 0.2s ease forwards;
+}
+
+.slide-in-from-left {
+	animation: slide-in-from-left 0.2s ease forwards;
+}
+
+.slide-in-from-bottom {
+	animation: slide-in-from-bottom 0.2s ease forwards;
+}
+
+@keyframes slide-in-from-top {
+	from {
+		transform: translateY(-0.5rem);
+	}
+	to {
+		transform: translateY(0);
+	}
+}
+
+@keyframes slide-in-from-right {
+	from {
+		transform: translateX(0.5rem);
+	}
+	to {
+		transform: translateX(0);
+	}
+}
+
+@keyframes slide-in-from-left {
+	from {
+		transform: translateX(-0.5rem);
+	}
+	to {
+		transform: translateX(0);
+	}
+}
+
+@keyframes slide-in-from-bottom {
+	from {
+		transform: translateY(0.5rem);
+	}
+	to {
+		transform: translateY(0);
+	}
+} */

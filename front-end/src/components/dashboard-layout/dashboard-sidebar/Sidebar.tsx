@@ -24,7 +24,11 @@ export const Sidebar = () => {
 				>
 					About
 				</Link>
-				<button onClick={pin}>
+				<button
+					type='button'
+					title='Toggle sidebar resize'
+					onClick={pin}
+				>
 					{isPinned ? (
 						<PinOff className='stroke-muted' />
 					) : (

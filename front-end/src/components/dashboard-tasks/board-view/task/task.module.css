@@ -7,7 +7,7 @@
 }
 
 .text {
-	@apply w-full py-1.5 pl-2 hover:cursor-grab;
+	@apply flex w-full flex-col justify-between py-1.5 pl-2 hover:cursor-grab;
 }
 
 .title {
@@ -22,12 +22,12 @@
 	@apply italic text-muted;
 }
 
-.completed {
-	@apply flex items-center;
+.controls {
+	@apply flex flex-col justify-between gap-y-1.5 py-1.5 pr-1.5;
 }
 
-.controls {
-	@apply relative flex flex-col gap-y-2 py-1.5 pr-1;
+.control {
+	@apply rounded-md transition-colors hover:bg-muted/10;
 }
 
 .overlay {

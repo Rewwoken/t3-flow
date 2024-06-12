@@ -38,7 +38,7 @@ export function useCreateTask(params?: IUseCreateTaskParams) {
 			const taskGroups = await taskService.getAllGrouped();
 			const toGroup = taskGroups[getTaskGroupId(data)];
 
-			// If the column in empty, create the
+			// If the column is empty, create the
 			// task as the first task in the column
 			if (toGroup.length === 0) {
 				return taskService.create({

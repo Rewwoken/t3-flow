@@ -10,14 +10,14 @@ const config: Config = {
 	theme: {
 		extend: {
 			colors: {
-				primary: 'rgba(var(--primary-color))',
-				secondary: 'rgba(var(--secondary-color))',
-				muted: 'rgba(var(--muted-color))',
-				accent: 'rgba(var(--accent-color))',
-				background: 'rgba(var(--background-color))',
-				text: 'rgba(var(--text-color))',
-				border: 'rgba(var(--botder-color))',
-				danger: 'rgba(var(--danger-color))',
+				primary: 'rgba(var(--primary))',
+				secondary: 'rgba(var(--secondary))',
+				muted: 'rgba(var(--muted))',
+				accent: 'rgba(var(--accent))',
+				background: 'rgba(var(--background))',
+				foreground: 'rgba(var(--foreground))',
+				border: 'rgba(var(--border))',
+				danger: 'rgba(var(--danger))',
 			},
 		},
 	},

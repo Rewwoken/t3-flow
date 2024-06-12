@@ -24,8 +24,8 @@ export const HeaderButtons = () => {
 
 	return (
 		<ul className='absolute right-12 flex items-center gap-x-4'>
-			<li className='flex size-12 items-center justify-center rounded-sm bg-accent text-4xl'>
-				{<span>{data?.name?.charAt(0) || 'A'}</span>}
+			<li className='flex size-12 items-center justify-center rounded-sm bg-primary text-4xl'>
+				<span className='text-background'>{data?.name?.charAt(0) || 'A'}</span>
 			</li>
 			<li className='flex flex-col justify-center'>
 				<span className='font-semibold'>{data?.name || 'Anonymous'}</span>

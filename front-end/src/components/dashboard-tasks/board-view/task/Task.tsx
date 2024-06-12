@@ -1,8 +1,8 @@
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import clsx from 'clsx';
 import React from 'react';
-import { TaskControls } from '@/components/dashboard-tasks/board-view/task/TaskControls';
 import { TaskStatus } from '@/components/dashboard-tasks/board-view/task/TaskStatus';
+import { TaskControls } from '@/components/dashboard-tasks/board-view/task/task-controls/TaskControls';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 import type { IGetTaskResponse } from '@/types/task.service';
 
@@ -15,9 +15,9 @@ const TaskComponent = ({ task, listeners }: ITaskProps) => (
 		<div
 			{...listeners}
 			className={clsx(s.priority, {
-				'bg-red-500': task.priority === 'high',
-				'bg-orange-500': task.priority === 'medium',
-				'bg-green-500': task.priority === 'low',
+				'bg-rose-500 dark:bg-rose-700': task.priority === 'high',
+				'bg-amber-400 dark:bg-amber-600': task.priority === 'medium',
+				'bg-emerald-500 dark:bg-emerald-600': task.priority === 'low',
 				'bg-transparent': task.isCompleted,
 			})}
 		></div>

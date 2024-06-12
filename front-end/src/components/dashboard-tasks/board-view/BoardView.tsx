@@ -37,7 +37,7 @@ export const BoardView = () => {
 			<p className='mb-4 text-xl'>
 				Today is {format(now, 'eeee, MMMM d, yyyy')}
 			</p>
-			<ul className='flex h-full'>
+			<ul className='flex h-full overflow-y-hidden overflow-x-scroll'>
 				<DndContext
 					sensors={sensors}
 					collisionDetection={rectIntersection}

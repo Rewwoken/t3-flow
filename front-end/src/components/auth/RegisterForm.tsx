@@ -10,7 +10,6 @@ import { SubmitButton } from '@/components/ui/SubmitButton';
 import { AUTH } from '@/constants/routes.constants';
 import type { IRegisterFields } from '@/types/auth.types';
 
-
 export const RegisterForm = () => {
 	const {
 		register,

@@ -12,7 +12,7 @@ export const Header = () => {
 					href={DASHBOARD.ROOT}
 					className='flex items-center gap-2'
 				>
-					<Logo className='size-14 fill-text' />
+					<Logo className='size-14 fill-foreground' />
 					<span className='text-2xl'>{WEBSITE_NAME}</span>
 				</Link>
 			</h1>

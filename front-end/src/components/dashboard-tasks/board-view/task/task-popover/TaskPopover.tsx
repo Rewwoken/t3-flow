@@ -5,8 +5,8 @@ import { format, isValid } from 'date-fns';
 import { useForm } from 'react-hook-form';
 import { useOutside } from '@/hooks/useOutside';
 import { useRankedUpdate } from '@/components/dashboard-tasks/hooks/useRankedUpdate';
-import s from '@/components/dashboard-tasks/task-popover/task-popover.module.css';
-import * as v from '@/components/dashboard-tasks/task-popover/task-popover.validation';
+import s from '@/components/dashboard-tasks/board-view/task/task-popover/task-popover.module.css';
+import * as v from '@/components/dashboard-tasks/board-view/task/task-popover/task-popover.validation';
 import { FieldWrapper } from '@/components/ui/FieldWrapper';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import { IGetTaskResponse } from '@/types/task.service';
@@ -18,6 +18,7 @@ interface ITaskPopoverProps {
 	task: IGetTaskResponse;
 	closePopover: () => void;
 }
+// TODO: fix x & y positioning, add animation, move logic to custom hook,
 export const TaskPopover = ({
 	x,
 	y,
@@ -54,9 +55,12 @@ export const TaskPopover = ({
 		const dueDate = new Date(dueDay + 'T' + dueTime);
 
 		if (!isValid(dueDate)) {
-			rankedUpdate({ task, data: { ...data, dueDate: null } });
+			rankedUpdate({ task, dataToUpdate: { ...data, dueDate: null } });
 		} else {
-			rankedUpdate({ task, data: { ...data, dueDate: dueDate.toISOString() } });
+			rankedUpdate({
+				task,
+				dataToUpdate: { ...data, dueDate: dueDate.toISOString() },
+			});
 		}
 
 		closePopover();
@@ -69,7 +73,7 @@ export const TaskPopover = ({
 				top: yDirection === 'top' ? -120 : 85, // TODO: update
 				right: xDirection === 'right' ? -195 : 25,
 			}}
-			className='absolute z-50 border bg-secondary p-1'
+			className={s.popover}
 		>
 			<h3 className={s.heading}>Update task</h3>
 			<form

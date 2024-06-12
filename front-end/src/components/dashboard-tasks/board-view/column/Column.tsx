@@ -9,7 +9,7 @@ import React from 'react';
 import { useColumn } from '@/components/dashboard-tasks/hooks/useColumn';
 import s from '@/components/dashboard-tasks/board-view/column/column.module.css';
 import { SortableTask } from '@/components/dashboard-tasks/board-view/task/SortableTask';
-import { CreateTaskModal } from '@/components/dashboard-tasks/task-modal/CreateTaskModal';
+import { CreateTaskModal } from '@/components/dashboard-tasks/board-view/task/task-modal/CreateTaskModal';
 import type { IGetTaskResponse } from '@/types/task.service';
 import type { IColumnData } from '@/types/tasks.types';
 
@@ -34,6 +34,7 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 					</h3>
 					<button
 						type='button'
+						title='Open create task modal'
 						onClick={() => setShowModal(true)}
 					>
 						<Plus
@@ -46,7 +47,7 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 					items={ids}
 					strategy={verticalListSortingStrategy}
 				>
-					<ul
+					<ol
 						className={s.list}
 						ref={listRef}
 					>
@@ -59,13 +60,15 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 							/>
 						))}
 						<button
+							type='button'
 							onClick={() => setShowModal(true)}
 							disabled={showModal}
 							className={s.add}
+							title='Open create task modal'
 						>
 							+ Add Task
 						</button>
-					</ul>
+					</ol>
 				</SortableContext>
 			</li>
 			{showModal && (

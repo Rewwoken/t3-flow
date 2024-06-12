@@ -20,10 +20,7 @@ export const getDueDate: Record<TTaskGroupId, string | null> = {
 	completed: null, // Should only be used in createTaskModal defaultValue
 };
 
-export const changeDueDate = (
-	date: string | null,
-	groupId: TTaskGroupId,
-) => {
+export const changeDueDate = (date: string | null, groupId: TTaskGroupId) => {
 	if (date === null) return getDueDate[groupId];
 
 	if (groupId === 'completed') return date;
