@@ -29,3 +29,6 @@ export interface ICreateTaskFields {
 	dueTime: string;
 	isCompleted: boolean;
 }
+
+export interface IUpdateTaskFields
+	extends Omit<ICreateTaskFields, 'isCompleted'> {}

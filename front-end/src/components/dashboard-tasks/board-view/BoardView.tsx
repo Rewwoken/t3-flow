@@ -20,12 +20,7 @@ export const BoardView = () => {
 	const { taskGroups, active, handleDragStart, handleDragOver, handleDragEnd } =
 		useDragTasks();
 
-	const mouseSensor = useSensor(MouseSensor, {
-		activationConstraint: {
-			delay: 0,
-			tolerance: 0,
-		},
-	});
+	const mouseSensor = useSensor(MouseSensor);
 
 	const touchSensor = useSensor(TouchSensor, {
 		// Press delay of 200ms, with tolerance of 5px of movement

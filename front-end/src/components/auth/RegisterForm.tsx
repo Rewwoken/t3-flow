@@ -10,9 +10,16 @@ import { SubmitButton } from '@/components/ui/SubmitButton';
 import { AUTH } from '@/constants/routes.constants';
 import type { IRegisterFields } from '@/types/auth.types';
 
+
 export const RegisterForm = () => {
-	const { register, isValid, formErrors, onSubmit, isPending, formMessage } =
-		useAuth<IRegisterFields>('register');
+	const {
+		register,
+		isValidForm,
+		formErrors,
+		onSubmit,
+		isPending,
+		formMessage,
+	} = useAuth<IRegisterFields>('register');
 
 	return (
 		<div className={s.wrapper}>
@@ -71,7 +78,7 @@ export const RegisterForm = () => {
 				{/* TODO: add password confirmation */}
 				{formMessage && <span className={s.message}>{formMessage}</span>}
 				<SubmitButton
-					isValid={isValid}
+					isValid={isValidForm}
 					isPending={isPending}
 				>
 					Register

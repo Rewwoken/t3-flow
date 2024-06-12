@@ -11,8 +11,14 @@ import { AUTH } from '@/constants/routes.constants';
 import type { ILoginFields } from '@/types/auth.types';
 
 export const LoginForm = () => {
-	const { register, isValid, formErrors, onSubmit, isPending, formMessage } =
-		useAuth<ILoginFields>('login');
+	const {
+		register,
+		isValidForm,
+		formErrors,
+		onSubmit,
+		isPending,
+		formMessage,
+	} = useAuth<ILoginFields>('login');
 
 	return (
 		<div className={s.wrapper}>
@@ -55,7 +61,7 @@ export const LoginForm = () => {
 				</FieldWrapper>
 				{formMessage && <span className={s.message}>{formMessage}</span>}
 				<SubmitButton
-					isValid={isValid}
+					isValid={isValidForm}
 					isPending={isPending}
 				>
 					Login

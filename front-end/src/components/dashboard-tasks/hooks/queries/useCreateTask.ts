@@ -27,7 +27,6 @@ interface IUseCreateTaskParams {
  */
 export function useCreateTask(params?: IUseCreateTaskParams) {
 	const queryClient = useQueryClient();
-	const { taskGroups } = useTaskGroups();
 
 	const result = useMutation<
 		ICreateTaskDataResponse,
@@ -35,12 +34,13 @@ export function useCreateTask(params?: IUseCreateTaskParams) {
 		Omit<ICreateTaskData, 'rank'>
 	>({
 		mutationKey: KEYS.CREATE_TASK,
-		mutationFn: (data: Omit<ICreateTaskData, 'rank'>) => {
-			const column = taskGroups[getTaskGroupId(data)];
+		mutationFn: async (data: Omit<ICreateTaskData, 'rank'>) => {
+			const taskGroups = await taskService.getAllGrouped();
+			const toGroup = taskGroups[getTaskGroupId(data)];
 
-			// If the column in empty, create the task
-			// as the first task in the column
-			if (column.length === 0) {
+			// If the column in empty, create the
+			// task as the first task in the column
+			if (toGroup.length === 0) {
 				return taskService.create({
 					...data,
 					rank: genRank(undefined, undefined) as string,
@@ -48,7 +48,7 @@ export function useCreateTask(params?: IUseCreateTaskParams) {
 			}
 
 			// Create new task as the last task in the group
-			const prevRank = column[column.length - 1].rank;
+			const prevRank = toGroup[toGroup.length - 1].rank;
 
 			return taskService.create({
 				...data,
@@ -58,7 +58,7 @@ export function useCreateTask(params?: IUseCreateTaskParams) {
 		onSuccess: () => {
 			if (params?.invalidate) {
 				queryClient.invalidateQueries({
-					queryKey: KEYS.GET_TASKS,
+					queryKey: KEYS.GET_TASK_GROUPS,
 				});
 			}
 		},

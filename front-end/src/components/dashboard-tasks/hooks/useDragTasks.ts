@@ -7,9 +7,9 @@ import type {
 } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import React from 'react';
+import { useUpdateTask } from '@/components/dashboard-tasks/hooks/queries/useUpdateTask';
 import { useTaskGroups } from '@/components/dashboard-tasks/hooks/useTaskGroups';
-import { useUpdateTask } from '@/components/dashboard-tasks/hooks/useUpdateTask';
-import { getDueDate } from '@/components/dashboard-tasks/utils/getDueDate';
+import { changeDueDate } from '@/components/dashboard-tasks/utils/dueDate';
 import { getNewTaskRank } from '@/components/dashboard-tasks/utils/getTaskRank';
 import type { IGetTaskResponse } from '@/types/task.service';
 import type { IStartPositionRef, TTaskGroupId } from '@/types/tasks.types';
@@ -57,7 +57,7 @@ export function useDragTasks() {
 
 		const updatedTask = {
 			...currentActive?.task,
-			dueDate: getDueDate[overColId],
+			dueDate: changeDueDate(currentActive?.task.dueDate, overColId),
 			isCompleted: overColId === 'completed',
 		};
 

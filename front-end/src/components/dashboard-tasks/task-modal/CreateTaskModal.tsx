@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { formatRelative, isValid } from 'date-fns';
 import { X } from 'lucide-react';
+import { createPortal } from 'react-dom';
 import { useCreateTaskModal } from '@/components/dashboard-tasks/task-modal/hooks/useCreateTaskModal';
 import * as v from '@/components/dashboard-tasks/task-modal/create-task.validation';
 import s from '@/components/dashboard-tasks/task-modal/task-modal.module.css';
@@ -10,14 +11,25 @@ import type { TTaskGroupId } from '@/types/tasks.types';
 
 const now = new Date();
 
-interface ICreateTaskModal {
+interface ICreateTaskModalProps {
 	colId: TTaskGroupId;
-	onClose: () => void;
+	closeModal: () => void;
 }
-export const CreateTaskModal = ({ colId, onClose }: ICreateTaskModal) => {
-	const { modalRef, onSubmit, register, errors, dueDate } = useCreateTaskModal({
+const CreateTaskModalComponent = ({
+	colId,
+	closeModal,
+}: ICreateTaskModalProps) => {
+	const {
+		modalRef,
+		onSubmit,
+		register,
+		isValidForm,
+		errors,
+		isPending,
+		dueDate,
+	} = useCreateTaskModal({
 		colId,
-		onClose,
+		closeModal,
 	});
 
 	return (
@@ -27,7 +39,7 @@ export const CreateTaskModal = ({ colId, onClose }: ICreateTaskModal) => {
 		>
 			<header className={s.heading}>
 				<h3 className='text-2xl'>Task creation</h3>
-				<button onClick={onClose}>
+				<button onClick={closeModal}>
 					<X
 						size={27}
 						className='stroke-text/50'
@@ -120,12 +132,27 @@ export const CreateTaskModal = ({ colId, onClose }: ICreateTaskModal) => {
 					)}
 				</div>
 				<SubmitButton
-					isValid={!Object.keys(errors).length}
-					isPending={false}
+					isValid={isValidForm}
+					isPending={isPending}
 				>
 					Create
 				</SubmitButton>
 			</form>
 		</div>
+	);
+};
+
+export const CreateTaskModal = ({
+	colId,
+	closeModal,
+}: ICreateTaskModalProps) => {
+	return createPortal(
+		<div className={s.dimmed}>
+			<CreateTaskModalComponent
+				colId={colId}
+				closeModal={closeModal}
+			/>
+		</div>,
+		document.body,
 	);
 };

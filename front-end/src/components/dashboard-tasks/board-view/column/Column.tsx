@@ -10,7 +10,6 @@ import { useColumn } from '@/components/dashboard-tasks/hooks/useColumn';
 import s from '@/components/dashboard-tasks/board-view/column/column.module.css';
 import { SortableTask } from '@/components/dashboard-tasks/board-view/task/SortableTask';
 import { CreateTaskModal } from '@/components/dashboard-tasks/task-modal/CreateTaskModal';
-import { ModalWrapper } from '@/components/ui/ModalWrapper';
 import type { IGetTaskResponse } from '@/types/task.service';
 import type { IColumnData } from '@/types/tasks.types';
 
@@ -18,7 +17,9 @@ interface IColumnProps extends IColumnData {
 	tasks: IGetTaskResponse[];
 }
 const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
-	const { listRef, showModal, setShowModal, ids } = useColumn({
+	const [showModal, setShowModal] = React.useState(false);
+
+	const { listRef, ids } = useColumn({
 		id,
 		tasks,
 	});
@@ -68,12 +69,10 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 				</SortableContext>
 			</li>
 			{showModal && (
-				<ModalWrapper>
-					<CreateTaskModal
-						colId={id}
-						onClose={() => setShowModal(false)}
-					/>
-				</ModalWrapper>
+				<CreateTaskModal
+					colId={id}
+					closeModal={() => setShowModal(false)}
+				/>
 			)}
 		</>
 	);

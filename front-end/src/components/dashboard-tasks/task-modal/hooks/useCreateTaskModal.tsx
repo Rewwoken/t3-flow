@@ -3,20 +3,20 @@
 import { format, isValid } from 'date-fns';
 import { useForm } from 'react-hook-form';
 import { useOutside } from '@/hooks/useOutside';
-import { useCreateTask } from '@/components/dashboard-tasks/hooks/useCreateTask';
-import { getDueDate } from '@/components/dashboard-tasks/utils/getDueDate';
+import { useCreateTask } from '@/components/dashboard-tasks/hooks/queries/useCreateTask';
+import { getDueDate } from '@/components/dashboard-tasks/utils/dueDate';
 import type { ICreateTaskFields, TTaskGroupId } from '@/types/tasks.types';
 
 interface IUseCreateTaskModalParams {
 	colId: TTaskGroupId;
-	onClose: () => void;
+	closeModal: () => void;
 }
 /**
  * A custom hook to manage the creation of a task in a modal.
  *
  * @param    {Object} params - An object with the following properties:
  * @property {string} colId - The ID of the column where the task will be created.
- * @property {function} onClose - A function to close the modal.
+ * @property {function} closeModal - A function to close the modal.
  *
  * @returns  {Object} - An object with the following properties:
  * @property {function} modalRef - A reference returned by the useOutside hook.
@@ -27,17 +27,17 @@ interface IUseCreateTaskModalParams {
  */
 export function useCreateTaskModal({
 	colId,
-	onClose,
+	closeModal,
 }: IUseCreateTaskModalParams) {
-	const { mutate: createTask } = useCreateTask({ invalidate: true });
-	const { ref } = useOutside(onClose);
+	const { mutate: createTask, isPending } = useCreateTask({ invalidate: true });
+	const { ref } = useOutside(closeModal);
 
 	const defaultDueDate = getDueDate[colId];
 
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isValid: isValidForm },
 		watch,
 	} = useForm<ICreateTaskFields>({
 		mode: 'onChange',
@@ -65,14 +65,16 @@ export function useCreateTaskModal({
 			});
 		}
 
-		onClose();
+		closeModal();
 	};
 
 	return {
 		modalRef: ref,
 		onSubmit: handleSubmit(onSubmit),
+		isValidForm,
 		errors,
 		register,
+		isPending,
 		dueDate,
 	};
 }

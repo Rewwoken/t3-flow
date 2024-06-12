@@ -3,10 +3,9 @@ import { CalendarDays } from 'lucide-react';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 
 interface ITaskStatusProps {
-	isCompleted: boolean;
 	dueDate: string | null;
 }
-export const TaskStatus = ({ isCompleted, dueDate }: ITaskStatusProps) => {
+export const TaskStatus = ({ dueDate }: ITaskStatusProps) => {
 	if (dueDate === null) {
 		return <span className={s.dateless}>No due date...</span>;
 	}
@@ -18,7 +17,7 @@ export const TaskStatus = ({ isCompleted, dueDate }: ITaskStatusProps) => {
 					className='stroke-muted'
 					size={19}
 				/>
-				{format(dueDate, 'eeee, LLL d h:mm b')}
+				{format(dueDate, 'eeee, LLL d h:mm a')}
 			</span>
 		);
 

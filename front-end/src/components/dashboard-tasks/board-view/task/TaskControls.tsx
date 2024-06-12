@@ -1,12 +1,27 @@
-import { PencilLine, X } from 'lucide-react';
-import { useDeleteTask } from '@/components/dashboard-tasks/hooks/useDeleteTask';
-import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
+'use client';
 
-interface ITaskControlsProps {
-	taskId: string;
+import { PencilLine, X } from 'lucide-react';
+import React from 'react';
+import { useDeleteTask } from '@/components/dashboard-tasks/hooks/queries/useDeleteTask';
+import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
+import { TaskPopover } from '@/components/dashboard-tasks/task-popover/TaskPopover';
+import { IGetTaskResponse } from '@/types/task.service';
+
+interface IPopover {
+	x: number | null;
+	y: number | null;
+	isVisible: boolean;
 }
-export const TaskControls = ({ taskId }: ITaskControlsProps) => {
+interface ITaskControlsProps {
+	task: IGetTaskResponse;
+}
+export const TaskControls = ({ task }: ITaskControlsProps) => {
 	const { mutate: deleteTask } = useDeleteTask();
+	const [popover, setPopover] = React.useState<IPopover>({
+		x: null,
+		y: null,
+		isVisible: false,
+	});
 
 	const onDelete = () => {
 		// TODO: add confirm toggle
@@ -14,15 +29,21 @@ export const TaskControls = ({ taskId }: ITaskControlsProps) => {
 			return null;
 		}
 
-		deleteTask({ id: taskId });
+		deleteTask({ id: task.id });
 	};
 
-	const onUpdate = () => {
-		console.log('update');
+	const showPopover = (e: React.MouseEvent) => {
+		const { pageX, pageY } = e;
+
+		setPopover({ x: pageX, y: pageY, isVisible: true });
+	};
+
+	const closePopover = () => {
+		setPopover({ x: null, y: null, isVisible: false });
 	};
 
 	return (
-		<ul className={s.controls}>
+		<div className={s.controls}>
 			<button
 				type='button'
 				className={s.delete}
@@ -37,16 +58,22 @@ export const TaskControls = ({ taskId }: ITaskControlsProps) => {
 			<button
 				type='button'
 				className={s.update}
-				title='Update this task'
-				onClick={onUpdate}
+				title='Show update popover'
+				onClick={showPopover}
 			>
 				<PencilLine
 					strokeWidth={1.5}
 					className='stroke-muted'
 				/>
 			</button>
-		</ul>
+			{popover.isVisible && (
+				<TaskPopover
+					x={popover.x}
+					y={popover.y}
+					task={task}
+					closePopover={closePopover}
+				/>
+			)}
+		</div>
 	);
 };
-
-// export const TaskControls = React.memo(TaskControlsComponent);

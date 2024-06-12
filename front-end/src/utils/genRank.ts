@@ -48,6 +48,4 @@ export const genRank = (
 	} catch (err) {
 		return undefined; // TODO: improve error handling
 	}
-
-	return undefined;
 };

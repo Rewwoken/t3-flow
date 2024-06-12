@@ -20,7 +20,7 @@ export function useAuth<IFields extends ILoginFields | IRegisterFields>(
 		register,
 		handleSubmit,
 		reset,
-		formState: { errors },
+		formState: { errors, isValid: isValidForm },
 	} = useForm<IFields>({ mode: 'onBlur' });
 
 	const router = useRouter();
@@ -45,7 +45,7 @@ export function useAuth<IFields extends ILoginFields | IRegisterFields>(
 
 	return {
 		register,
-		isValid: !Object.keys(errors).length,
+		isValidForm,
 		formErrors: errors,
 		onSubmit,
 		isPending,

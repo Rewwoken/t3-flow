@@ -27,12 +27,9 @@ const TaskComponent = ({ task, listeners }: ITaskProps) => (
 		>
 			<h4 className={s.title}>{task.name}</h4>
 			<p>Priority:&nbsp;{task.priority}</p>
-			<TaskStatus
-				isCompleted={task.isCompleted}
-				dueDate={task.dueDate}
-			/>
+			<TaskStatus dueDate={task.dueDate} />
 		</article>
-		<TaskControls taskId={task.id} />
+		<TaskControls task={task} />
 	</>
 );
 

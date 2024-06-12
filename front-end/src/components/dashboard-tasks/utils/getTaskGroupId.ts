@@ -13,10 +13,11 @@ import type { TTaskGroupId } from '@/types/tasks.types';
  * @param {string | null} task.dueDate - The due date of the task in ISO string format.
  * @return {TTaskGroupId} The task group ID.
  */
-export const getTaskGroupId = (task: {
-	isCompleted: boolean;
-	dueDate: string | null;
-}): TTaskGroupId => {
+export const getTaskGroupId = <
+	TaskLike extends { isCompleted: boolean; dueDate: string | null },
+>(
+	task: TaskLike,
+): TTaskGroupId => {
 	const now = new Date();
 
 	if (task.isCompleted) return 'completed';

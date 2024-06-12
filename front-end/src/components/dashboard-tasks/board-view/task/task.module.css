@@ -27,7 +27,7 @@
 }
 
 .controls {
-	@apply flex flex-col gap-y-2 py-1.5 pr-1;
+	@apply relative flex flex-col gap-y-2 py-1.5 pr-1;
 }
 
 .overlay {
@@ -38,6 +38,6 @@
 	@apply animate-pulse border-transparent bg-muted/20 hover:cursor-grabbing;
 }
 
-.skeleton > * {
+.skeleton * {
 	@apply opacity-0;
 }
