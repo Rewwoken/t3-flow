@@ -21,7 +21,7 @@ export function useAuth<IFields extends ILoginFields | IRegisterFields>(
 		handleSubmit,
 		reset,
 		formState: { errors, isValid: isValidForm },
-	} = useForm<IFields>({ mode: 'onBlur' });
+	} = useForm<IFields>({ mode: 'onChange' });
 
 	const router = useRouter();
 

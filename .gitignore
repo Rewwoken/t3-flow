@@ -93,7 +93,7 @@ front-end/yarn-debug.log*
 front-end/yarn-error.log*
 
 # local env files
-front-end/.env*.local
+front-end/.env
 
 # vercel
 front-end/.vercel

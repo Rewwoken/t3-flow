@@ -1,5 +1,6 @@
 'use client';
 
+import clsx from 'clsx';
 import Link from 'next/link';
 import { useAuth } from '@/components/auth/hooks/useAuth';
 import s from '@/components/auth/auth.module.css';
@@ -40,8 +41,10 @@ export const LoginForm = () => {
 						type='email'
 						autoComplete='email'
 						placeholder='a.langley@gmail.com'
-						className={s.input}
 						{...register('email', v.email)}
+						className={clsx(s.input, {
+							'border-danger': !!formErrors.email?.message,
+						})}
 					/>
 				</FieldWrapper>
 				<FieldWrapper
@@ -55,8 +58,10 @@ export const LoginForm = () => {
 						type='password'
 						autoComplete='current-password'
 						placeholder='********'
-						className={s.input}
 						{...register('password', { required: 'Password is required!' })}
+						className={clsx(s.input, {
+							'border-danger': !!formErrors.password?.message,
+						})}
 					/>
 				</FieldWrapper>
 				{formMessage && <span className={s.message}>{formMessage}</span>}

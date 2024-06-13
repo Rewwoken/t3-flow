@@ -1,88 +1,42 @@
 'use client';
 
 import clsx from 'clsx';
-import { format, isValid } from 'date-fns';
-import { useForm } from 'react-hook-form';
-import { useOutside } from '@/hooks/useOutside';
-import { useRankedUpdate } from '@/components/dashboard-tasks/hooks/useRankedUpdate';
+import { useTaskPopover } from '@/components/dashboard-tasks/board-view/task/task-popover/hooks/useTaskPopover';
 import s from '@/components/dashboard-tasks/board-view/task/task-popover/task-popover.module.css';
 import * as v from '@/components/dashboard-tasks/board-view/task/task-popover/task-popover.validation';
 import { FieldWrapper } from '@/components/ui/FieldWrapper';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import { IGetTaskResponse } from '@/types/task.service';
-import { IUpdateTaskFields } from '@/types/tasks.types';
 
 interface ITaskPopoverProps {
-	x: number | null;
-	y: number | null;
+	x: number;
+	y: number;
 	task: IGetTaskResponse;
 	closePopover: () => void;
 }
-// TODO: fix x & y positioning, add animation, move logic to custom hook,
 export const TaskPopover = ({
 	x,
 	y,
 	task,
 	closePopover,
 }: ITaskPopoverProps) => {
-	const { rankedUpdate } = useRankedUpdate();
-	const { ref } = useOutside(closePopover);
-	const {
-		register,
-		formState: { errors },
-		handleSubmit,
-	} = useForm<IUpdateTaskFields>({
-		mode: 'onChange',
-		defaultValues: {
-			name: task.name,
-			priority: task.priority,
-			dueDay: task.dueDate ? format(task.dueDate, 'yyyy-MM-dd') : undefined,
-			dueTime: task.dueDate ? format(task.dueDate, 'hh:mm') : undefined,
-		},
-	});
-
-	if (x === null || y === null) return null; // Should not happen
-
-	const screenWidth = document.body.clientWidth;
-	const screenHeight = document.body.clientHeight;
-
-	const xDirection = x > screenWidth * 0.75 ? 'left' : 'right';
-	const yDirection = y < screenHeight / 2 ? 'bottom' : 'top';
-
-	const onSubmit = (values: IUpdateTaskFields) => {
-		const { dueDay, dueTime, ...data } = values;
-
-		const dueDate = new Date(dueDay + 'T' + dueTime);
-
-		if (!isValid(dueDate)) {
-			rankedUpdate({ task, dataToUpdate: { ...data, dueDate: null } });
-		} else {
-			rankedUpdate({
-				task,
-				dataToUpdate: { ...data, dueDate: dueDate.toISOString() },
-			});
-		}
-
-		closePopover();
-	};
+	const { popoverRef, positionStyles, onSubmit, formErrors, register } =
+		useTaskPopover({ task, x, y, closePopover });
 
 	return (
 		<div
-			ref={ref}
-			style={{
-				top: yDirection === 'top' ? -120 : 85, // TODO: update
-				right: xDirection === 'right' ? -195 : 25,
-			}}
+			ref={popoverRef}
+			style={positionStyles}
 			className={s.popover}
 		>
 			<h3 className={s.heading}>Update task</h3>
 			<form
-				onSubmit={handleSubmit(onSubmit)}
+				onSubmit={onSubmit}
 				className={s.form}
 			>
 				<FieldWrapper
 					label='Task name'
-					error={errors.name?.message}
+					error={formErrors.name?.message}
 					htmlFor='name-input'
 					className={s.label}
 				>
@@ -94,13 +48,13 @@ export const TaskPopover = ({
 						placeholder='Your task name...'
 						{...register('name', v.name)}
 						className={clsx(s.field, {
-							[s.invalid]: !!errors.name?.message,
+							[s.invalid]: !!formErrors.name?.message,
 						})}
 					/>
 				</FieldWrapper>
 				<FieldWrapper
 					label='Task priority'
-					error={errors.priority?.message}
+					error={formErrors.priority?.message}
 					htmlFor='priority-select'
 					className={s.label}
 				>
@@ -116,7 +70,7 @@ export const TaskPopover = ({
 				</FieldWrapper>
 				<FieldWrapper
 					label='Due day'
-					error={errors.dueDay?.message}
+					error={formErrors.dueDay?.message}
 					htmlFor='day-input'
 					className={s.label}
 				>
@@ -129,7 +83,7 @@ export const TaskPopover = ({
 				</FieldWrapper>
 				<FieldWrapper
 					label='Due time'
-					error={errors.dueTime?.message}
+					error={formErrors.dueTime?.message}
 					htmlFor='time-input'
 					className={s.label}
 				>

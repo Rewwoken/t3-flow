@@ -1,15 +1,15 @@
 'use client';
 
 import clsx from 'clsx';
-import { Pen, Pencil, PencilLine } from 'lucide-react';
+import { Pencil, PencilLine } from 'lucide-react';
 import React from 'react';
 import { TaskPopover } from '@/components/dashboard-tasks/board-view/task/task-popover/TaskPopover';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 import { IGetTaskResponse } from '@/types/task.service';
 
 interface IPopover {
-	x: number | null;
-	y: number | null;
+	x: number;
+	y: number;
 	isVisible: boolean;
 }
 
@@ -18,8 +18,8 @@ interface ITaskUpdateProps {
 }
 export const TaskUpdate = ({ task }: ITaskUpdateProps) => {
 	const [popover, setPopover] = React.useState<IPopover>({
-		x: null,
-		y: null,
+		x: 0,
+		y: 0,
 		isVisible: false,
 	});
 
@@ -30,7 +30,7 @@ export const TaskUpdate = ({ task }: ITaskUpdateProps) => {
 	};
 
 	const closePopover = () => {
-		setPopover({ x: null, y: null, isVisible: false });
+		setPopover({ x: 0, y: 0, isVisible: false });
 	};
 
 	return (
