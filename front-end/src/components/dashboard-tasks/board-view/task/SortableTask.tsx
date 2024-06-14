@@ -5,7 +5,7 @@ import React from 'react';
 import { Task } from '@/components/dashboard-tasks/board-view/task/Task';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 import type { IGetTaskResponse } from '@/types/task.service';
-import type { TTaskGroupId } from '@/types/tasks.types';
+import type { TTaskGroupId } from '@/types/task.types';
 
 interface ISortableItemProps {
 	colId: TTaskGroupId;

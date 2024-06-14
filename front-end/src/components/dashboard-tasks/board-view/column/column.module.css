@@ -15,5 +15,5 @@
 }
 
 .add {
-	@apply ml-2 text-left text-muted hover:underline;
+	@apply ml-2 select-none text-left text-muted hover:underline;
 }

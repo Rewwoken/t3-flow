@@ -7,11 +7,11 @@
 }
 
 .form {
-	@apply mt-2 flex flex-col gap-y-3 rounded-sm border p-4 shadow-md w-[275px];
+	@apply mt-2 flex w-[275px] flex-col gap-y-3 rounded-sm border p-4 shadow-md;
 }
 
 .input {
-	@apply rounded-sm border p-1 outline-none focus:outline-accent w-full;
+	@apply w-full rounded-sm border p-1 outline-none focus:outline-accent;
 }
 
 .message {

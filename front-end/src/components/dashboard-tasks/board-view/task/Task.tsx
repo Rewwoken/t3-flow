@@ -18,7 +18,6 @@ const TaskComponent = ({ task, listeners }: ITaskProps) => (
 				'bg-rose-500 dark:bg-rose-700': task.priority === 'high',
 				'bg-amber-400 dark:bg-amber-600': task.priority === 'medium',
 				'bg-emerald-500 dark:bg-emerald-600': task.priority === 'low',
-				'bg-transparent': task.isCompleted,
 			})}
 		></div>
 		<article

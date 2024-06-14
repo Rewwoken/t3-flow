@@ -10,16 +10,12 @@ export class TokenService {
 		return accessToken || null;
 	}
 
-	saveTokenInStorage(accessToken: string) {
+	saveAccessTokenInCookies(accessToken: string) {
 		Cookies.set(this.ACCESS_TOKEN_NAME, accessToken, {
 			domain: process.env.NEXT_PUBLIC_DOMAIN,
 			sameSite: 'strict',
 			expires: 1,
 		});
-	}
-
-	removeFromStorage() {
-		Cookies.remove(this.ACCESS_TOKEN_NAME);
 	}
 }
 

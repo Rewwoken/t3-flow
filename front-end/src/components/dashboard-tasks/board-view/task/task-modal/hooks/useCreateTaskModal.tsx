@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useOutside } from '@/hooks/useOutside';
 import { useCreateTask } from '@/components/dashboard-tasks/hooks/queries/useCreateTask';
 import { getDueDate } from '@/components/dashboard-tasks/utils/dueDate';
-import type { ICreateTaskFields, TTaskGroupId } from '@/types/tasks.types';
+import type { ICreateTaskFields, TTaskGroupId } from '@/types/task.types';
 
 interface IUseCreateTaskModalParams {
 	colId: TTaskGroupId;

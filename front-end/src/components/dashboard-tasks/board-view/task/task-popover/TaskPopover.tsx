@@ -7,21 +7,20 @@ import * as v from '@/components/dashboard-tasks/board-view/task/task-popover/ta
 import { FieldWrapper } from '@/components/ui/FieldWrapper';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import { IGetTaskResponse } from '@/types/task.service';
+import { IPopover } from '@/types/task.types';
 
 interface ITaskPopoverProps {
-	x: number;
-	y: number;
+	popover: IPopover;
 	task: IGetTaskResponse;
 	closePopover: () => void;
 }
 export const TaskPopover = ({
-	x,
-	y,
+	popover,
 	task,
 	closePopover,
 }: ITaskPopoverProps) => {
 	const { popoverRef, positionStyles, onSubmit, formErrors, register } =
-		useTaskPopover({ task, x, y, closePopover });
+		useTaskPopover({ task, popover, closePopover });
 
 	return (
 		<div

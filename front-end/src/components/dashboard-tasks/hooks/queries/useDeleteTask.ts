@@ -7,9 +7,10 @@ import type { IApiErrorResponse } from '@/types/api.types';
 import type { IDeleteTaskData } from '@/types/task.service';
 
 /**
- * A custom hook to delete a task.
+ * @name useDeleteTask
+ * @description Custom hook to delete a task and invalidate the  query cache.
  *
- * @returns An object with the result of the mutation.
+ * @returns {UseMutationResult} - An object with the result of the mutation.
  */
 export function useDeleteTask() {
 	const queryClient = useQueryClient();

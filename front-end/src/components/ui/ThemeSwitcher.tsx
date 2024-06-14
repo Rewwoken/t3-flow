@@ -1,6 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
@@ -26,21 +25,29 @@ export const ThemeSwitcher = ({
 
 	if (resolvedTheme === 'dark')
 		return (
-			<Moon
-				size={size}
-				strokeWidth={1}
+			<button
 				onClick={() => setTheme('light')}
-				className={clsx(className, 'cursor-pointer select-none')}
-			/>
+				className={className}
+			>
+				<Moon
+					size={size}
+					strokeWidth={1}
+					className='cursor-pointer select-none'
+				/>
+			</button>
 		);
 
 	if (resolvedTheme === 'light')
 		return (
-			<Sun
-				size={size}
-				strokeWidth={1}
+			<button
 				onClick={() => setTheme('dark')}
-				className={clsx(className, 'cursor-pointer select-none')}
-			/>
+				className={className}
+			>
+				<Sun
+					size={size}
+					strokeWidth={1}
+					className='cursor-pointer select-none'
+				/>
+			</button>
 		);
 };

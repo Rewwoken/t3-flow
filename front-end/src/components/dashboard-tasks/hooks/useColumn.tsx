@@ -3,21 +3,23 @@
 import { useDroppable } from '@dnd-kit/core';
 import React from 'react';
 import type { IGetTaskResponse } from '@/types/task.service';
+import { TTaskGroupId } from '@/types/task.types';
 
 interface IUseColumnParams {
-	id: string;
+	id: TTaskGroupId;
 	tasks: IGetTaskResponse[];
 }
 /**
- * A custom hook to manage a column of tasks.
+ * @name useColumn
+ * @description A custom hook to manage a column of tasks.
  *
  * @param {Object} params - An object with the following properties:
- * @param {string} params.id - The ID of the column.
- * @param {Array<Object>} params.tasks - An array of task objects.
+ * @param {TTaskGroupId} params.id - The ID of the column.
+ * @param {IGetTaskResponse[]} params.tasks - An array of this column's task objects.
  *
  * @returns {Object} - An object with the following properties:
- * @property {function} listRef - A function to mark the tasks list as droppable.
- * @property {Array<string>} ids - An array of memoized task IDs, should be passed to items prop of SortableContext.
+ * @param {function} listRef - A reference to mark the tasks list as droppable.
+ * @param {Array<string>} ids - An array of memoized task IDs, should be passed to items prop of SortableContext.
  */
 export function useColumn({ id, tasks }: IUseColumnParams) {
 	const { setNodeRef } = useDroppable({

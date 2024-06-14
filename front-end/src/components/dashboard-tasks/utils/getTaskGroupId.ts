@@ -1,17 +1,17 @@
 import { addWeeks, isBefore, isToday, isTomorrow, nextSunday } from 'date-fns';
-import type { TTaskGroupId } from '@/types/tasks.types';
+import type { TTaskGroupId } from '@/types/task.types';
 
 /**
  * ! The algorithm must be the same as on the backend.
  *
- * Returns the task group ID based on the task's completion status and due date.
- * The task group ID can be one of the following: 'completed', 'noDate', 'today', 'overdue',
- * 'tomorrow', 'theseTwoWeeks', or 'later'.
+ * @name getTaskGroupId
+ * @description A function that returns the task group ID based on the task's completion status and due date.
  *
  * @param {Object} task - The task object containing the completion status and due date.
  * @param {boolean} task.isCompleted - Indicates if the task is completed.
  * @param {string | null} task.dueDate - The due date of the task in ISO string format.
- * @return {TTaskGroupId} The task group ID.
+ *
+ * @returns {TTaskGroupId} The task group ID.
  */
 export const getTaskGroupId = <
 	TaskLike extends { isCompleted: boolean; dueDate: string | null },

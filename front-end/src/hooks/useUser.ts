@@ -7,13 +7,10 @@ import type { IApiErrorResponse } from '@/types/api.types';
 import type { IGetUserResponse } from '@/types/user.service.types';
 
 /**
- * Custom hook to fetch user information.
+ * @name useUser
+ * @description Custom hook to fetch user information.
  *
- * This hook uses `useQuery` from `@tanstack/react-query` to fetch the user information
- * from the `userService`. It provides an interface to retrieve the user data and handle
- * loading, error, and success states.
- *
- * @returns - The result of the query.
+ * @returns {UseQueryResult} - The result of the query.
  *
  * @example
  * const { data, error, isLoading } = useUser();

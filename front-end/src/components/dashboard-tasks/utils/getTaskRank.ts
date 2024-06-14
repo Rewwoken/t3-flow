@@ -1,11 +1,11 @@
 import { Active, Over } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { genRank } from '@/utils/genRank';
-import type { ITaskGroups, TTaskGroupId } from '@/types/tasks.types';
+import type { ITaskGroups, TTaskGroupId } from '@/types/task.types';
 
 /**
- * Returns the new rank for the active task
- * based on the active and over objects.
+ * @name getNewTaskRank
+ * @description A function that returns the new rank for the active task
  *
  * @param {Active} active - The `DragEnd` active task object.
  * @param {Over} over - The `DragEnd` over object.

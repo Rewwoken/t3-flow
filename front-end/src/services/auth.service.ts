@@ -1,11 +1,10 @@
 import { apiPublic } from '@/api/interceptors';
 import { tokenService } from '@/services/token.service';
-import type {
+import {
 	IAuthResponse,
 	IGetNewTokensResponse,
-	ILoginFields,
-	IRegisterFields,
-} from '@/types/auth.types';
+} from '@/types/auth.service.types';
+import type { ILoginFields, IRegisterFields } from '@/types/auth.types';
 
 class AuthService {
 	private readonly BASE_URL = '/auth';
@@ -18,7 +17,7 @@ class AuthService {
 
 		const accessToken = response.data.accessToken;
 		if (accessToken) {
-			tokenService.saveTokenInStorage(accessToken);
+			tokenService.saveAccessTokenInCookies(accessToken);
 		}
 
 		return response.data;
@@ -32,7 +31,7 @@ class AuthService {
 
 		const accessToken = response.data.accessToken;
 		if (accessToken) {
-			tokenService.saveTokenInStorage(accessToken);
+			tokenService.saveAccessTokenInCookies(accessToken);
 		}
 
 		return response.data;
@@ -45,7 +44,7 @@ class AuthService {
 
 		const accessToken = response.data.accessToken;
 		if (accessToken) {
-			tokenService.saveTokenInStorage(accessToken);
+			tokenService.saveAccessTokenInCookies(accessToken);
 		}
 
 		return response;
@@ -53,10 +52,6 @@ class AuthService {
 
 	async logout() {
 		const response = await apiPublic.post(`${this.BASE_URL}/logout`);
-
-		if (response.data) {
-			tokenService.removeFromStorage();
-		}
 
 		return response;
 	}

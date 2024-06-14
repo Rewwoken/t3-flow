@@ -11,10 +11,11 @@ interface IRankedUpdateParams {
 	dataToUpdate: any; // TODO: add interface
 }
 /**
- * A custom hook that returns a function that updates a task with a new rank based on its target group.
+ * @name useRankedUpdate
+ * @description A custom hook that returns a function that updates a task with a new rank based on its target group.
  *
- * @returns {Object} - An object with a single function `rankedUpdate`.
- * @property {function} rankedUpdate - A function that takes a task and new data to update the task with.
+ * @returns {Object} hook - An object with a single function `rankedUpdate`.
+ * @param {function} hook.rankedUpdate - A function that takes a task and new data to update the task with.
  */
 export function useRankedUpdate() {
 	// Since taskGroups is not a global state, we can
@@ -22,11 +23,11 @@ export function useRankedUpdate() {
 	const { mutate: updateTask } = useUpdateTask({ invalidate: true });
 
 	/**
-	 * A function that updates a task with a new rank based on its target group.
-	 * It takes a task and a new data to update it with.
+	 * @name rankedUpdate
+	 * @description A function that updates a task with a new rank based on its target group.
 	 *
-	 * @param {Object} params - An object with a task and a new data to update the task with.
-	 * @param {Object} params.task - The task to update.
+	 * @param {IRankedUpdateParams} params - An object with a task and a new data to update the task with.
+	 * @param {IGetTaskResponse} params.task - The task to update.
 	 * @param {Object} params.dataToUpdate - The new data to update the task with.
 	 */
 	async function rankedUpdate({ task, dataToUpdate }: IRankedUpdateParams) {

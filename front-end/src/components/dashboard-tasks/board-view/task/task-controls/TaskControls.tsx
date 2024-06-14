@@ -1,6 +1,7 @@
 'use client';
 
 import { CheckCheck, SquareMinus, Trash2 } from 'lucide-react';
+import React from 'react';
 import { useDeleteTask } from '@/components/dashboard-tasks/hooks/queries/useDeleteTask';
 import { useRankedUpdate } from '@/components/dashboard-tasks/hooks/useRankedUpdate';
 import { TaskUpdate } from '@/components/dashboard-tasks/board-view/task/task-controls/TaskUpdate';
@@ -10,7 +11,7 @@ import { IGetTaskResponse } from '@/types/task.service';
 interface ITaskControlsProps {
 	task: IGetTaskResponse;
 }
-export const TaskControls = ({ task }: ITaskControlsProps) => {
+const TaskControlsComponent = ({ task }: ITaskControlsProps) => {
 	const { mutate: deleteTask } = useDeleteTask();
 	const { rankedUpdate } = useRankedUpdate();
 
@@ -62,3 +63,5 @@ export const TaskControls = ({ task }: ITaskControlsProps) => {
 		</div>
 	);
 };
+
+export const TaskControls = React.memo(TaskControlsComponent);

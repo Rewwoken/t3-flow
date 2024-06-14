@@ -11,7 +11,7 @@ import s from '@/components/dashboard-tasks/board-view/column/column.module.css'
 import { SortableTask } from '@/components/dashboard-tasks/board-view/task/SortableTask';
 import { CreateTaskModal } from '@/components/dashboard-tasks/board-view/task/task-modal/CreateTaskModal';
 import type { IGetTaskResponse } from '@/types/task.service';
-import type { IColumnData } from '@/types/tasks.types';
+import type { IColumnData } from '@/types/task.types';
 
 interface IColumnProps extends IColumnData {
 	tasks: IGetTaskResponse[];

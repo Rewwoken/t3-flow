@@ -13,14 +13,13 @@ interface IUseUpdateTaskParams {
 	invalidate: boolean;
 }
 /**
- * A custom hook to update a task.
+ * @name useUpdateTask
+ * @description A custom hook to update a task.
  *
- * @param params An object with an optional invalidate property.
- * The invalidate property is a boolean that, if set to true,
- * will invalidate the query cache for the GET_TASKS query after
- * the task is updated.
+ * @param {IUseUpdateTaskParams} params An object with an optional invalidate property.
+ * @param {boolean} params.invalidate - If true, will invalidate the GET_TASKS query cache.
  *
- * @returns An object with the result of the mutation.
+ * @returns {UseMutationResult} - An object with the result of the mutation.
  */
 export function useUpdateTask(params?: IUseUpdateTaskParams) {
 	const queryClient = useQueryClient();

@@ -9,6 +9,7 @@ import { useUpdateSettings } from '@/components/dashboard-settings/hooks/useUpda
 import s from '@/components/dashboard-settings/settings.module.css';
 import * as validation from '@/components/dashboard-settings/settings.validation';
 import { FieldWrapper } from '@/components/ui/FieldWrapper';
+import { SubmitButton } from '@/components/ui/SubmitButton';
 import { KEYS } from '@/constants/keys.constants';
 import { IUpdateSettingsFields } from '@/types/settings.types';
 
@@ -20,12 +21,12 @@ export const Settings = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isValid },
 	} = useForm<IUpdateSettingsFields>({ mode: 'onChange' });
 
 	const queryClient = useQueryClient();
 
-	const { mutate, error } = useUpdateSettings(async () => {
+	const { mutate, error, isPending } = useUpdateSettings(async () => {
 		await queryClient.invalidateQueries({
 			queryKey: KEYS.GET_USER,
 		});
@@ -171,12 +172,13 @@ export const Settings = () => {
 				</FieldWrapper>
 			</fieldset>
 			{message && <span className={s.message}>{message}</span>}
-			<button
-				type='submit'
-				className={s.submit}
+			<SubmitButton
+				isValid={isValid}
+				isPending={isPending}
+				className='col-start-2'
 			>
 				Update
-			</button>
+			</SubmitButton>
 		</form>
 	);
 };

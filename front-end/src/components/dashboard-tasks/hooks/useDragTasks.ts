@@ -12,20 +12,25 @@ import { useTaskGroups } from '@/components/dashboard-tasks/hooks/useTaskGroups'
 import { changeDueDate } from '@/components/dashboard-tasks/utils/dueDate';
 import { getNewTaskRank } from '@/components/dashboard-tasks/utils/getTaskRank';
 import type { IGetTaskResponse } from '@/types/task.service';
-import type { IStartPositionRef, TTaskGroupId } from '@/types/tasks.types';
+import type { IStartPositionRef, TTaskGroupId } from '@/types/task.types';
 
 const resetPosition: IStartPositionRef = {
 	colId: null,
 	index: null,
 };
-
 /**
- * Custom hook to manage drag-and-drop functionality for tasks.
+ * @name useDragTasks
+ * @description Custom hook to manage drag-and-drop functionality for tasks.
  *
- * @returns {Object} Object containing task groups, active task, and event handlers for drag operations.
+ * @returns {Object} - Object containing task groups, active task, and event handlers for drag operations.
+ * @param {ITaskGroups} taskGroups - An object containing grouped current user's tasks from the database.
+ * @param {IGetTaskResponse | null} active - The current active task object.
+ * @param {(e: DragStartEvent) => void} handleDragStart - Event handler for starting a drag operation.
+ * @param {(e: DragOverEvent) => null} handleDragOver - Event handler for when a dragged task is moved over another task or column.
+ * @param {(e: DragEndEvent) => null} handleDragEnd - Event handler for ending a drag operation.
  */
 export function useDragTasks() {
-	const { taskGroups, setTaskGroups } = useTaskGroups(); // Get taskGroups state, setState
+	const { taskGroups, setTaskGroups, ...result } = useTaskGroups(); // Get taskGroups state, setState
 	const { mutate: updateTask } = useUpdateTask({ invalidate: false }); // Get task update method
 	const [active, setActive] = React.useState<IGetTaskResponse | null>(null); // Active task state (for DragOverlay)
 	const startPositionRef = React.useRef<IStartPositionRef>(resetPosition); // A ref used to check if task changed it's position
@@ -162,5 +167,12 @@ export function useDragTasks() {
 		return null;
 	};
 
-	return { taskGroups, active, handleDragStart, handleDragOver, handleDragEnd };
+	return {
+		taskGroups,
+		active,
+		handleDragStart,
+		handleDragOver,
+		handleDragEnd,
+		...result,
+	};
 }

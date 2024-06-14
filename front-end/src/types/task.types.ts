@@ -1,4 +1,4 @@
-import { IGetTaskResponse } from '@/types/task.service';
+import type { IGetTaskResponse } from '@/types/task.service';
 
 export type TTaskGroupId =
 	| 'completed'
@@ -32,3 +32,9 @@ export interface ICreateTaskFields {
 
 export interface IUpdateTaskFields
 	extends Omit<ICreateTaskFields, 'isCompleted'> {}
+
+export interface IPopover {
+	x: number;
+	y: number;
+	isVisible: boolean;
+}

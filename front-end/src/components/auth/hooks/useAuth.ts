@@ -7,11 +7,8 @@ import { authService } from '@/services/auth.service';
 import { KEYS } from '@/constants/keys.constants';
 import { DASHBOARD } from '@/constants/routes.constants';
 import { IApiErrorResponse } from '@/types/api.types';
-import type {
-	IAuthResponse,
-	ILoginFields,
-	IRegisterFields,
-} from '@/types/auth.types';
+import type { IAuthResponse } from '@/types/auth.service.types';
+import type { ILoginFields, IRegisterFields } from '@/types/auth.types';
 
 export function useAuth<IFields extends ILoginFields | IRegisterFields>(
 	method: 'login' | 'register',

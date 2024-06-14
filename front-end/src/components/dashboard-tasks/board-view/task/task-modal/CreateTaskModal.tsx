@@ -7,7 +7,7 @@ import * as v from '@/components/dashboard-tasks/board-view/task/task-modal/crea
 import s from '@/components/dashboard-tasks/board-view/task/task-modal/task-modal.module.css';
 import { FieldWrapper } from '@/components/ui/FieldWrapper';
 import { SubmitButton } from '@/components/ui/SubmitButton';
-import type { TTaskGroupId } from '@/types/tasks.types';
+import type { TTaskGroupId } from '@/types/task.types';
 
 const now = new Date();
 

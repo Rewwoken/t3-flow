@@ -8,7 +8,7 @@ export default function AuthLayout({ children }: PropsWithChildren) {
 				size={40}
 				className='absolute right-2 top-2'
 			/>
-			<main className='flex h-full items-center justify-center'>
+			<main className='flex h-screen items-center justify-center'>
 				{children}
 			</main>
 		</>

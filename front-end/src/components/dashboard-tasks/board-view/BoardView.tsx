@@ -17,8 +17,14 @@ import { TaskOverlay } from '@/components/dashboard-tasks/board-view/task/TaskOv
 const now = new Date();
 
 export const BoardView = () => {
-	const { taskGroups, active, handleDragStart, handleDragOver, handleDragEnd } =
-		useDragTasks();
+	const {
+		taskGroups,
+		active,
+		handleDragStart,
+		handleDragOver,
+		handleDragEnd,
+		isPending,
+	} = useDragTasks();
 
 	const mouseSensor = useSensor(MouseSensor);
 

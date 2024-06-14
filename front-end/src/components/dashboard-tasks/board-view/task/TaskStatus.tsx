@@ -1,11 +1,12 @@
 import { format } from 'date-fns';
 import { CalendarDays } from 'lucide-react';
+import React from 'react';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 
 interface ITaskStatusProps {
 	dueDate: string | null;
 }
-export const TaskStatus = ({ dueDate }: ITaskStatusProps) => {
+const TaskStatusComponent = ({ dueDate }: ITaskStatusProps) => {
 	if (dueDate === null) {
 		return <span className={s.dateless}>No due date...</span>;
 	}
@@ -23,3 +24,5 @@ export const TaskStatus = ({ dueDate }: ITaskStatusProps) => {
 
 	return null;
 };
+
+export const TaskStatus = React.memo(TaskStatusComponent);

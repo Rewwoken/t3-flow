@@ -1,5 +1,5 @@
 import { addDays, addWeeks, format, nextSunday, subDays } from 'date-fns';
-import type { IColumnData } from '@/types/tasks.types';
+import type { IColumnData } from '@/types/task.types';
 
 const now = new Date();
 const f = (date: Date | string) => format(date, 'eeee, LLL d');

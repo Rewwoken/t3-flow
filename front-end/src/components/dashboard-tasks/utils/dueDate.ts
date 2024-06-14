@@ -6,7 +6,7 @@ import {
 	setMinutes,
 	subDays,
 } from 'date-fns';
-import type { TTaskGroupId } from '@/types/tasks.types';
+import type { TTaskGroupId } from '@/types/task.types';
 
 const now = new Date();
 

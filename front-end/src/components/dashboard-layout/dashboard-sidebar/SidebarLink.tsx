@@ -17,7 +17,7 @@ export const SidebarLink = ({ route, icon: Icon, text }: SidebarLinkProps) => {
 
 	return (
 		<li
-			className={clsx('border-l-2 px-4 py-1 hover:bg-muted/10', {
+			className={clsx('select-none border-l-2 py-1 pl-3 hover:bg-muted/10', {
 				'border-l-transparent': pathname !== route,
 				'border-l-accent bg-muted/10': pathname === route,
 			})}

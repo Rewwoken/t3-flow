@@ -26,7 +26,7 @@ export default function RootLayout({
 			lang='en'
 			suppressHydrationWarning={true}
 		>
-			<body className={clsx(inter.className, 'h-screen overflow-y-hidden')}>
+			<body className={clsx(inter.className, 'h-screen overflow-y-hidden p-2')}>
 				<Providers>{children}</Providers>
 			</body>
 		</html>

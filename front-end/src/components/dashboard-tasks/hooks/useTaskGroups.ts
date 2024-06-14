@@ -5,7 +5,7 @@ import React from 'react';
 import { taskService } from '@/services/task.service';
 import { KEYS } from '@/constants/keys.constants';
 import type { IApiErrorResponse } from '@/types/api.types';
-import type { ITaskGroups } from '@/types/tasks.types';
+import type { ITaskGroups } from '@/types/task.types';
 
 const initialGroups: ITaskGroups = {
 	completed: [],
@@ -17,9 +17,18 @@ const initialGroups: ITaskGroups = {
 	later: [],
 };
 
+/**
+ * @name useTaskGroups
+ * @description A custom hook that fetches task groups from the server.
+ *
+ * @returns {Object} - An object with the following properties:
+ * @param {ITaskGroups} taskGroups - An array of task groups.
+ * @param {React.Dispatch<React.SetStateAction<ITaskGroups>>} setTaskGroups - A function to set the task groups.
+ * @param {...UseQueryResult} - Result of the query properties.
+ */
 export function useTaskGroups() {
 	const { data, ...result } = useQuery<ITaskGroups, IApiErrorResponse>({
-		queryKey: KEYS.GET_TASK_GROUPS,
+		queryKey: KEYS.GET_TASKS,
 		queryFn: () => taskService.getAllGrouped(),
 	});
 

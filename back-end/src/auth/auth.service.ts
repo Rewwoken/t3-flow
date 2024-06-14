@@ -2,11 +2,7 @@ import { LoginDto } from '@/auth/dto/login.dto';
 import { RegisterDto } from '@/auth/dto/register.dto';
 import { TokenService } from '@/token/token.service';
 import { UserService } from '@/user/user.service';
-import {
-	BadRequestException,
-	Injectable,
-	UnauthorizedException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { verify } from 'argon2';
 
 @Injectable()
@@ -38,13 +34,13 @@ export class AuthService {
 		const findUser = await this.userService.findOneByEmail(loginDto.email);
 
 		if (!findUser) {
-			throw new UnauthorizedException('Invalid email or password!');
+			throw new BadRequestException('Invalid email or password!');
 		}
 
 		const isValid = await verify(findUser.password, loginDto.password);
 
 		if (!isValid) {
-			throw new UnauthorizedException('Invalid email or password!');
+			throw new BadRequestException('Invalid email or password!');
 		}
 
 		const { password, ...user } = findUser;

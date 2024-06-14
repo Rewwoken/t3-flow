@@ -27,22 +27,11 @@ apiProtected.interceptors.request.use((config) => {
 apiProtected.interceptors.response.use(
 	(response) => response,
 	async (error) => {
-		const originalRequest = error.config;
+		// Potential improvement: handle infinite loop case here
+		if (error.response.status === 401) {
+			await authService.getNewTokens();
 
-		if (
-			error.response.status === 401 &&
-			error.config &&
-			!error.config._isRetry
-		) {
-			originalRequest._isRetry = true;
-
-			try {
-				await authService.getNewTokens();
-
-				return apiProtected.request(originalRequest);
-			} catch (err) {
-				await authService.logout();
-			}
+			return apiProtected.request(error.config);
 		}
 
 		throw error;

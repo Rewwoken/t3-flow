@@ -1,0 +1,15 @@
+.layout {
+	@apply h-full gap-2;
+
+	display: grid;
+	grid-template-rows: auto 1fr;
+	grid-template-columns: auto 1fr;
+}
+
+.layout > * {
+	@apply rounded-xl bg-background shadow-sm;
+}
+
+.main {
+	@apply overflow-x-hidden p-2;
+}

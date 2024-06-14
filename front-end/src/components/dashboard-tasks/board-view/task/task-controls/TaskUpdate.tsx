@@ -6,12 +6,7 @@ import React from 'react';
 import { TaskPopover } from '@/components/dashboard-tasks/board-view/task/task-popover/TaskPopover';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 import { IGetTaskResponse } from '@/types/task.service';
-
-interface IPopover {
-	x: number;
-	y: number;
-	isVisible: boolean;
-}
+import { IPopover } from '@/types/task.types';
 
 interface ITaskUpdateProps {
 	task: IGetTaskResponse;
@@ -54,9 +49,8 @@ export const TaskUpdate = ({ task }: ITaskUpdateProps) => {
 			</button>
 			{popover.isVisible && (
 				<TaskPopover
-					x={popover.x}
-					y={popover.y}
 					task={task}
+					popover={popover}
 					closePopover={closePopover}
 				/>
 			)}

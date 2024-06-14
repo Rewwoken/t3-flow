@@ -56,7 +56,7 @@ export class AuthController {
 		// use { passthrough: true } to manipulate the cookies
 		@Res({ passthrough: true }) res: Response,
 	) {
-		return this.tokenService.removeRefreshTokenFromResponse(res);
+		return this.tokenService.clearTokensCookies(res);
 	}
 
 	@Get('/access-token')
@@ -69,7 +69,7 @@ export class AuthController {
 			req.cookies[this.tokenService.REFRESH_TOKEN_NAME];
 
 		if (!refreshTokenFromCookies) {
-			this.tokenService.removeRefreshTokenFromResponse(res);
+			this.tokenService.clearTokensCookies(res);
 
 			throw new UnauthorizedException('Refresh token not passed!');
 		}

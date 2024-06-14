@@ -9,13 +9,15 @@ import { CookieOptions, Response } from 'express';
 
 @Injectable()
 export class TokenService {
+	readonly ACCESS_TOKEN_NAME = 'accessToken';
 	readonly REFRESH_TOKEN_NAME = 'refreshToken';
 	private readonly REFRESH_TOKEN_EXPIRES = 7;
 	private readonly REFRESH_TOKEN_COOKIE_OPTIONS: CookieOptions = {
 		httpOnly: true,
 		domain: this.configService.get('domain'),
 		secure: true,
-		sameSite: 'none', // 'lax' in production
+		sameSite: 'none', // 'lax' in production,
+		// path: '/dashboard',
 	};
 
 	constructor(
@@ -48,7 +50,8 @@ export class TokenService {
 		});
 	}
 
-	removeRefreshTokenFromResponse(res: Response) {
+	clearTokensCookies(res: Response) {
+		res.clearCookie(this.ACCESS_TOKEN_NAME);
 		res.clearCookie(this.REFRESH_TOKEN_NAME, this.REFRESH_TOKEN_COOKIE_OPTIONS);
 	}
 

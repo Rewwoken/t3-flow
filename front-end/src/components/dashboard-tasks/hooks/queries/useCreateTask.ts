@@ -1,7 +1,6 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useTaskGroups } from '@/components/dashboard-tasks/hooks/useTaskGroups';
 import { getTaskGroupId } from '@/components/dashboard-tasks/utils/getTaskGroupId';
 import { taskService } from '@/services/task.service';
 import { genRank } from '@/utils/genRank';
@@ -16,14 +15,15 @@ interface IUseCreateTaskParams {
 	invalidate: boolean;
 }
 /**
- * A custom hook to create a new task.
+ * @name useCreateTask
+ * @description A custom hook to create a new task.
  *
- * @param params An object with an optional invalidate property.
+ * @param {IUseCreateTaskParams} params - An object with an optional invalidate property.
  * The invalidate property is a boolean that, if set to true,
  * will invalidate the query cache for the GET_TASKS query after
  * the task is created.
  *
- * @returns An object with the result of the mutation.
+ * @returns {UseMutationResult} - An object with the result of the mutation.
  */
 export function useCreateTask(params?: IUseCreateTaskParams) {
 	const queryClient = useQueryClient();
@@ -58,7 +58,7 @@ export function useCreateTask(params?: IUseCreateTaskParams) {
 		onSuccess: () => {
 			if (params?.invalidate) {
 				queryClient.invalidateQueries({
-					queryKey: KEYS.GET_TASK_GROUPS,
+					queryKey: KEYS.GET_TASKS,
 				});
 			}
 		},
