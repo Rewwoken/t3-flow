@@ -5,7 +5,7 @@ import '@/app/global.css';
 import Providers from '@/app/providers';
 import { WEBSITE_NAME } from '@/constants/seo.constants';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'] }); // TODO: change font
 
 export const metadata: Metadata = {
 	icons: '/logo.svg',
