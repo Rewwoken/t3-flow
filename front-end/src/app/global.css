@@ -29,5 +29,6 @@ html.dark {
 }
 
 * {
-	@apply border-border text-foreground;
+	color: rgba(var(--foreground));
+	border-color: rgba(var(--border));
 }

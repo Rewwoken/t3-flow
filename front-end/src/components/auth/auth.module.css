@@ -7,7 +7,7 @@
 }
 
 .form {
-	@apply mt-2 flex w-[275px] flex-col gap-y-3 rounded-sm border p-4 shadow-md;
+	@apply mt-2 flex w-[275px] flex-col gap-y-3 rounded-sm border bg-background p-4 shadow-md;
 }
 
 .input {

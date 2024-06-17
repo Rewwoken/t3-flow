@@ -9,7 +9,3 @@
 .layout > * {
 	@apply rounded-xl bg-background shadow-sm;
 }
-
-.main {
-	@apply overflow-x-hidden p-2;
-}

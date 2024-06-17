@@ -36,7 +36,7 @@ export const HeaderPanel = () => {
 		<ul className='flex h-14 items-center gap-x-4'>
 			<li className='flex size-12 items-center justify-center rounded-sm bg-primary text-4xl'>
 				<span className='select-none text-white'>
-					{user?.name?.charAt(0) || 'A'}
+					{user?.name?.charAt(0).toUpperCase() || 'A'}
 				</span>
 			</li>
 			<li className='flex flex-col justify-center'>

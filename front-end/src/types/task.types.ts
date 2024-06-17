@@ -38,3 +38,8 @@ export interface IPopover {
 	y: number;
 	isVisible: boolean;
 }
+
+export interface IRequiredToUpdateTaskData {
+	isCompleted: boolean;
+	dueDate: string | null;
+}

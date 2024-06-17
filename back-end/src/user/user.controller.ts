@@ -11,7 +11,9 @@ export class UserController {
 	@Get()
 	@Protected()
 	async getUser(@CurrentUser('id') id: string) {
-		return await this.userService.getUser(id);
+		const { password, ...user } = await this.userService.findOneById(id);
+
+		return user;
 	}
 
 	@Patch()
@@ -21,6 +23,12 @@ export class UserController {
 		@CurrentUser('email') email: string,
 		@Body() updateUserDto: UpdateUserDto,
 	) {
-		return await this.userService.update(id, email, updateUserDto);
+		const { password, ...user } = await this.userService.update(
+			id,
+			email,
+			updateUserDto,
+		);
+
+		return user;
 	}
 }

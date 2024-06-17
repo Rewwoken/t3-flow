@@ -10,9 +10,9 @@ export const Statistics = () => {
 	if (isLoading) return <Skeleton />;
 
 	return (
-		<>
+		<main>
 			<h1>Statistics</h1>
 			<p>User id: {data?.id}</p>
-		</>
+		</main>
 	);
 };

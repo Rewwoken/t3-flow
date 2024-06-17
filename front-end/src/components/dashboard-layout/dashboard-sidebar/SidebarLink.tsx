@@ -36,7 +36,7 @@ export const SidebarLink = ({
 					strokeWidth={1}
 					size={50}
 				/>
-				{sidebarWidth >= 250 && <span className='text-xl'>{text}</span>}
+				{sidebarWidth >= 240 && <span className='text-xl'>{text}</span>}
 			</Link>
 		</li>
 	);

@@ -1,9 +1,13 @@
+.main {
+	@apply flex w-full gap-32 px-8 py-4;
+}
+
 .form {
-	@apply grid w-3/4 grid-cols-2 gap-4 px-8;
+	@apply flex w-1/5 flex-col gap-8;
 }
 
 .fieldset {
-	@apply flex flex-col gap-8;
+	@apply flex flex-col gap-6;
 }
 
 .legend {
@@ -11,7 +15,7 @@
 }
 
 .input {
-	@apply w-3/5 rounded-sm border p-2 outline-none focus:outline-accent;
+	@apply w-full rounded-sm border p-2 outline-none focus:outline-accent;
 }
 
 .error {

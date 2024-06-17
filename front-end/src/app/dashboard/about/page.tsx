@@ -5,5 +5,5 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-	return <p>TODO...</p>;
+	return <main>TODO...</main>;
 }

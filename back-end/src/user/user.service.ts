@@ -32,10 +32,14 @@ export class UserService {
 		return user;
 	}
 
-	async getUser(id: string) {
-		const { password, ...user } = await this.findOneById(id);
+	async findOneById(id: string) {
+		const findUser = await this.prismaService.user.findUnique({
+			where: { id: id },
+		});
 
-		return user;
+		if (!findUser) return null;
+
+		return findUser;
 	}
 
 	async findOneByEmail(email: string) {
@@ -48,24 +52,8 @@ export class UserService {
 		return findUser;
 	}
 
-	async findOneById(id: string) {
-		const findUser = await this.prismaService.user.findUnique({
-			where: { id: id },
-			include: {
-				tasks: true,
-				timerSettings: true,
-				timeBlocks: true,
-				timerSessions: true,
-			},
-		});
-
-		if (!findUser) return null;
-
-		return findUser;
-	}
-
-	async update(id: string, userEmail: string, updateUserDto: UpdateUserDto) {
-		if (userEmail !== updateUserDto.email) {
+	async update(id: string, email: string, updateUserDto: UpdateUserDto) {
+		if (updateUserDto.email && email !== updateUserDto.email) {
 			const existingUser = await this.findOneByEmail(updateUserDto.email);
 
 			if (existingUser) {
@@ -73,7 +61,7 @@ export class UserService {
 			}
 		}
 
-		// if password is provided to update, then hash it
+		// If password is provided to update, then hash it
 		if (updateUserDto.password) {
 			const passwordHash = await hash(updateUserDto.password);
 
@@ -83,11 +71,6 @@ export class UserService {
 		return await this.prismaService.user.update({
 			where: { id: id },
 			data: updateUserDto,
-			select: {
-				email: true,
-				name: true,
-				updatedAt: true,
-			},
 		});
 	}
 }

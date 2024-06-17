@@ -23,7 +23,7 @@ export const BoardView = () => {
 		handleDragStart,
 		handleDragOver,
 		handleDragEnd,
-		isPending,
+		isPending, // TODO: add Skeleton
 	} = useDragTasks();
 
 	const mouseSensor = useSensor(MouseSensor);
@@ -39,7 +39,7 @@ export const BoardView = () => {
 	const sensors = useSensors(mouseSensor, touchSensor);
 
 	return (
-		<>
+		<main className='overflow-x-hidden'>
 			<p className='mb-4 text-xl'>
 				Today is {format(now, 'eeee, MMMM d, yyyy')}
 			</p>
@@ -63,6 +63,6 @@ export const BoardView = () => {
 					<TaskOverlay active={active} />
 				</DndContext>
 			</ul>
-		</>
+		</main>
 	);
 };

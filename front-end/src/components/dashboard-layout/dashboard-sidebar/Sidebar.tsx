@@ -7,7 +7,7 @@ import { links } from '@/components/dashboard-layout/dashboard-sidebar/sidebar.d
 import { DASHBOARD } from '@/constants/routes.constants';
 
 export const Sidebar = () => {
-	const [width, setWidth] = React.useState(250);
+	const [width, setWidth] = React.useState(260);
 
 	React.useEffect(() => {
 		const widthFromStorage = localStorage.getItem('sidebar-width');
@@ -26,9 +26,9 @@ export const Sidebar = () => {
 
 		if (!pageX) return null;
 
-		if (pageX >= 250 && pageX <= 1000) {
+		if (pageX >= 260 && pageX <= 1000) {
 			setWidth(pageX);
-		} else if (pageX < 250) {
+		} else if (pageX < 240) {
 			setWidth(85);
 		}
 	};

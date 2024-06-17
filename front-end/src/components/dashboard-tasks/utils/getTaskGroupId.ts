@@ -1,5 +1,8 @@
 import { addWeeks, isBefore, isToday, isTomorrow, nextSunday } from 'date-fns';
-import type { TTaskGroupId } from '@/types/task.types';
+import type {
+	IRequiredToUpdateTaskData,
+	TTaskGroupId,
+} from '@/types/task.types';
 
 /**
  * ! The algorithm must be the same as on the backend.
@@ -13,10 +16,8 @@ import type { TTaskGroupId } from '@/types/task.types';
  *
  * @returns {TTaskGroupId} The task group ID.
  */
-export const getTaskGroupId = <
-	TaskLike extends { isCompleted: boolean; dueDate: string | null },
->(
-	task: TaskLike,
+export const getTaskGroupId = (
+	task: IRequiredToUpdateTaskData,
 ): TTaskGroupId => {
 	const now = new Date();
 

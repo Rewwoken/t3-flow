@@ -4,16 +4,13 @@ import { useQuery } from '@tanstack/react-query';
 import { timerService } from '@/services/timer.service';
 import { KEYS } from '@/constants/keys.constants';
 import type { IApiErrorResponse } from '@/types/api.types';
-import type { IGetTimerSettingsResponse } from '@/types/timer.service.types';
+import { IGetTimerSettingsResponse } from '@/types/timer.service.types';
 
 /**
- * Custom hook to fetch timer settings.
+ * @name useTimerSettings
+ * @description Custom hook to fetch timer settings.
  *
- * This hook uses `useQuery` from `@tanstack/react-query` to fetch timer settings
- * from the `timerService`. It provides an interface to retrieve the timer settings
- * and handle loading, error, and success states.
- *
- * @returns - The result of the query.
+ * @returns {UseQueryResult} - The result of the query.
  *
  * @example
  * const { data, error, isLoading } = useTimerSettings();

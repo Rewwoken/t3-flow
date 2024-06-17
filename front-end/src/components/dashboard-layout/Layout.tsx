@@ -6,6 +6,6 @@ export const Layout = ({ children }: React.PropsWithChildren) => (
 	<div className={s.layout}>
 		<Header />
 		<Sidebar />
-		<main className={s.main}>{children}</main>
+		{children}
 	</div>
 );

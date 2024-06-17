@@ -4,11 +4,12 @@ import { useUpdateTask } from '@/components/dashboard-tasks/hooks/queries/useUpd
 import { getTaskGroupId } from '@/components/dashboard-tasks/utils/getTaskGroupId';
 import { taskService } from '@/services/task.service';
 import { genRank } from '@/utils/genRank';
-import { IGetTaskResponse } from '@/types/task.service';
+import type { IGetTaskResponse } from '@/types/task.service';
+import type { IRequiredToUpdateTaskData } from '@/types/task.types';
 
 interface IRankedUpdateParams {
 	task: IGetTaskResponse;
-	dataToUpdate: any; // TODO: add interface
+	dataToUpdate: IRequiredToUpdateTaskData;
 }
 /**
  * @name useRankedUpdate

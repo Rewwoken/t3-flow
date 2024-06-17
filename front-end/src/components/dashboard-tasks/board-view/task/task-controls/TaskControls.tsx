@@ -25,7 +25,13 @@ const TaskControlsComponent = ({ task }: ITaskControlsProps) => {
 	};
 
 	const toggleCompleted = () => {
-		rankedUpdate({ task, dataToUpdate: { isCompleted: !task.isCompleted } });
+		rankedUpdate({
+			task,
+			dataToUpdate: {
+				isCompleted: !task.isCompleted,
+				dueDate: task.dueDate,
+			},
+		});
 	};
 
 	return (
