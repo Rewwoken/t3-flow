@@ -26,9 +26,9 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 
 	return (
 		<>
-			<li className={s.column}>
-				<span className={s.datespan}>{dateSpan}</span>
-				<header className={s.header}>
+			<li className='min-w-[22rem] px-4'>
+				<span className='mb-1 flex justify-center text-muted'>{dateSpan}</span>
+				<header className='mb-4 flex items-center justify-between bg-secondary p-2'>
 					<h3 className='text-2xl'>
 						{tasks.length}&nbsp;{title}
 					</h3>
@@ -48,7 +48,7 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 					strategy={verticalListSortingStrategy}
 				>
 					<ol
-						className={s.list}
+						className='flex h-full flex-col gap-y-4'
 						ref={listRef}
 					>
 						{tasks.map((task) => (
@@ -63,7 +63,7 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 							type='button'
 							onClick={() => setShowModal(true)}
 							disabled={showModal}
-							className={s.add}
+							className='ml-2 select-none text-left text-muted hover:underline'
 							title='Open create task modal'
 						>
 							+ Add Task

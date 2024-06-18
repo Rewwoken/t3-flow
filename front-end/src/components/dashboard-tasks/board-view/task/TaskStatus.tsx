@@ -1,19 +1,18 @@
 import { format } from 'date-fns';
 import { CalendarDays } from 'lucide-react';
 import React from 'react';
-import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 
 interface ITaskStatusProps {
 	dueDate: string | null;
 }
 const TaskStatusComponent = ({ dueDate }: ITaskStatusProps) => {
 	if (dueDate === null) {
-		return <span className={s.dateless}>No due date...</span>;
+		return <span className='italic text-muted'>No due date...</span>;
 	}
 
 	if (dueDate)
 		return (
-			<span className={s.date}>
+			<span className='flex items-center gap-1 text-muted'>
 				<CalendarDays
 					className='stroke-muted'
 					size={19}

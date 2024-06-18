@@ -3,16 +3,17 @@
 import clsx from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useUpdateTimerSettings } from '@/components/dashboard-settings/hooks/useUpdateTimerSettings';
-import { useTimerSettings } from '@/components/dashboard-timer/hooks/queries/useTimerSettings';
 import s from '@/components/dashboard-settings/settings.module.css';
 import * as v from '@/components/dashboard-settings/settings.validation';
 import { FieldWrapper } from '@/components/ui/FieldWrapper';
-import { Skeleton } from '@/components/ui/Skeleton';
 import { SubmitButton } from '@/components/ui/SubmitButton';
-import { IUpdateTimerSettingsFields } from '@/types/timer.service.types';
+import { IUpdateTimerSettingsFields } from '@/types/settings.types';
+import { IGetTimerSettingsResponse } from '@/types/timer.service.types';
 
-export const TimerForm = () => {
-	const { data: timerSettings } = useTimerSettings();
+interface ITimerFormProps {
+	timerSettings: IGetTimerSettingsResponse;
+}
+export const TimerForm = ({ timerSettings }: ITimerFormProps) => {
 	const { mutate: updateTimerSettings, isPending } = useUpdateTimerSettings();
 
 	const {
@@ -24,8 +25,6 @@ export const TimerForm = () => {
 	const onSubmit: SubmitHandler<IUpdateTimerSettingsFields> = (values) => {
 		updateTimerSettings(values);
 	};
-
-	if (isPending || !timerSettings) return <Skeleton />;
 
 	return (
 		<form
@@ -45,7 +44,7 @@ export const TimerForm = () => {
 						id='work-interval-input'
 						type='number'
 						autoComplete='off'
-						placeholder={String(timerSettings?.workInterval)}
+						placeholder={String(timerSettings.workInterval)}
 						{...register('workInterval', v.workInterval)}
 						className={clsx(s.input, {
 							'border-danger': !!errors.workInterval?.message,
@@ -62,7 +61,7 @@ export const TimerForm = () => {
 						id='break-interval-input'
 						type='number'
 						autoComplete='off'
-						placeholder={String(timerSettings?.breakInterval)}
+						placeholder={String(timerSettings.breakInterval)}
 						{...register('breakInterval', v.breakInterval)}
 						className={clsx(s.input, {
 							'border-danger': !!errors.breakInterval?.message,
@@ -79,7 +78,7 @@ export const TimerForm = () => {
 						id='intervals-count-input'
 						type='number'
 						autoComplete='off'
-						placeholder={String(timerSettings?.intervalsCount)}
+						placeholder={String(timerSettings.intervalsCount)}
 						{...register('intervalsCount', v.intervalsCount)}
 						className={clsx(s.input, {
 							'border-danger': !!errors.intervalsCount?.message,

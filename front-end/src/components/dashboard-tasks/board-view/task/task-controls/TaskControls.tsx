@@ -35,7 +35,7 @@ const TaskControlsComponent = ({ task }: ITaskControlsProps) => {
 	};
 
 	return (
-		<div className={s.controls}>
+		<div className='flex flex-col justify-between gap-y-1.5 py-1.5 pr-1.5'>
 			<button
 				type='button'
 				title='Delete this task'

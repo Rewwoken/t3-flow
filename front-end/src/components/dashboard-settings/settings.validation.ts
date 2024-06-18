@@ -3,20 +3,24 @@ import * as validation from '@/components/auth/auth.validation';
 
 export const name: RegisterOptions = {
 	...validation.name,
+	setValueAs: (value) => value || undefined,
 	required: false,
 };
 
 export const email: RegisterOptions = {
 	...validation.email,
+	setValueAs: (value) => value || undefined,
 	required: false,
 };
 
 export const password: RegisterOptions = {
 	...validation.password,
+	setValueAs: (value) => value || undefined,
 	required: false,
 };
 
 export const workInterval: RegisterOptions = {
+	setValueAs: (value) => value || undefined,
 	required: false,
 	valueAsNumber: true,
 	min: {
@@ -30,6 +34,7 @@ export const workInterval: RegisterOptions = {
 };
 
 export const breakInterval: RegisterOptions = {
+	setValueAs: (value) => value || undefined,
 	required: false,
 	valueAsNumber: true,
 	min: {
@@ -43,6 +48,7 @@ export const breakInterval: RegisterOptions = {
 };
 
 export const intervalsCount: RegisterOptions = {
+	setValueAs: (value) => value || undefined,
 	required: false,
 	valueAsNumber: true,
 	min: {

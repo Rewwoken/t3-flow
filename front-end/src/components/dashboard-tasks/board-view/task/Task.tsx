@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import React from 'react';
 import { TaskStatus } from '@/components/dashboard-tasks/board-view/task/TaskStatus';
 import { TaskControls } from '@/components/dashboard-tasks/board-view/task/task-controls/TaskControls';
-import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 import type { IGetTaskResponse } from '@/types/task.service';
 
 interface ITaskProps {
@@ -14,7 +13,7 @@ const TaskComponent = ({ task, listeners }: ITaskProps) => (
 	<>
 		<div
 			{...listeners}
-			className={clsx(s.priority, {
+			className={clsx('w-2 hover:cursor-grab', {
 				'bg-rose-500 dark:bg-rose-700': task.priority === 'high',
 				'bg-amber-400 dark:bg-amber-600': task.priority === 'medium',
 				'bg-emerald-500 dark:bg-emerald-600': task.priority === 'low',
@@ -22,9 +21,9 @@ const TaskComponent = ({ task, listeners }: ITaskProps) => (
 		></div>
 		<article
 			{...listeners}
-			className={s.text}
+			className='flex w-full flex-col justify-between py-1.5 pl-2 hover:cursor-grab'
 		>
-			<h4 className={s.title}>{task.name}</h4>
+			<h4 className='my-1 text-lg font-medium leading-5'>{task.name}</h4>
 			<p>Priority:&nbsp;{task.priority}</p>
 			<TaskStatus dueDate={task.dueDate} />
 		</article>

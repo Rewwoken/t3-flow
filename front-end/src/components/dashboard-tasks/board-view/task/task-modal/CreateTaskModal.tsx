@@ -35,9 +35,9 @@ const CreateTaskModalComponent = ({
 	return (
 		<div
 			ref={modalRef}
-			className={s.wrapper}
+			className='w-96 rounded-md bg-secondary p-4 shadow-lg'
 		>
-			<header className={s.heading}>
+			<header className='mb-10 flex items-center justify-between border-b pb-1'>
 				<h3 className='text-2xl'>Task creation</h3>
 				<button onClick={closeModal}>
 					<X
@@ -48,7 +48,7 @@ const CreateTaskModalComponent = ({
 			</header>
 			<form
 				onSubmit={onSubmit}
-				className={s.form}
+				className='mt-4 flex flex-col gap-y-7 accent-accent'
 				autoComplete='off'
 			>
 				<FieldWrapper
@@ -65,7 +65,7 @@ const CreateTaskModalComponent = ({
 						placeholder='Your task name...'
 						{...register('name', v.name)}
 						className={clsx(s.field, {
-							[s.invalid]: !!errors.name?.message,
+							'!border-b-danger': !!errors.name?.message,
 						})}
 					/>
 				</FieldWrapper>
@@ -147,7 +147,7 @@ export const CreateTaskModal = ({
 	closeModal,
 }: ICreateTaskModalProps) => {
 	return createPortal(
-		<div className={s.dimmed}>
+		<div className='fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black/50'>
 			<CreateTaskModalComponent
 				colId={colId}
 				closeModal={closeModal}

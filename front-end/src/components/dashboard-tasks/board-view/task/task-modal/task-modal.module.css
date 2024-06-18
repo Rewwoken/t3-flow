@@ -1,27 +1,3 @@
-.dimmed {
-	@apply fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black/50;
-}
-
-.wrapper {
-	@apply w-96 rounded-md bg-secondary p-4 shadow-lg;
-}
-
-.heading {
-	@apply mb-10 flex items-center justify-between border-b pb-1;
-}
-
-.form {
-	@apply mt-4 flex flex-col gap-y-7 accent-accent;
-}
-
 .field {
 	@apply mb-1 w-full border-b-2 bg-secondary py-1 pl-1 pt-3 outline-none focus:border-b-accent;
-}
-
-.invalid {
-	@apply !border-b-danger;
-}
-
-.error {
-	@apply text-sm text-danger;
 }

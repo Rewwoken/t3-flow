@@ -13,26 +13,34 @@ export function useTimer() {
 	const { mutate: createSession } = useCreateTimerSession();
 	const { mutate: updateSession } = useUpdateTimerSession();
 	const { mutate: deleteSession } = useDeleteTimerSession();
-
-	const [totalSeconds, setTotalSeconds] = React.useState(
-		session?.totalSeconds ?? 0,
-	);
-	const [timer, setTimer] = React.useState<NodeJS.Timeout | null>(null);
+	const timerRef = React.useRef<NodeJS.Timeout | null>(null);
+	const [totalSeconds, setTotalSeconds] = React.useState(0);
 
 	React.useEffect(() => {
-		setTotalSeconds(session?.totalSeconds!);
+		setTotalSeconds(session?.totalSeconds ?? 0);
 	}, [session]);
 
-	const handleStart = () => {
-		setTimer(
-			setInterval(() => {
-				setTotalSeconds((prev) => {
-					const nextSeconds = prev + 1;
+	const handleTimeChange = () => {
+		setTotalSeconds((prev) => {
+			const nextTotalSeconds = prev + 1;
 
-					return nextSeconds;
-				});
-			}, 1000),
-		);
+			if (
+				timerRef.current &&
+				settings?.intervalsCount &&
+				nextTotalSeconds >= settings?.intervalsCount * 3600
+			) {
+				clearInterval(timerRef.current);
+				timerRef.current = null;
+
+				updateSession({ totalSeconds: nextTotalSeconds, isCompleted: true });
+			}
+
+			return nextTotalSeconds;
+		});
+	};
+
+	const handleStart = () => {
+		timerRef.current = setInterval(handleTimeChange, 1000);
 	};
 
 	const handleReset = () => {
@@ -40,13 +48,16 @@ export function useTimer() {
 	};
 
 	const handlePause = () => {
-		if (timer) {
-			clearInterval(timer);
+		if (!timerRef.current) return null;
 
-			setTimer(null);
-		}
+		clearInterval(timerRef.current);
 
-		updateSession({ totalSeconds, isCompleted: false });
+		timerRef.current = null;
+
+		updateSession({
+			totalSeconds,
+			isCompleted: false,
+		});
 	};
 
 	return {
@@ -54,8 +65,9 @@ export function useTimer() {
 		createSession,
 		session,
 		settings,
-		timer,
+		timerRef,
 		totalSeconds,
+		setTotalSeconds,
 		handleStart,
 		handleReset,
 		handlePause,

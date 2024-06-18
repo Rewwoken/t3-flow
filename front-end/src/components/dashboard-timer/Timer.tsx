@@ -1,6 +1,7 @@
 'use client';
 
 import { Pause, TimerIcon, TimerReset } from 'lucide-react';
+import React from 'react';
 import { useTimer } from '@/components/dashboard-timer/hooks/useTimer';
 import { TimerIntervals } from '@/components/dashboard-timer/TimerIntervals';
 import s from '@/components/dashboard-timer/timer.module.css';
@@ -13,8 +14,9 @@ export const Timer = () => {
 		createSession,
 		session,
 		settings,
-		timer,
+		timerRef,
 		totalSeconds,
+		setTotalSeconds,
 		handleStart,
 		handleReset,
 		handlePause,
@@ -22,16 +24,20 @@ export const Timer = () => {
 
 	const { minutes, seconds } = handleTime(totalSeconds);
 
-	// TODO: add Skeleton
-	if (isPending) return <Skeleton />;
+	const timerMessage = React.useMemo(() => {
+		if (session?.isCompleted) return 'Your session has been completed!';
 
-	const timerMessage = session?.isCompleted
-		? 'Your session has been completed!'
-		: !timer
-			? 'Your session has been paused!'
-			: minutes < settings?.workInterval
-				? 'Time to work!'
-				: 'Break time!';
+		if (!timerRef.current) return 'Your session has been paused!';
+
+		if (settings?.workInterval && minutes < settings?.workInterval) {
+			return 'Time to work!';
+		} else {
+			return 'Break time!';
+		}
+	}, [minutes, session?.isCompleted, settings?.workInterval, timerRef]);
+
+	// TODO: add Skeleton
+	if (isPending) return <Skeleton className='w-[500px]' />;
 
 	if (!session) {
 		return (
@@ -43,33 +49,45 @@ export const Timer = () => {
 
 	return (
 		<main className='flex items-center justify-center'>
-			<div className='flex w-[500px] flex-col items-center gap-y-1 rounded-md bg-secondary p-5'>
+			<div className='flex w-[500px] flex-col items-center gap-y-2 rounded-md bg-secondary p-5'>
 				<header className='flex items-center gap-x-2'>
 					<h2 className='text-4xl'>Your timer!</h2>
 					<TimerIcon size={37} />
 				</header>
 				<span>{timerMessage}</span>
-				<div className='mt-6 flex w-3/4 items-center justify-center rounded-md bg-muted/10 py-4 text-8xl'>
-					<span>{String(minutes).padStart(2, '0')}</span>
+				<span className='mt-2 italic text-muted'>
+					Work for {settings?.workInterval} min - Break for&nbsp;
+					{settings?.breakInterval} min
+				</span>
+				<div className='flex w-3/4 items-center justify-center rounded-md bg-muted/10 py-4 text-8xl'>
+					<span>
+						{session.isCompleted ? '00' : String(minutes).padStart(2, '0')}
+					</span>
 					<span className='relative bottom-2 mx-4'>:</span>
-					<span>{String(seconds).padStart(2, '0')}</span>
+					<span>
+						{session.isCompleted ? '00' : String(seconds).padStart(2, '0')}
+					</span>
 				</div>
 				{settings && (
 					<TimerIntervals
-						intervalsCount={settings?.intervalsCount}
 						totalSeconds={totalSeconds || 0}
+						setTotalSeconds={setTotalSeconds}
+						intervalsCount={settings?.intervalsCount}
+						isCompleted={session.isCompleted}
 					/>
 				)}
 				<div className='mt-6 flex w-full gap-2'>
 					<button
+						type='button'
 						onClick={handleStart}
-						disabled={!!timer}
+						disabled={!!timerRef.current || session.isCompleted}
 						className={s.button}
 					>
 						<TimerIcon className='stroke-white' />
 						<span className='text-xl text-white'>Start</span>
 					</button>
 					<button
+						type='button'
 						onClick={handleReset}
 						className={s.button}
 					>
@@ -77,7 +95,8 @@ export const Timer = () => {
 						<span className='text-xl text-white'>Reset</span>
 					</button>
 					<button
-						disabled={!timer}
+						type='button'
+						disabled={!timerRef.current}
 						onClick={handlePause}
 						className={s.button}
 					>

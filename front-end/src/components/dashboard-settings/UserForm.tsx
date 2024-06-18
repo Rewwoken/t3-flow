@@ -2,18 +2,19 @@
 
 import clsx from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useUser } from '@/hooks/useUser';
 import { useUpdateUser } from '@/components/dashboard-settings/hooks/useUpdateUser';
 import s from '@/components/dashboard-settings/settings.module.css';
 import * as v from '@/components/dashboard-settings/settings.validation';
 import { FieldWrapper } from '@/components/ui/FieldWrapper';
-import { Skeleton } from '@/components/ui/Skeleton';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import { IUpdateUserFields } from '@/types/settings.types';
+import { IGetUserResponse } from '@/types/user.service.types';
 
-export const UserForm = () => {
-	const { data: user, isPending } = useUser();
-	const { mutate: updateUser } = useUpdateUser();
+interface IUserFormProps {
+	user: IGetUserResponse;
+}
+export const UserForm = ({ user }: IUserFormProps) => {
+	const { mutate: updateUser, isPending } = useUpdateUser();
 
 	const {
 		register,
@@ -21,15 +22,7 @@ export const UserForm = () => {
 		formState: { errors, isValid },
 	} = useForm<IUpdateUserFields>({ mode: 'onChange' });
 
-	if (isPending || !user) return <Skeleton />;
-
 	const onSubmit: SubmitHandler<IUpdateUserFields> = (values) => {
-		for (const key in values) {
-			if (!values[key as keyof IUpdateUserFields]) {
-				delete values[key as keyof IUpdateUserFields];
-			}
-		}
-
 		updateUser(values);
 	};
 

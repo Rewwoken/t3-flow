@@ -12,7 +12,7 @@ const TaskOverlayComponent = ({ active }: ITaskOverlayProps) => {
 	return (
 		<DragOverlay
 			wrapperElement='li'
-			className={clsx(s.task, s.overlay)}
+			className={clsx(s.task, 'hover:cursor-grabbing')}
 		>
 			{active && <Task task={active} />}
 		</DragOverlay>

@@ -2,36 +2,8 @@
 	@apply flex touch-manipulation bg-secondary;
 }
 
-.priority {
-	@apply w-2 hover:cursor-grab;
-}
-
-.text {
-	@apply flex w-full flex-col justify-between py-1.5 pl-2 hover:cursor-grab;
-}
-
-.title {
-	@apply my-1 text-lg font-medium leading-5;
-}
-
-.date {
-	@apply flex items-center gap-1 text-muted;
-}
-
-.dateless {
-	@apply italic text-muted;
-}
-
-.controls {
-	@apply flex flex-col justify-between gap-y-1.5 py-1.5 pr-1.5;
-}
-
 .control {
 	@apply rounded-md transition-colors hover:bg-muted/10;
-}
-
-.overlay {
-	@apply hover:cursor-grabbing;
 }
 
 .skeleton {
