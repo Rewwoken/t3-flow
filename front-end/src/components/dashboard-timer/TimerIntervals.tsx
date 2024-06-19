@@ -1,7 +1,6 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { handleTime } from '@/components/dashboard-timer/utils/handleTime';
 
-
 interface TimerIntervalsProps {
 	totalSeconds: number;
 	setTotalSeconds: React.Dispatch<React.SetStateAction<number>>;
@@ -27,7 +26,7 @@ export const TimerIntervals = ({
 	};
 
 	return (
-		<div className='flex w-full items-center gap-x-4 mt-4'>
+		<div className='mt-4 flex w-full items-center gap-x-4'>
 			<button onClick={moveBack}>
 				<ChevronLeft />
 			</button>

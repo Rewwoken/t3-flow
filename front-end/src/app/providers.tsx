@@ -1,14 +1,18 @@
 'use client';
 
+import {
+	ThemeProvider as MaterialThemeProvider,
+	createTheme,
+} from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { authService } from '@/services/auth.service';
 import { AUTH } from '@/constants/routes.constants';
 import { IApiErrorResponse } from '@/types/api.types';
 
-export default function Providers({ children }: React.PropsWithChildren) {
+const QueryProvider = ({ children }: React.PropsWithChildren) => {
 	const router = useRouter();
 
 	const client = new QueryClient({
@@ -42,14 +46,57 @@ export default function Providers({ children }: React.PropsWithChildren) {
 	const [queryClient] = React.useState(client);
 
 	return (
-		<QueryClientProvider client={queryClient}>
-			<ThemeProvider
-				attribute='class'
-				defaultTheme={'system'}
-				enableSystem={true}
-			>
-				{children}
-			</ThemeProvider>
-		</QueryClientProvider>
+		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+	);
+};
+
+const ThemesProvider = ({ children }: React.PropsWithChildren) => {
+	return (
+		<NextThemesProvider
+			attribute='class'
+			defaultTheme={'system'}
+			enableSystem={true}
+		>
+			{children}
+		</NextThemesProvider>
+	);
+};
+
+const MaterialProvider = ({ children }: React.PropsWithChildren) => {
+	const { theme: themeState } = useTheme();
+
+	const theme = createTheme({
+		palette: {
+			primary: {
+				main: 'rgba(var(--primary))',
+			},
+			secondary: {
+				main: 'rgba(var(--secondary))',
+			},
+			background: {
+				default: 'rgba(var(--primary))',
+			},
+			text: {
+				primary: 'rgba(var(--text))',
+				secondary: 'rgba(var(--muted))',
+			},
+			error: {
+				main: 'rgba(var(--danger))',
+			},
+		},
+	});
+
+	return (
+		<MaterialThemeProvider theme={theme}>{children}</MaterialThemeProvider>
+	);
+};
+
+export function Providers({ children }: React.PropsWithChildren) {
+	return (
+		<QueryProvider>
+			<ThemesProvider>
+				<MaterialProvider>{children}</MaterialProvider>
+			</ThemesProvider>
+		</QueryProvider>
 	);
 }

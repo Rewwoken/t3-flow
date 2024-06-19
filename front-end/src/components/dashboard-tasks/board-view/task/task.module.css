@@ -1,5 +1,5 @@
 .task {
-	@apply flex touch-manipulation bg-secondary;
+	@apply flex touch-manipulation bg-secondary shadow-md;
 }
 
 .control {

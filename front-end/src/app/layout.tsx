@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '@/app/global.css';
-import Providers from '@/app/providers';
+import { Providers } from '@/app/providers';
 import { WEBSITE_NAME } from '@/constants/seo.constants';
 
 const inter = Inter({

@@ -4,7 +4,7 @@ import { CheckCheck, SquareMinus, Trash2 } from 'lucide-react';
 import React from 'react';
 import { useDeleteTask } from '@/components/dashboard-tasks/hooks/queries/useDeleteTask';
 import { useRankedUpdate } from '@/components/dashboard-tasks/hooks/useRankedUpdate';
-import { TaskUpdate } from '@/components/dashboard-tasks/board-view/task/task-controls/TaskUpdate';
+import { TaskUpdate } from '@/components/dashboard-tasks/board-view/task/task-update/TaskUpdate';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 import { IGetTaskResponse } from '@/types/task.service';
 
