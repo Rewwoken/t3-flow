@@ -8,7 +8,7 @@ import {
 	TextField,
 } from '@mui/material';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
-import { isValid, setMinutes, setSeconds } from 'date-fns';
+import { isValid, setHours, setMinutes } from 'date-fns';
 import { Controller, useForm } from 'react-hook-form';
 import { useRankedUpdate } from '@/components/dashboard-tasks/hooks/useRankedUpdate';
 import * as v from '@/components/dashboard-tasks/board-view/task/task-update/task-update.validation';
@@ -18,9 +18,9 @@ import { IUpdateTaskFields } from '@/types/task.types';
 
 interface IUpdateTaskFormProps {
 	task: IGetTaskResponse;
-	handleClose: () => void;
+	handleClose: Function;
 }
-export const UpdateTaskForm = ({ task, handleClose }: IUpdateTaskFormProps) => {
+export const TaskUpdateForm = ({ task, handleClose }: IUpdateTaskFormProps) => {
 	const { rankedUpdate } = useRankedUpdate();
 
 	const {
@@ -45,7 +45,7 @@ export const UpdateTaskForm = ({ task, handleClose }: IUpdateTaskFormProps) => {
 		}
 
 		const dueDate = setMinutes(
-			setSeconds(dueDay, dueTime.getSeconds()),
+			setHours(dueDay, dueTime.getHours()),
 			dueTime.getMinutes(),
 		);
 

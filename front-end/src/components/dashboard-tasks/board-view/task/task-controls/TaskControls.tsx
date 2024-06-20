@@ -4,8 +4,8 @@ import { CheckCheck, SquareMinus, Trash2 } from 'lucide-react';
 import React from 'react';
 import { useDeleteTask } from '@/components/dashboard-tasks/hooks/queries/useDeleteTask';
 import { useRankedUpdate } from '@/components/dashboard-tasks/hooks/useRankedUpdate';
+import { TaskControl } from '@/components/dashboard-tasks/board-view/task/task-controls/TaskControl';
 import { TaskUpdate } from '@/components/dashboard-tasks/board-view/task/task-update/TaskUpdate';
-import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 import { IGetTaskResponse } from '@/types/task.service';
 
 interface ITaskControlsProps {
@@ -35,37 +35,38 @@ const TaskControlsComponent = ({ task }: ITaskControlsProps) => {
 	};
 
 	return (
-		<div className='flex flex-col justify-between gap-y-1.5 py-1.5 pr-1.5'>
-			<button
-				type='button'
-				title='Delete this task'
+		<div className='flex flex-col pr-1.5'>
+			<TaskControl
+				title='Delete'
 				onClick={onDelete}
-				className={s.control}
 			>
 				<Trash2
 					strokeWidth={1.5}
 					className='stroke-muted'
 				/>
-			</button>
+			</TaskControl>
 			<TaskUpdate task={task} />
-			<button
-				type='button'
-				title='Toggle completed state'
-				onClick={toggleCompleted}
-				className={s.control}
-			>
-				{task.isCompleted ? (
+			{task.isCompleted ? (
+				<TaskControl
+					title='Uncomplete'
+					onClick={toggleCompleted}
+				>
 					<SquareMinus
 						strokeWidth={1.5}
 						className='stroke-muted'
 					/>
-				) : (
+				</TaskControl>
+			) : (
+				<TaskControl
+					title='Complete'
+					onClick={toggleCompleted}
+				>
 					<CheckCheck
 						strokeWidth={1.5}
 						className='stroke-muted'
 					/>
-				)}
-			</button>
+				</TaskControl>
+			)}
 		</div>
 	);
 };

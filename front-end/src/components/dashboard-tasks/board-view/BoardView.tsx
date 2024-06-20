@@ -8,7 +8,6 @@ import {
 	useSensor,
 	useSensors,
 } from '@dnd-kit/core';
-import { format } from 'date-fns';
 import { useDragTasks } from '@/components/dashboard-tasks/hooks/useDragTasks';
 import { Column } from '@/components/dashboard-tasks/board-view/column/Column';
 import { columns } from '@/components/dashboard-tasks/board-view/column/columns.data';
@@ -40,9 +39,6 @@ export const BoardView = () => {
 
 	return (
 		<main className='overflow-x-hidden'>
-			<p className='mb-4 text-xl'>
-				Today is {format(now, 'eeee, MMMM d, yyyy')}
-			</p>
 			<ul className='flex h-full overflow-y-hidden overflow-x-scroll'>
 				<DndContext
 					sensors={sensors}

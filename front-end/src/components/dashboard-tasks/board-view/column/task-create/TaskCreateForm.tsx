@@ -57,7 +57,7 @@ export const TaskCreateForm = ({
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className='flex flex-col gap-y-5 rounded-md bg-background p-3 accent-accent'
+			className='flex flex-col gap-y-5 accent-accent'
 			autoComplete='off'
 		>
 			<TextField

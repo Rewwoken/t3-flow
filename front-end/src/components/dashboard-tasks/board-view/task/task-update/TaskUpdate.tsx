@@ -1,8 +1,8 @@
 import Popover from '@mui/material/Popover';
 import { PencilLine } from 'lucide-react';
 import * as React from 'react';
-import { UpdateTaskForm } from '@/components/dashboard-tasks/board-view/task/task-update/UpdateTaskForm';
-import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
+import { TaskControl } from '@/components/dashboard-tasks/board-view/task/task-controls/TaskControl';
+import { TaskUpdateForm } from '@/components/dashboard-tasks/board-view/task/task-update/TaskUpdateForm';
 import { IGetTaskResponse } from '@/types/task.service';
 
 interface ITaskUpdateProps {
@@ -26,16 +26,15 @@ export const TaskUpdate = ({ task }: ITaskUpdateProps) => {
 
 	return (
 		<>
-			<button
-				aria-describedby={id}
+			<TaskControl
+				title='Update'
 				onClick={handleClick}
-				className={s.control}
 			>
 				<PencilLine
 					strokeWidth={1.5}
 					className='stroke-muted'
 				/>
-			</button>
+			</TaskControl>
 			<Popover
 				id={id}
 				open={open}
@@ -51,7 +50,7 @@ export const TaskUpdate = ({ task }: ITaskUpdateProps) => {
 				}}
 				transitionDuration={200}
 			>
-				<UpdateTaskForm
+				<TaskUpdateForm
 					task={task}
 					handleClose={handleClose}
 				/>

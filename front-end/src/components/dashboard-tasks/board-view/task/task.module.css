@@ -1,9 +1,5 @@
 .task {
-	@apply flex touch-manipulation bg-secondary shadow-md;
-}
-
-.control {
-	@apply rounded-md transition-colors hover:bg-muted/10;
+	@apply flex touch-manipulation rounded-sm bg-secondary shadow-md;
 }
 
 .skeleton {

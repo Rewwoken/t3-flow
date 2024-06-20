@@ -23,7 +23,7 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 	return (
 		<li className='min-w-[22rem] px-4'>
 			<span className='mb-1 flex justify-center text-muted'>{dateSpan}</span>
-			<h3 className='relative mb-3 bg-secondary py-1 text-center text-2xl'>
+			<h3 className='relative mb-3 bg-secondary py-1 text-center text-2xl shadow-md'>
 				<span className='absolute left-4'>{tasks.length}</span>
 				<span>{title}</span>
 			</h3>
