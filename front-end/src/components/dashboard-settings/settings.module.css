@@ -14,10 +14,6 @@
 	@apply mb-3 text-2xl;
 }
 
-.input {
-	@apply w-full rounded-sm border p-2 outline-none focus:outline-accent;
-}
-
 .error {
 	@apply ml-2 text-xs text-danger;
 }

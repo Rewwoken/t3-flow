@@ -1,7 +1,6 @@
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import * as React from 'react';
-import { useOutside } from '@/hooks/useOutside';
 import { TaskCreateForm } from '@/components/dashboard-tasks/board-view/column/task-create/TaskCreateForm';
 import { TTaskGroupId } from '@/types/task.types';
 
@@ -20,13 +19,11 @@ export default function TaskCreate({ colId }: ITaskCreateProps) {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
-	const { ref } = useOutside(handleClose);
-
 	return (
 		<>
 			<button
 				onClick={handleOpen}
-				className='pl-4 text-left text-sm text-muted'
+				className='pl-4 text-left text-sm text-muted hover:underline'
 			>
 				+ Add task
 			</button>
@@ -35,10 +32,7 @@ export default function TaskCreate({ colId }: ITaskCreateProps) {
 				onClose={handleClose}
 			>
 				<Fade in={open}>
-					<div
-						style={positionStyles}
-						ref={ref}
-					>
+					<div style={positionStyles}>
 						<TaskCreateForm
 							colId={colId}
 							handleClose={handleClose}

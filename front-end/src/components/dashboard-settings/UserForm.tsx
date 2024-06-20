@@ -1,19 +1,14 @@
 'use client';
 
-import clsx from 'clsx';
+import { TextField } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useUpdateUser } from '@/components/dashboard-settings/hooks/useUpdateUser';
 import s from '@/components/dashboard-settings/settings.module.css';
 import * as v from '@/components/dashboard-settings/settings.validation';
-import { FieldWrapper } from '@/components/ui/FieldWrapper';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import { IUpdateUserFields } from '@/types/settings.types';
-import { IGetUserResponse } from '@/types/user.service.types';
 
-interface IUserFormProps {
-	user: IGetUserResponse;
-}
-export const UserForm = ({ user }: IUserFormProps) => {
+export const UserForm = () => {
 	const { mutate: updateUser, isPending } = useUpdateUser();
 
 	const {
@@ -34,57 +29,36 @@ export const UserForm = ({ user }: IUserFormProps) => {
 		>
 			<fieldset className={s.fieldset}>
 				<legend className={s.legend}>User settings:</legend>
-				<FieldWrapper
+				<TextField
+					id='name-input'
 					label='Name'
-					htmlFor='name-input'
-					error={errors.name?.message}
-					className='bg-background'
-				>
-					<input
-						id='name-input'
-						type='text'
-						autoComplete='name'
-						placeholder={user.name || 'Name'}
-						{...register('name', v.name)}
-						className={clsx(s.input, {
-							'border-danger': !!errors.name?.message,
-						})}
-					/>
-				</FieldWrapper>
-				<FieldWrapper
+					type='text'
+					autoComplete='name'
+					variant='outlined'
+					{...register('name', v.name)}
+					error={!!errors.name?.message}
+					helperText={errors.name?.message}
+				/>
+				<TextField
+					id='email-input'
 					label='Email'
-					htmlFor='email-input'
-					error={errors.email?.message}
-					className='bg-background'
-				>
-					<input
-						id='email-input'
-						type='email'
-						autoComplete='email'
-						placeholder={user.email}
-						{...register('email', v.email)}
-						className={clsx(s.input, {
-							'border-danger': !!errors.email?.message,
-						})}
-					/>
-				</FieldWrapper>
-				<FieldWrapper
+					type='text'
+					autoComplete='email'
+					variant='outlined'
+					{...register('email', v.email)}
+					error={!!errors.email?.message}
+					helperText={errors.email?.message}
+				/>
+				<TextField
+					id='password-input'
 					label='Password'
-					htmlFor='password-input'
-					error={errors.password?.message}
-					className='bg-background'
-				>
-					<input
-						id='password-input'
-						type='password'
-						autoComplete='new-password'
-						placeholder='********'
-						{...register('password', v.password)}
-						className={clsx(s.input, {
-							'border-danger': !!errors.password?.message,
-						})}
-					/>
-				</FieldWrapper>
+					type='password'
+					autoComplete='new-password'
+					variant='outlined'
+					{...register('password', v.password)}
+					error={!!errors.password?.message}
+					helperText={errors.password?.message}
+				/>
 			</fieldset>
 			<SubmitButton
 				isValid={isValid}

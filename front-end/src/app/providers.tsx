@@ -4,10 +4,12 @@ import {
 	ThemeProvider as MaterialThemeProvider,
 	createTheme,
 } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { authService } from '@/services/auth.service';
 import { AUTH } from '@/constants/routes.constants';
 import { IApiErrorResponse } from '@/types/api.types';
@@ -20,11 +22,22 @@ const QueryProvider = ({ children }: React.PropsWithChildren) => {
 			queries: {
 				refetchOnWindowFocus: false,
 				// @ts-ignore | Axios is used for queries
-				retry,
+				retry: (failureCount: number, error: IApiErrorResponse) => {
+					if (failureCount === 0 && error.response?.status === 401) {
+						return true;
+					}
+
+					if (error.response?.status === 401) {
+						authService.logout();
+
+						router.push(AUTH.LOGIN);
+					}
+
+					return false;
+				},
 			},
 			mutations: {
-				// @ts-ignore | Axios is used for queries
-				retry,
+				retry: 0,
 			},
 		},
 	});
@@ -64,9 +77,15 @@ const ThemesProvider = ({ children }: React.PropsWithChildren) => {
 
 const MaterialProvider = ({ children }: React.PropsWithChildren) => {
 	const { theme: themeState } = useTheme();
+	const [mounted, setMounted] = React.useState(false);
+
+	useEffect(() => setMounted(true), []);
+
+	if (!mounted) return null;
 
 	const theme = createTheme({
 		palette: {
+			mode: themeState as 'light' | 'dark',
 			primary: {
 				main: 'rgba(var(--primary))',
 			},
@@ -91,11 +110,21 @@ const MaterialProvider = ({ children }: React.PropsWithChildren) => {
 	);
 };
 
+const DateAdapterProvider = ({ children }: React.PropsWithChildren) => {
+	return (
+		<LocalizationProvider dateAdapter={AdapterDateFns}>
+			{children}
+		</LocalizationProvider>
+	);
+};
+
 export function Providers({ children }: React.PropsWithChildren) {
 	return (
 		<QueryProvider>
 			<ThemesProvider>
-				<MaterialProvider>{children}</MaterialProvider>
+				<MaterialProvider>
+					<DateAdapterProvider>{children}</DateAdapterProvider>
+				</MaterialProvider>
 			</ThemesProvider>
 		</QueryProvider>
 	);

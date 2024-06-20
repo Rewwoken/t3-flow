@@ -1,8 +1,8 @@
 import Popover from '@mui/material/Popover';
 import { PencilLine } from 'lucide-react';
 import * as React from 'react';
-import { useOutside } from '@/hooks/useOutside';
 import { UpdateTaskForm } from '@/components/dashboard-tasks/board-view/task/task-update/UpdateTaskForm';
+import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 import { IGetTaskResponse } from '@/types/task.service';
 
 interface ITaskUpdateProps {
@@ -21,8 +21,6 @@ export const TaskUpdate = ({ task }: ITaskUpdateProps) => {
 		setAnchorEl(null);
 	};
 
-	const { ref } = useOutside(handleClose);
-
 	const open = Boolean(anchorEl);
 	const id = open ? 'update-task-popover' : undefined;
 
@@ -31,6 +29,7 @@ export const TaskUpdate = ({ task }: ITaskUpdateProps) => {
 			<button
 				aria-describedby={id}
 				onClick={handleClick}
+				className={s.control}
 			>
 				<PencilLine
 					strokeWidth={1.5}
@@ -40,6 +39,7 @@ export const TaskUpdate = ({ task }: ITaskUpdateProps) => {
 			<Popover
 				id={id}
 				open={open}
+				onClose={handleClose}
 				anchorEl={anchorEl}
 				anchorOrigin={{
 					vertical: 'bottom',
@@ -51,15 +51,10 @@ export const TaskUpdate = ({ task }: ITaskUpdateProps) => {
 				}}
 				transitionDuration={200}
 			>
-				<div
-					ref={ref}
-					className='contents'
-				>
-					<UpdateTaskForm
-						task={task}
-						handleClose={handleClose}
-					/>
-				</div>
+				<UpdateTaskForm
+					task={task}
+					handleClose={handleClose}
+				/>
 			</Popover>
 		</>
 	);

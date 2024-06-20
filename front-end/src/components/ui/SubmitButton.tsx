@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import clsx from 'clsx';
 import { Loader } from 'lucide-react';
 
@@ -8,17 +9,16 @@ interface ISubmitButtonProps extends React.ComponentProps<'button'> {
 export const SubmitButton = ({
 	isPending,
 	isValid,
-	children,
 	className,
-	...props
+	children,
 }: ISubmitButtonProps) => {
 	return (
-		<button
-			disabled={isPending || !isValid}
+		<Button
 			type='submit'
-			{...props}
+			disabled={isPending || !isValid}
+			variant='contained'
 			className={clsx(
-				'rounded-sm bg-primary py-1 text-white disabled:bg-muted/10 disabled:text-muted/80',
+				'!text-white disabled:bg-muted/10 disabled:!text-muted/80',
 				className,
 			)}
 		>
@@ -30,6 +30,6 @@ export const SubmitButton = ({
 			) : (
 				children
 			)}
-		</button>
+		</Button>
 	);
 };

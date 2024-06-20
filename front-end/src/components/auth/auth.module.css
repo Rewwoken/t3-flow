@@ -10,10 +10,6 @@
 	@apply mt-2 flex w-[275px] flex-col gap-y-3 rounded-sm border bg-background p-4 shadow-md;
 }
 
-.input {
-	@apply w-full rounded-sm border p-1 outline-none focus:outline-accent;
-}
-
 .message {
 	@apply w-full rounded-sm bg-danger/20 p-0.5 px-1 text-danger;
 }

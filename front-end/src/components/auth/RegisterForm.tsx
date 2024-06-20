@@ -1,11 +1,10 @@
 'use client';
 
-import clsx from 'clsx';
+import { TextField } from '@mui/material';
 import Link from 'next/link';
 import { useAuth } from '@/components/auth/hooks/useAuth';
 import s from '@/components/auth/auth.module.css';
 import * as v from '@/components/auth/auth.validation';
-import { FieldWrapper } from '@/components/ui/FieldWrapper';
 import { Logo } from '@/components/ui/Logo';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import { AUTH } from '@/constants/routes.constants';
@@ -29,58 +28,40 @@ export const RegisterForm = () => {
 				onSubmit={onSubmit}
 				className={s.form}
 			>
-				<FieldWrapper
+				<TextField
+					autoFocus
+					id='name-input'
 					label='Name'
-					htmlFor='name-input'
-					error={formErrors.name?.message}
-					className='bg-background'
-				>
-					<input
-						autoFocus
-						id='name-input'
-						type='text'
-						autoComplete='name'
-						placeholder='Asuka Langley'
-						{...register('name', v.name)}
-						className={clsx(s.input, {
-							'border-danger': !!formErrors.name?.message,
-						})}
-					/>
-				</FieldWrapper>
-				<FieldWrapper
+					type='text'
+					autoComplete='name'
+					variant='outlined'
+					size='small'
+					{...register('name', v.name)}
+					error={!!formErrors.name?.message}
+					helperText={formErrors.name?.message}
+				/>
+				<TextField
+					id='email-input'
 					label='Email'
-					htmlFor='email-input'
-					error={formErrors.email?.message}
-					className='bg-background'
-				>
-					<input
-						id='email-input'
-						type='email'
-						autoComplete='email'
-						placeholder='a.langley@gmail.com'
-						{...register('email', v.email)}
-						className={clsx(s.input, {
-							'border-danger': !!formErrors.email?.message,
-						})}
-					/>
-				</FieldWrapper>
-				<FieldWrapper
+					type='text'
+					autoComplete='email'
+					variant='outlined'
+					size='small'
+					{...register('email', v.email)}
+					error={!!formErrors.email?.message}
+					helperText={formErrors.email?.message}
+				/>
+				<TextField
+					id='password-input'
 					label='Password'
-					htmlFor='password-input'
-					error={formErrors.password?.message}
-					className='bg-background'
-				>
-					<input
-						id='password-input'
-						type='password'
-						autoComplete='current-password'
-						placeholder='********'
-						{...register('password', v.password)}
-						className={clsx(s.input, {
-							'border-danger': !!formErrors.password?.message,
-						})}
-					/>
-				</FieldWrapper>
+					type='password'
+					autoComplete='password'
+					variant='outlined'
+					size='small'
+					{...register('password', v.password)}
+					error={!!formErrors.password?.message}
+					helperText={formErrors.password?.message}
+				/>
 				{/* TODO: add password confirmation */}
 				{formMessage && <span className={s.message}>{formMessage}</span>}
 				<SubmitButton

@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { authService } from '@/services/auth.service';
 import { KEYS } from '@/constants/keys.constants';
 import { DASHBOARD } from '@/constants/routes.constants';
-import { IApiErrorResponse } from '@/types/api.types';
+import type { IApiErrorResponse } from '@/types/api.types';
 import type { IAuthResponse } from '@/types/auth.service.types';
 import type { ILoginFields, IRegisterFields } from '@/types/auth.types';
 
@@ -17,7 +17,7 @@ export function useAuth<IFields extends ILoginFields | IRegisterFields>(
 		register,
 		handleSubmit,
 		reset,
-		formState: { errors, isValid: isValidForm },
+		formState: { errors, isValid },
 	} = useForm<IFields>({ mode: 'onChange' });
 
 	const router = useRouter();
@@ -42,7 +42,7 @@ export function useAuth<IFields extends ILoginFields | IRegisterFields>(
 
 	return {
 		register,
-		isValidForm,
+		isValidForm: isValid,
 		formErrors: errors,
 		onSubmit,
 		isPending,

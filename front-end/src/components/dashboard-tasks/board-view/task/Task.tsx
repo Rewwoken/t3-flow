@@ -1,8 +1,8 @@
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import clsx from 'clsx';
 import React from 'react';
+import { TaskControls } from '@/components/dashboard-tasks/board-view/task/TaskControls';
 import { TaskStatus } from '@/components/dashboard-tasks/board-view/task/TaskStatus';
-import { TaskControls } from '@/components/dashboard-tasks/board-view/task/task-controls/TaskControls';
 import type { IGetTaskResponse } from '@/types/task.service';
 
 interface ITaskProps {

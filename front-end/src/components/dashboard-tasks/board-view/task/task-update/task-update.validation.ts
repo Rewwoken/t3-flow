@@ -7,6 +7,7 @@ export enum Priority {
 }
 
 export const name: RegisterOptions = {
+	required: 'Task name is required!',
 	maxLength: {
 		value: 30,
 		message: 'Task name must be less than 30 characters.',

@@ -25,13 +25,16 @@ export interface IStartPositionRef {
 export interface ICreateTaskFields {
 	name: string;
 	priority: 'low' | 'medium' | 'high';
-	dueDay: string;
-	dueTime: string;
+	dueDate: Date | null;
 	isCompleted: boolean;
 }
 
-export interface IUpdateTaskFields
-	extends Omit<ICreateTaskFields, 'isCompleted'> {}
+export interface IUpdateTaskFields {
+	name: string;
+	priority: 'low' | 'medium' | 'high';
+	dueDay: Date | null;
+	dueTime: Date | null;
+}
 
 export interface IPopover {
 	x: number;

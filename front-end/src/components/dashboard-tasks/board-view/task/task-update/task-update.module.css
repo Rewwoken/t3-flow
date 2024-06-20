@@ -1,7 +1,0 @@
-.label {
-	@apply bg-background text-muted;
-}
-
-.field {
-	@apply w-full border bg-background py-1 pl-1 text-sm outline-none focus:border-accent;
-}
