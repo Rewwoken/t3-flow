@@ -69,7 +69,7 @@ export const TaskUpdateForm = ({ task, handleClose }: IUpdateTaskFormProps) => {
 			<TextField
 				id='task-name-input'
 				label='Task name'
-				type='task-name'
+				type='text'
 				autoComplete='task-name'
 				variant='outlined'
 				size='small'

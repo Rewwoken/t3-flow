@@ -8,7 +8,7 @@ import { WEBSITE_NAME } from '@/constants/seo.constants';
 const inter = Inter({
 	subsets: ['latin'],
 	weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-}); // TODO: change font
+}); // Potential improvement: add different fonts
 
 export const metadata: Metadata = {
 	icons: '/logo.svg',
@@ -27,7 +27,7 @@ export default function RootLayout({
 	return (
 		<html
 			lang='en'
-			suppressHydrationWarning={true}
+			suppressHydrationWarning={true} // https://github.com/pacocoursey/next-themes?tab=readme-ov-file#with-app
 		>
 			<body className={clsx(inter.className, 'h-screen overflow-y-hidden p-2')}>
 				<Providers>{children}</Providers>

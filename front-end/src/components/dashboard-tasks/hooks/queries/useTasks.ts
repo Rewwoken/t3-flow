@@ -14,7 +14,7 @@ import type { IGetTasksResponse } from '@/types/task.service';
  */
 export function useTasks() {
 	const result = useQuery<IGetTasksResponse, IApiErrorResponse>({
-		queryKey: KEYS.GET_TASKS,
+		queryKey: KEYS.TASK_GET_ALL,
 		queryFn: () => taskService.getAll(),
 	});
 

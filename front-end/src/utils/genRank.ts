@@ -1,7 +1,7 @@
 // I decided to move LexoRank logic to client side,
-// because user can switch task order very fast so
+// because user can switch item order very fast so
 // backend wouldn't be able to handle all queries in
-// time so client won't have the up-to-date task ranks.
+// time so client won't have the up-to-date item ranks.
 import { LexoRank } from 'lexorank';
 
 /**
@@ -37,7 +37,7 @@ export const genRank = (
 			return lexorank.toString();
 		}
 
-		// handle dropping between other tasks
+		// handle dropping between other items
 		if (prevRank && nextRank) {
 			const lexorank = LexoRank.parse(prevRank).between(
 				LexoRank.parse(nextRank),

@@ -90,13 +90,13 @@ model TimerSettings {
 model TimeBlock {
   id String @id @default(cuid()) @map("time_block_id")
 
-  name     String
-  color    String?
-  duration Int
-  rank     String // lexorank
+  name    String
+  color   String
+  minutes Int
+  rank    String // lexorank
 
   // many to one relation: TimeBlock ==> TimeBlock[] in User
-  user   User  @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
   userId String @map("user_id")
 
   createdAt DateTime @default(now()) @map("created_at")

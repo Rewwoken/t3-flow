@@ -13,11 +13,11 @@ export function useUpdateUser() {
 		IApiErrorResponse,
 		IUpdateUserFields
 	>({
-		mutationKey: KEYS.UPDATE_USER,
+		mutationKey: KEYS.USER_UPDATE,
 		mutationFn: (data) => userService.update(data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: KEYS.GET_USER,
+				queryKey: KEYS.USER_GET,
 			});
 		},
 	});

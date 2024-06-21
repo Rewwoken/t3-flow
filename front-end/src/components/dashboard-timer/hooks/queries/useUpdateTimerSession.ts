@@ -17,11 +17,11 @@ export function useUpdateTimerSession() {
 		IApiErrorResponse,
 		IUpdateTimerSession
 	>({
-		mutationKey: KEYS.UPDATE_TIMER_SESSION,
+		mutationKey: KEYS.TIMER_SESSION_UPDATE,
 		mutationFn: (data) => timerService.updateSession(data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: KEYS.GET_TIMER_SESSION,
+				queryKey: KEYS.TIMER_SESSION_GET,
 			});
 		},
 	});

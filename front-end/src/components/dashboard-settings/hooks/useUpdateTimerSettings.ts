@@ -13,11 +13,11 @@ export function useUpdateTimerSettings() {
 		IApiErrorResponse,
 		IUpdateTimerSettingsFields
 	>({
-		mutationKey: KEYS.UPDATE_SETTINGS,
+		mutationKey: KEYS.SETTINGS_UPDATE,
 		mutationFn: (data) => timerService.updateSettings(data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: KEYS.GET_TIMER_SETTINGS,
+				queryKey: KEYS.TIMER_SETTINGS_GET,
 			});
 		},
 	});

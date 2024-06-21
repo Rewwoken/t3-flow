@@ -29,7 +29,7 @@ import { IGetTimerSettingsResponse } from '@/types/timer.service.types';
  */
 export function useTimerSettings() {
 	const result = useQuery<IGetTimerSettingsResponse, IApiErrorResponse>({
-		queryKey: KEYS.GET_TIMER_SETTINGS,
+		queryKey: KEYS.TIMER_SETTINGS_GET,
 		queryFn: () => timerService.getSettings(),
 	});
 

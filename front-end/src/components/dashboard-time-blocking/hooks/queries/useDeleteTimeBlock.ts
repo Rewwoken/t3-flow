@@ -1,19 +1,17 @@
-'use client';
-
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { timerService } from '@/services/timer.service';
+import { timeBlockService } from '@/services/time-block.service';
 import { KEYS } from '@/constants/keys.constants';
 import type { IApiErrorResponse } from '@/types/api.types';
 
-export function useDeleteTimerSession() {
+export function useDeleteTimeBlock() {
 	const queryClient = useQueryClient();
 
-	const result = useMutation<void, IApiErrorResponse>({
-		mutationKey: KEYS.TIMER_SETTINGS_DELETE,
-		mutationFn: () => timerService.deleteSession(),
+	const result = useMutation<void, IApiErrorResponse, string>({
+		mutationKey: KEYS.TIME_BLOCK_DELETE,
+		mutationFn: (id) => timeBlockService.deleteOne(id),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: KEYS.TIMER_SESSION_GET,
+				queryKey: KEYS.TIME_BLOCK_GET,
 			});
 		},
 	});

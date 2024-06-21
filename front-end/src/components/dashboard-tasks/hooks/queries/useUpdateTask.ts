@@ -29,15 +29,15 @@ export function useUpdateTask(params?: IUseUpdateTaskParams) {
 		IApiErrorResponse,
 		IUpdateTaskData
 	>({
-		mutationKey: KEYS.UPDATE_TASK,
-		mutationFn: ({ id, data }) => taskService.update(id, data),
+		mutationKey: KEYS.TASK_UPDATE,
+		mutationFn: (data) => taskService.updateOne(data),
 		onSuccess: () => {
 			if (!params?.invalidate) {
 				return null;
 			}
 
 			queryClient.invalidateQueries({
-				queryKey: KEYS.GET_TASKS,
+				queryKey: KEYS.TASK_GET_ALL,
 			});
 		},
 	});

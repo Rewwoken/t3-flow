@@ -19,7 +19,6 @@ export const TaskControl = ({
 			<IconButton
 				type='button'
 				size='small'
-				title={title}
 				aria-label={title}
 				onClick={onClick}
 			>

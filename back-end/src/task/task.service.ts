@@ -11,7 +11,7 @@ export class TaskService {
 	async getAll(userId: string, group: boolean | undefined) {
 		const tasks = await this.prismaService.task.findMany({
 			where: { userId },
-			orderBy: { rank: 'asc' }, // ! It is important to order by lexorank
+			orderBy: { rank: 'asc' }, // ! Must be ordered by lexorank ascending
 		});
 
 		// TODO: implement rebalance
@@ -76,7 +76,7 @@ export class TaskService {
 
 	async delete(userId: string, taskId: string) {
 		return await this.prismaService.task.delete({
-			where: { id: taskId, userId: userId },
+			where: { userId: userId, id: taskId },
 		});
 	}
 }

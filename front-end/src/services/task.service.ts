@@ -4,9 +4,10 @@ import type {
 	ICreateTaskDataResponse,
 	IGetTaskResponse,
 	IGetTasksResponse,
+	IUpdateTaskData,
 	IUpdateTaskResponse,
 } from '@/types/task.service';
-import { ITaskGroups } from '@/types/tasks.types';
+import { ITaskGroups } from '@/types/task.types';
 
 export class TaskService {
 	private readonly BASE_URL = '/task';
@@ -25,7 +26,7 @@ export class TaskService {
 		return result.data;
 	}
 
-	async create(data: ICreateTaskData) {
+	async createOne(data: ICreateTaskData) {
 		const result = await apiProtected.post<ICreateTaskDataResponse>(
 			this.BASE_URL,
 			data,
@@ -42,7 +43,7 @@ export class TaskService {
 		return result.data;
 	}
 
-	async update(id: string, data: any) {
+	async updateOne({ id, data }: IUpdateTaskData) {
 		const result = await apiProtected.patch<IUpdateTaskResponse>(
 			`${this.BASE_URL}/${id}`,
 			data,
@@ -51,7 +52,7 @@ export class TaskService {
 		return result.data;
 	}
 
-	async delete(id: string) {
+	async deleteOne(id: string) {
 		const result = await apiProtected.delete<void>(`${this.BASE_URL}/${id}`);
 
 		return result.data;

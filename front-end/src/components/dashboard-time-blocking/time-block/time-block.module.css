@@ -1,0 +1,11 @@
+.container {
+	@apply flex list-none items-start justify-between rounded-sm p-1;
+}
+
+.dragged {
+	@apply animate-pulse !bg-muted;
+}
+
+.dragged * {
+	@apply opacity-0;
+}

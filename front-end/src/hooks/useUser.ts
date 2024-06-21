@@ -29,7 +29,7 @@ import type { IGetUserResponse } from '@/types/user.service.types';
  */
 export function useUser() {
 	const result = useQuery<IGetUserResponse, IApiErrorResponse>({
-		queryKey: KEYS.GET_USER,
+		queryKey: KEYS.USER_GET,
 		queryFn: () => userService.getUser(),
 	});
 

@@ -1,21 +1,27 @@
 class Keys {
 	readonly AUTH = ['auth'];
 
-	readonly GET_USER = ['user'];
-	readonly UPDATE_USER = ['user', 'update'];
+	readonly USER_GET = ['user'];
+	readonly USER_UPDATE = ['user', 'update'];
 
-	readonly GET_TASKS = ['tasks'];
-	readonly CREATE_TASK = ['task', 'create'];
-	readonly UPDATE_TASK = ['task', 'update'];
-	readonly DELETE_TASK = ['task', 'delete'];
+	readonly TASK_GET_ALL = ['tasks'];
+	readonly TASK_CREATE = ['task', 'create'];
+	readonly TASK_UPDATE = ['task', 'update'];
+	readonly TASK_DELETE = ['task', 'delete'];
 
-	readonly CREATE_TIMER_SESSION = ['timer', 'session', 'create'];
-	readonly GET_TIMER_SESSION = ['timer', 'session'];
-	readonly UPDATE_TIMER_SESSION = ['timer', 'session', 'update'];
-	readonly GET_TIMER_SETTINGS = ['timer', 'settings'];
-	readonly DELETE_TIMER_SESSION = ['timer', 'session', 'delete'];
+	readonly TIMER_SESSION_CREATE = ['timer', 'session', 'create'];
+	readonly TIMER_SESSION_GET = ['timer', 'session'];
+	readonly TIMER_SESSION_UPDATE = ['timer', 'session', 'update'];
 
-	readonly UPDATE_SETTINGS = ['update', 'settings'];
+	readonly TIMER_SETTINGS_GET = ['timer', 'settings'];
+	readonly TIMER_SETTINGS_DELETE = ['timer', 'session', 'delete'];
+
+	readonly TIME_BLOCK_GET = ['time', 'blocks'];
+	readonly TIME_BLOCK_UPDATE = ['time', 'block', 'update'];
+	readonly TIME_BLOCK_CREATE = ['time', 'block', 'create'];
+	readonly TIME_BLOCK_DELETE = ['time', 'block', 'delete'];
+
+	readonly SETTINGS_UPDATE = ['update', 'settings'];
 }
 
 export const KEYS = new Keys();

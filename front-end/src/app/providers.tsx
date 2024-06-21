@@ -1,6 +1,8 @@
 'use client';
 
 import {
+	Backdrop,
+	CircularProgress,
 	ThemeProvider as MaterialThemeProvider,
 	createTheme,
 } from '@mui/material';
@@ -21,7 +23,7 @@ const QueryProvider = ({ children }: React.PropsWithChildren) => {
 		defaultOptions: {
 			queries: {
 				refetchOnWindowFocus: false,
-				// @ts-ignore | Axios is used for queries
+				// @ts-ignore | Ignore error type not assignable, because Axios is used for queries
 				retry: (failureCount: number, error: IApiErrorResponse) => {
 					if (failureCount === 0 && error.response?.status === 401) {
 						return true;
@@ -41,20 +43,6 @@ const QueryProvider = ({ children }: React.PropsWithChildren) => {
 			},
 		},
 	});
-
-	async function retry(failureCount: number, error: IApiErrorResponse) {
-		if (failureCount === 0 && error.response?.status === 401) {
-			return true;
-		}
-
-		if (error.response?.status === 401) {
-			await authService.logout();
-
-			router.push(AUTH.LOGIN);
-		}
-
-		return false;
-	}
 
 	const [queryClient] = React.useState(client);
 
@@ -81,7 +69,12 @@ const MaterialProvider = ({ children }: React.PropsWithChildren) => {
 
 	useEffect(() => setMounted(true), []);
 
-	if (!mounted) return null;
+	if (!mounted)
+		return (
+			<Backdrop open={true}>
+				<CircularProgress color='inherit' />
+			</Backdrop>
+		);
 
 	const theme = createTheme({
 		palette: {
@@ -93,10 +86,10 @@ const MaterialProvider = ({ children }: React.PropsWithChildren) => {
 				main: 'rgba(var(--secondary))',
 			},
 			background: {
-				default: 'rgba(var(--primary))',
+				default: 'rgba(var(--background))',
 			},
 			text: {
-				primary: 'rgba(var(--text))',
+				primary: 'rgba(var(--foreground))',
 				secondary: 'rgba(var(--muted))',
 			},
 			error: {

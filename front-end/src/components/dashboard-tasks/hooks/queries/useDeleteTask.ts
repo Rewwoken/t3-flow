@@ -16,11 +16,11 @@ export function useDeleteTask() {
 	const queryClient = useQueryClient();
 
 	const result = useMutation<void, IApiErrorResponse, IDeleteTaskData>({
-		mutationKey: KEYS.DELETE_TASK,
-		mutationFn: ({ id }) => taskService.delete(id),
+		mutationKey: KEYS.TASK_DELETE,
+		mutationFn: ({ id }) => taskService.deleteOne(id),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: KEYS.GET_TASKS,
+				queryKey: KEYS.TASK_GET_ALL,
 			});
 		},
 	});

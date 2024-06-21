@@ -8,7 +8,7 @@ import { IGetTimerSessionResponse } from '@/types/timer.service.types';
 
 export function useTimerSession() {
 	const result = useQuery<IGetTimerSessionResponse, IApiErrorResponse>({
-		queryKey: KEYS.GET_TIMER_SESSION,
+		queryKey: KEYS.TIMER_SESSION_GET,
 		queryFn: () => timerService.getSession(),
 	});
 

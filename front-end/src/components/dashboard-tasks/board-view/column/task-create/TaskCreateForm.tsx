@@ -64,7 +64,7 @@ export const TaskCreateForm = ({
 				className='pl-2'
 				id='task-name-input'
 				label='Task name'
-				type='task-name'
+				type='text'
 				autoComplete='task-name'
 				variant='standard'
 				size='small'
@@ -112,7 +112,7 @@ export const TaskCreateForm = ({
 				/>
 				<label
 					htmlFor='is-completed'
-					className='text-sm'
+					className='cursor-pointer text-sm'
 				>
 					Is completed?
 				</label>

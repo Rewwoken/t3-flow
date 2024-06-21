@@ -33,15 +33,15 @@ export function useCreateTask(params?: IUseCreateTaskParams) {
 		IApiErrorResponse,
 		Omit<ICreateTaskData, 'rank'>
 	>({
-		mutationKey: KEYS.CREATE_TASK,
+		mutationKey: KEYS.TASK_CREATE,
 		mutationFn: async (data: Omit<ICreateTaskData, 'rank'>) => {
 			const taskGroups = await taskService.getAllGrouped();
-			const toGroup = taskGroups[getTaskGroupId(data)];
+			const toGroup = taskGroups[getTaskGroupId(data)]; // TODO: if possible, optimize queries amount
 
 			// If the column is empty, create the
 			// task as the first task in the column
 			if (toGroup.length === 0) {
-				return taskService.create({
+				return taskService.createOne({
 					...data,
 					rank: genRank(undefined, undefined) as string,
 				});
@@ -50,7 +50,7 @@ export function useCreateTask(params?: IUseCreateTaskParams) {
 			// Create new task as the last task in the group
 			const prevRank = toGroup[toGroup.length - 1].rank;
 
-			return taskService.create({
+			return taskService.createOne({
 				...data,
 				rank: genRank(prevRank, undefined) as string,
 			});
@@ -58,7 +58,7 @@ export function useCreateTask(params?: IUseCreateTaskParams) {
 		onSuccess: () => {
 			if (params?.invalidate) {
 				queryClient.invalidateQueries({
-					queryKey: KEYS.GET_TASKS,
+					queryKey: KEYS.TASK_GET_ALL,
 				});
 			}
 		},

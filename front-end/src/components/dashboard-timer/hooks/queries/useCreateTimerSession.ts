@@ -10,11 +10,11 @@ export function useCreateTimerSession() {
 	const queryClient = useQueryClient();
 
 	const result = useMutation<IGetTimerSessionResponse, IApiErrorResponse>({
-		mutationKey: KEYS.CREATE_TIMER_SESSION,
+		mutationKey: KEYS.TIMER_SESSION_CREATE,
 		mutationFn: () => timerService.createSession(),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: KEYS.GET_TIMER_SESSION,
+				queryKey: KEYS.TIMER_SESSION_GET,
 			});
 		},
 	});

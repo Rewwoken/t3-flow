@@ -1,6 +1,5 @@
 import { PrismaService } from '@/prisma.service';
 import { CreateTimeBlockDto } from '@/time-block/dto/create-time-block.dto';
-import { UpdateOrderDto } from '@/time-block/dto/update-order.dto';
 import { UpdateTimeBlockDto } from '@/time-block/dto/update-time-block.dto';
 import { Injectable } from '@nestjs/common';
 
@@ -39,8 +38,8 @@ export class TimeBlockService {
 	) {
 		return await this.prismaService.timeBlock.update({
 			where: {
+				userId: userId,
 				id: timeBlockId,
-				userId: userId, // just for the safety; can be removed
 			},
 			data: updateTimeBlockDto,
 		});
@@ -49,8 +48,8 @@ export class TimeBlockService {
 	async delete(userId: string, timeBlockId) {
 		return await this.prismaService.timeBlock.delete({
 			where: {
+				userId: userId,
 				id: timeBlockId,
-				userId: userId, // just for the safety; can be removed
 			},
 		});
 	}
