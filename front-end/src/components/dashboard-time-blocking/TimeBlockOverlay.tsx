@@ -1,5 +1,6 @@
 import { DragOverlay } from '@dnd-kit/core';
 import clsx from 'clsx';
+import React from 'react';
 import { TimeBlock } from '@/components/dashboard-time-blocking/time-block/TimeBlock';
 import s from '@/components/dashboard-time-blocking/time-block/time-block.module.css';
 import { ITimeBlock } from '@/types/time-block.service.types';
@@ -7,7 +8,7 @@ import { ITimeBlock } from '@/types/time-block.service.types';
 interface ITimeBlockOverlayProps {
 	active: ITimeBlock | null;
 }
-export const TimeBlockOverlay = ({ active }: ITimeBlockOverlayProps) => {
+const TimeBlockOverlayComponent = ({ active }: ITimeBlockOverlayProps) => {
 	// TODO: memo
 	return (
 		<DragOverlay
@@ -19,3 +20,5 @@ export const TimeBlockOverlay = ({ active }: ITimeBlockOverlayProps) => {
 		</DragOverlay>
 	);
 };
+
+export const TimeBlockOverlay = React.memo(TimeBlockOverlayComponent);

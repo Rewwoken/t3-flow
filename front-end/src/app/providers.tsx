@@ -89,7 +89,7 @@ const MaterialProvider = ({ children }: React.PropsWithChildren) => {
 				default: 'rgba(var(--background))',
 			},
 			text: {
-				primary: 'rgba(var(--foreground))',
+				// primary: 'rgba(var(--foreground))',
 				secondary: 'rgba(var(--muted))',
 			},
 			error: {

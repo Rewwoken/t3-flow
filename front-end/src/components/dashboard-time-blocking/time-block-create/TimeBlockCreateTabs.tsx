@@ -52,7 +52,7 @@ export const TimeBlockCreateTabs = ({
 					<SubmitButton
 						isValid={isValid}
 						isPending={isPending}
-						className='w-full'
+						className='h-[50px] w-full'
 					>
 						Create
 					</SubmitButton>

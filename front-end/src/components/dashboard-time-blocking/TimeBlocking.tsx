@@ -8,7 +8,7 @@ import {
 import React from 'react';
 import { useDragTimeBlocks } from '@/components/dashboard-time-blocking/hooks/useDragTimeBlocks';
 import { TimeBlockOverlay } from '@/components/dashboard-time-blocking/TimeBlockOverlay';
-import { TimeBlockCreate } from '@/components/dashboard-time-blocking/time-block-create/TimeBlockCreate';
+import { TimeBlockCreateForm } from '@/components/dashboard-time-blocking/time-block-create/TimeBlockCreateForm';
 import { SortableTimeBlock } from '@/components/dashboard-time-blocking/time-block/SortableTimeBlock';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { IGetTimeBlocksResponse } from '@/types/time-block.service.types';
@@ -47,13 +47,13 @@ export const TimeBlocking = () => {
 	// TODO: add stepper
 	return (
 		<main className='flex items-center justify-center'>
-			<TimeBlocksContext.Provider value={{ timeBlocks, setTimeBlocks }}>
-				<DndContext
-					collisionDetection={closestCenter}
-					onDragStart={handleDragStart}
-					onDragOver={handleDragOver}
-					onDragEnd={handleDragEnd}
-				>
+			<DndContext
+				collisionDetection={closestCenter}
+				onDragStart={handleDragStart}
+				onDragOver={handleDragOver}
+				onDragEnd={handleDragEnd}
+			>
+				<TimeBlocksContext.Provider value={{ timeBlocks, setTimeBlocks }}>
 					<div className='flex gap-x-4'>
 						<SortableContext
 							items={items}
@@ -71,11 +71,11 @@ export const TimeBlocking = () => {
 								))}
 							</ol>
 						</SortableContext>
-						<TimeBlockCreate />
+						<TimeBlockCreateForm />
 					</div>
-					<TimeBlockOverlay active={active} />
-				</DndContext>
-			</TimeBlocksContext.Provider>
+				</TimeBlocksContext.Provider>
+				<TimeBlockOverlay active={active} />
+			</DndContext>
 		</main>
 	);
 };

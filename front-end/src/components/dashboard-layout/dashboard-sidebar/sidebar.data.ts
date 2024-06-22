@@ -6,7 +6,7 @@ export const links = [
 		label: 'Dashboard',
 	},
 	{
-		route: DASHBOARD.TASKS_BOARD,
+		route: DASHBOARD.TASKS,
 		label: 'Tasks',
 	},
 	{

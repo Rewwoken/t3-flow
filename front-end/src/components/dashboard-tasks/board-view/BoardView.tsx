@@ -2,29 +2,35 @@
 
 import {
 	DndContext,
+	DragEndEvent,
+	DragOverEvent,
+	DragStartEvent,
 	MouseSensor,
 	TouchSensor,
 	rectIntersection,
 	useSensor,
 	useSensors,
 } from '@dnd-kit/core';
-import { useDragTasks } from '@/components/dashboard-tasks/hooks/useDragTasks';
 import { Column } from '@/components/dashboard-tasks/board-view/column/Column';
 import { columns } from '@/components/dashboard-tasks/board-view/column/columns.data';
 import { TaskOverlay } from '@/components/dashboard-tasks/board-view/task/TaskOverlay';
+import { IGetTaskResponse } from '@/types/task.service';
+import { ITaskGroups } from '@/types/task.types';
 
-const now = new Date();
-
-export const BoardView = () => {
-	const {
-		taskGroups,
-		active,
-		handleDragStart,
-		handleDragOver,
-		handleDragEnd,
-		isPending, // TODO: add Skeleton
-	} = useDragTasks();
-
+interface IBoardViewProps {
+	active: IGetTaskResponse | null;
+	taskGroups: ITaskGroups;
+	handleDragStart: (e: DragStartEvent) => void;
+	handleDragOver: (e: DragOverEvent) => null;
+	handleDragEnd: (e: DragEndEvent) => null;
+}
+export const BoardView = ({
+	active,
+	taskGroups,
+	handleDragStart,
+	handleDragOver,
+	handleDragEnd,
+}: IBoardViewProps) => {
 	const mouseSensor = useSensor(MouseSensor);
 
 	const touchSensor = useSensor(TouchSensor, {
@@ -38,8 +44,8 @@ export const BoardView = () => {
 	const sensors = useSensors(mouseSensor, touchSensor);
 
 	return (
-		<main className='overflow-x-hidden'>
-			<ul className='flex h-full overflow-y-hidden overflow-x-scroll'>
+		<main className='h-full overflow-scroll'>
+			<ul className='flex h-full'>
 				<DndContext
 					sensors={sensors}
 					collisionDetection={rectIntersection}

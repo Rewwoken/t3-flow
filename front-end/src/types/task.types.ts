@@ -1,5 +1,7 @@
 import type { IGetTaskResponse } from '@/types/task.service';
 
+export type TView = 'table-view' | 'board-view';
+
 export type TTaskGroupId =
 	| 'completed'
 	| 'noDate'

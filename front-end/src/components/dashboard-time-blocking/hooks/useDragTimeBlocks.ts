@@ -25,8 +25,6 @@ export function useDragTimeBlocks() {
 		const currentActive = active.data.current;
 		const currentOver = over?.data.current;
 
-		console.log({ active, over });
-
 		if (
 			!over ||
 			!currentActive ||

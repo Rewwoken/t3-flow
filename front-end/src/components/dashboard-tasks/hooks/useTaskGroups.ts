@@ -7,7 +7,7 @@ import { KEYS } from '@/constants/keys.constants';
 import type { IApiErrorResponse } from '@/types/api.types';
 import type { ITaskGroups } from '@/types/task.types';
 
-const initialGroups: ITaskGroups = {
+export const initialGroups: ITaskGroups = {
 	completed: [],
 	noDate: [],
 	overdue: [],

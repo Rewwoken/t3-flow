@@ -5,7 +5,7 @@ import {
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import React from 'react';
-import { useColumn } from '@/components/dashboard-tasks/hooks/useColumn';
+import { useColumn } from '@/components/dashboard-tasks/board-view/column/hooks/useColumn';
 import TaskCreate from '@/components/dashboard-tasks/board-view/column/task-create/TaskCreate';
 import { SortableTask } from '@/components/dashboard-tasks/board-view/task/SortableTask';
 import type { IGetTaskResponse } from '@/types/task.service';
@@ -51,3 +51,12 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 };
 
 export const Column = React.memo(ColumnComponent);
+
+// function arePropsEqual(
+// 	oldProps: Readonly<IColumnProps>,
+// 	newProps: Readonly<IColumnProps>,
+// ) {
+// 	return oldProps.tasks.every(
+// 		(oldTask, index) => oldTask.id === newProps.tasks[index].id,
+// 	);
+// }
