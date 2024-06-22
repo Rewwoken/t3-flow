@@ -1,20 +1,29 @@
+import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import { IconButton, Tooltip } from '@mui/material';
+import clsx from 'clsx';
 import { X } from 'lucide-react';
-import { useDeleteTimeBlock } from '@/components/dashboard-time-blocking/hooks/queries/useDeleteTimeBlock';
 import { ITimeBlock } from '@/types/time-block.service.types';
 
 interface ITimeBlockProps {
 	data: ITimeBlock;
+	listeners?: SyntheticListenerMap; // draggable listeners from useSortable(...)
+	handleDelete?: () => void;
 }
-export const TimeBlock = ({ data }: ITimeBlockProps) => {
-	const { mutate: deleteBlock } = useDeleteTimeBlock();
-	const handleDelete = () => {
-		deleteBlock(data.id);
-	};
-
+export const TimeBlock = ({
+	data,
+	listeners,
+	handleDelete,
+}: ITimeBlockProps) => {
 	return (
 		<>
-			<span className='text-white'>{data.name}</span>
+			<span
+				{...listeners}
+				className={clsx('flex h-full items-center pl-2 text-white', {
+					'cursor-grab': !!listeners,
+				})}
+			>
+				{data.name}
+			</span>
 			<Tooltip
 				title='Delete'
 				placement='right-start'

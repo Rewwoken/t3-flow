@@ -1,7 +1,6 @@
-import { PropsWithChildren } from 'react';
 import { ThemeSwitcher } from '@/components/ui/ThemeSwitcher';
 
-export default function AuthLayout({ children }: PropsWithChildren) {
+export default function AuthLayout({ children }: React.PropsWithChildren) {
 	return (
 		<>
 			<ThemeSwitcher

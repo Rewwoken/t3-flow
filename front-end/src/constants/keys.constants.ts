@@ -16,7 +16,7 @@ class Keys {
 	readonly TIMER_SETTINGS_GET = ['timer', 'settings'];
 	readonly TIMER_SETTINGS_DELETE = ['timer', 'session', 'delete'];
 
-	readonly TIME_BLOCK_GET = ['time', 'blocks'];
+	readonly TIME_BLOCK_GET_ALL = ['time', 'blocks'];
 	readonly TIME_BLOCK_UPDATE = ['time', 'block', 'update'];
 	readonly TIME_BLOCK_CREATE = ['time', 'block', 'create'];
 	readonly TIME_BLOCK_DELETE = ['time', 'block', 'delete'];

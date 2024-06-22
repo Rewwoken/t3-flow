@@ -1,6 +1,6 @@
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
-import * as React from 'react';
+import React from 'react';
 import { TaskCreateForm } from '@/components/dashboard-tasks/board-view/column/task-create/TaskCreateForm';
 import { TTaskGroupId } from '@/types/task.types';
 

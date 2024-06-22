@@ -1,9 +1,12 @@
 .container {
-	@apply flex list-none items-start justify-between rounded-sm p-1;
+	@apply grid list-none items-center rounded-sm;
+
+	grid-template-columns: 1fr auto;
+	transition: height 0.5s ease-out;
 }
 
 .dragged {
-	@apply animate-pulse !bg-muted;
+	@apply animate-pulse cursor-grabbing !bg-muted;
 }
 
 .dragged * {

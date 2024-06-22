@@ -11,7 +11,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { authService } from '@/services/auth.service';
 import { AUTH } from '@/constants/routes.constants';
 import { IApiErrorResponse } from '@/types/api.types';
@@ -67,7 +67,7 @@ const MaterialProvider = ({ children }: React.PropsWithChildren) => {
 	const { theme: themeState } = useTheme();
 	const [mounted, setMounted] = React.useState(false);
 
-	useEffect(() => setMounted(true), []);
+	React.useEffect(() => setMounted(true), []);
 
 	if (!mounted)
 		return (

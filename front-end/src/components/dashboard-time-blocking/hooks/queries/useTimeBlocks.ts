@@ -10,7 +10,7 @@ export function useTimeBlocks() {
 		IGetTimeBlocksResponse,
 		IApiErrorResponse
 	>({
-		queryKey: KEYS.TIME_BLOCK_GET,
+		queryKey: KEYS.TIME_BLOCK_GET_ALL,
 		queryFn: () => timeBlockService.getAll(),
 	});
 

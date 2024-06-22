@@ -1,6 +1,6 @@
 'use client';
 
-import { DndContext, rectIntersection, useDroppable } from '@dnd-kit/core';
+import { DndContext, closestCenter, useDroppable } from '@dnd-kit/core';
 import {
 	SortableContext,
 	verticalListSortingStrategy,
@@ -10,50 +10,72 @@ import { useDragTimeBlocks } from '@/components/dashboard-time-blocking/hooks/us
 import { TimeBlockOverlay } from '@/components/dashboard-time-blocking/TimeBlockOverlay';
 import { TimeBlockCreate } from '@/components/dashboard-time-blocking/time-block-create/TimeBlockCreate';
 import { SortableTimeBlock } from '@/components/dashboard-time-blocking/time-block/SortableTimeBlock';
+import { Skeleton } from '@/components/ui/Skeleton';
+import { IGetTimeBlocksResponse } from '@/types/time-block.service.types';
+
+interface ITimeBlocksContext {
+	timeBlocks: IGetTimeBlocksResponse;
+	setTimeBlocks: React.Dispatch<React.SetStateAction<IGetTimeBlocksResponse>>;
+}
+export const TimeBlocksContext = React.createContext<ITimeBlocksContext>({
+	timeBlocks: [],
+	setTimeBlocks: () => {},
+});
 
 export const TimeBlocking = () => {
-	const { timeBlocks, handleDragStart, handleDragOver, handleDragEnd, active } =
-		useDragTimeBlocks();
+	const {
+		active,
+		timeBlocks,
+		setTimeBlocks,
+		handleDragStart,
+		handleDragOver,
+		handleDragEnd,
+		isPending,
+	} = useDragTimeBlocks();
 
 	const { setNodeRef } = useDroppable({
 		id: 'blocks',
-		data: { type: 'blocks', timeBlocks },
-		disabled: false,
 	});
 
 	const items = React.useMemo(() => {
 		return timeBlocks.map((block) => block.id);
 	}, [timeBlocks]);
 
+	if (isPending) return <Skeleton />;
+
 	// TODO: add instructions
 	// TODO: add stepper
 	return (
-		<main className='flex gap-x-4 p-2'>
-			<DndContext
-				onDragStart={handleDragStart}
-				onDragOver={handleDragOver}
-				onDragEnd={handleDragEnd}
-				collisionDetection={rectIntersection}
-			>
-				<SortableContext
-					items={items}
-					strategy={verticalListSortingStrategy}
+		<main className='flex items-center justify-center'>
+			<TimeBlocksContext.Provider value={{ timeBlocks, setTimeBlocks }}>
+				<DndContext
+					collisionDetection={closestCenter}
+					onDragStart={handleDragStart}
+					onDragOver={handleDragOver}
+					onDragEnd={handleDragEnd}
 				>
-					<ol
-						ref={setNodeRef}
-						className='flex w-96 flex-col gap-y-2 border border-red-500 bg-secondary p-4'
-					>
-						{timeBlocks.map((block) => (
-							<SortableTimeBlock
-								key={block.id}
-								block={block}
-							/>
-						))}
-					</ol>
-				</SortableContext>
-				<TimeBlockCreate />
-				<TimeBlockOverlay active={active} />
-			</DndContext>
+					<div className='flex gap-x-4'>
+						<SortableContext
+							items={items}
+							strategy={verticalListSortingStrategy}
+						>
+							<ol
+								className='flex w-96 flex-col gap-y-2 bg-secondary p-4'
+								ref={setNodeRef}
+							>
+								{timeBlocks.map((block) => (
+									<SortableTimeBlock
+										key={block.id}
+										block={block}
+									/>
+								))}
+							</ol>
+						</SortableContext>
+						<TimeBlockCreate />
+					</div>
+					<TimeBlockOverlay active={active} />
+				</DndContext>
+			</TimeBlocksContext.Provider>
 		</main>
 	);
 };

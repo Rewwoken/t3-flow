@@ -28,12 +28,13 @@ export const NewTimeBlock = ({ data, isValid }: IDraggableTimeBlockProps) => {
 	});
 
 	const style = {
+		backgroundColor: data.color,
+		height:
+			(70 < data.minutes && data.minutes < 720 ? data.minutes * 0.7 : 50) +
+			'px',
 		transform: CSS.Transform.toString(transform),
 		transition,
-		backgroundColor: data.color,
 	};
-
-	const handleReset = () => {};
 
 	return (
 		<li
@@ -41,12 +42,18 @@ export const NewTimeBlock = ({ data, isValid }: IDraggableTimeBlockProps) => {
 			style={style}
 			{...listeners}
 			{...attributes}
-			className={clsx(s.container, 'bg-green-500', {
+			className={clsx(s.container, {
 				'opacity-75': !isValid,
 				[s.dragged]: isDragging,
 			})}
 		>
-			<span className='text-white'>{data.name}</span>
+			<span
+				className={clsx('flex h-full items-center pl-2 text-white', {
+					'cursor-grab': isValid,
+				})}
+			>
+				{data.name}
+			</span>
 			<Tooltip
 				title='Delete'
 				placement='right-start'
@@ -55,8 +62,6 @@ export const NewTimeBlock = ({ data, isValid }: IDraggableTimeBlockProps) => {
 				<IconButton
 					type='button'
 					size='medium'
-					aria-label='Delete this time block'
-					onClick={handleReset}
 				>
 					<X className='stroke-white' />
 				</IconButton>

@@ -1,13 +1,13 @@
 import { TextField } from '@mui/material';
 import { MuiColorInput } from 'mui-color-input';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useCreateTimeBlock } from '@/components/dashboard-time-blocking/hooks/queries/useCreateTimeBlock';
+import { useRankedCreate } from '@/components/dashboard-time-blocking/hooks/useRankedCreate';
 import { TimeBlockCreateTabs } from '@/components/dashboard-time-blocking/time-block-create/TimeBlockCreateTabs';
 import * as v from '@/components/dashboard-time-blocking/time-block-create/time-block-create.validation';
 import { ICreateTimeBlockFields } from '@/types/time-block.types';
 
 export const TimeBlockCreate = () => {
-	const { mutate: createBlock, isPending } = useCreateTimeBlock();
+	const { rankedCreate, isPending } = useRankedCreate();
 	const {
 		register,
 		handleSubmit,
@@ -18,29 +18,22 @@ export const TimeBlockCreate = () => {
 		mode: 'onChange',
 		defaultValues: {
 			color: 'rgb(0, 0, 0)',
-			name: 'Что-то',
-			minutes: 120,
 		},
 	});
 
 	const onSubmit: SubmitHandler<ICreateTimeBlockFields> = (values) => {
-		debugger;
+		values.color = values.color.replaceAll(' ', ''); // class-validator @IsRgbColor()
 
-		// TODO: create a new block
+		rankedCreate(values);
 	};
 
 	return (
-		<div className='flex w-80 flex-col'>
+		<div className='flex w-96 flex-col'>
 			<h2 className='mb-4 text-xl'>Build a new time block:</h2>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className='flex flex-col gap-y-4'
 			>
-				<TimeBlockCreateTabs
-					isPending={isPending}
-					isValid={isValid}
-					data={watch()}
-				/>
 				<TextField
 					id='time-block-name-input'
 					label='Name'
@@ -84,6 +77,11 @@ export const TimeBlockCreate = () => {
 							helperText={errors.color?.message}
 						/>
 					)}
+				/>
+				<TimeBlockCreateTabs
+					isPending={isPending}
+					isValid={isValid}
+					data={watch()}
 				/>
 			</form>
 		</div>

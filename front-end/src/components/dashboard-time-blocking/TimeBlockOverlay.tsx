@@ -1,4 +1,5 @@
 import { DragOverlay } from '@dnd-kit/core';
+import clsx from 'clsx';
 import { TimeBlock } from '@/components/dashboard-time-blocking/time-block/TimeBlock';
 import s from '@/components/dashboard-time-blocking/time-block/time-block.module.css';
 import { ITimeBlock } from '@/types/time-block.service.types';
@@ -11,7 +12,7 @@ export const TimeBlockOverlay = ({ active }: ITimeBlockOverlayProps) => {
 	return (
 		<DragOverlay
 			style={{ backgroundColor: active?.color }}
-			className={s.container}
+			className={clsx(s.container, 'cursor-grabbing')}
 			wrapperElement='li'
 		>
 			{active && <TimeBlock data={active} />}

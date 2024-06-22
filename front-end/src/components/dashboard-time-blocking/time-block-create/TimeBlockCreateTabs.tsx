@@ -1,6 +1,5 @@
 'use client';
 
-import { SortableContext } from '@dnd-kit/sortable';
 import { Tab, Tabs } from '@mui/material';
 import React from 'react';
 import { NewTimeBlock } from '@/components/dashboard-time-blocking/time-block-create/NewTimeBlock';
@@ -44,12 +43,10 @@ export const TimeBlockCreateTabs = ({
 			</Tabs>
 			<div className='bg-secondary p-4'>
 				{method === 'drag-a-block' && (
-					<SortableContext items={['new-block']}>
-						<NewTimeBlock
-							data={data}
-							isValid={isValid}
-						/>
-					</SortableContext>
+					<NewTimeBlock
+						data={data}
+						isValid={isValid}
+					/>
 				)}
 				{method === 'click-a-button' && (
 					<SubmitButton

@@ -1,6 +1,6 @@
 import Popover from '@mui/material/Popover';
 import { PencilLine } from 'lucide-react';
-import * as React from 'react';
+import React from 'react';
 import { TaskControl } from '@/components/dashboard-tasks/board-view/task/task-controls/TaskControl';
 import { TaskUpdateForm } from '@/components/dashboard-tasks/board-view/task/task-update/TaskUpdateForm';
 import { IGetTaskResponse } from '@/types/task.service';

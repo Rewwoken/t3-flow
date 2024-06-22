@@ -13,7 +13,14 @@ interface ISortableItemProps {
 	task: IGetTaskResponse;
 }
 const SortableTaskComponent = ({ colId, taskId, task }: ISortableItemProps) => {
-	const sortArgs = useSortable({
+	const {
+		transform,
+		transition,
+		setNodeRef,
+		attributes,
+		isDragging,
+		listeners,
+	} = useSortable({
 		id: taskId,
 		data: {
 			type: 'task',
@@ -23,23 +30,23 @@ const SortableTaskComponent = ({ colId, taskId, task }: ISortableItemProps) => {
 	});
 
 	const style = {
-		transform: CSS.Transform.toString(sortArgs.transform),
-		transition: sortArgs.transition,
+		transform: CSS.Transform.toString(transform),
+		transition: transition,
 	};
 
 	return (
 		<li
-			ref={sortArgs.setNodeRef}
-			{...sortArgs.attributes}
+			ref={setNodeRef}
+			{...attributes}
 			style={style}
 			className={clsx(s.task, {
-				[s.skeleton]: sortArgs.isDragging,
+				[s.skeleton]: isDragging,
 				'italic line-through': task.isCompleted,
 			})}
 		>
 			<Task
 				task={task}
-				listeners={sortArgs.listeners}
+				listeners={listeners}
 			/>
 		</li>
 	);

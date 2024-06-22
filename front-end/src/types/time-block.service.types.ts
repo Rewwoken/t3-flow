@@ -21,7 +21,7 @@ export interface IGetTimeBlocksResponse extends Array<ITimeBlock> {}
 
 export interface IUpdateTimeBlockData {
 	id: string;
-	data: Omit<ITimeBlock, 'id' | 'userId' | 'createdAt' | 'updatedAt'>;
+	data: Partial<Omit<ITimeBlock, 'id' | 'userId' | 'createdAt' | 'updatedAt'>>;
 }
 
 export interface IUpdateTimeBlockResponse extends ITimeBlock {}

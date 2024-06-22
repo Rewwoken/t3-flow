@@ -2,17 +2,17 @@
 
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import React from 'react';
 import { Skeleton } from './Skeleton';
 
 export const ThemeSwitcher = ({
 	className,
 	size,
 }: React.ComponentProps<'svg'> & { size: number }) => {
-	const [mounted, setMounted] = useState(false);
+	const [mounted, setMounted] = React.useState(false);
 	const { resolvedTheme, setTheme } = useTheme();
 
-	useEffect(() => setMounted(true), []);
+	React.useEffect(() => setMounted(true), []);
 
 	if (!mounted) {
 		return (
