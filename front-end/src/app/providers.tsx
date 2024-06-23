@@ -96,6 +96,9 @@ const MaterialProvider = ({ children }: React.PropsWithChildren) => {
 			error: {
 				main: 'rgba(var(--danger))',
 			},
+			warning: {
+				main: 'rgba(var(--danger))',
+			},
 		},
 	});
 

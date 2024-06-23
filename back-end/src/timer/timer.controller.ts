@@ -10,14 +10,14 @@ import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 export class TimerController {
 	constructor(private readonly timerService: TimerService) {}
 
-	@Post('/session')
-	async createSession(@CurrentUser('id') userId: string) {
-		return await this.timerService.createSession(userId);
-	}
-
 	@Get('/session')
 	async getSession(@CurrentUser('id') userId: string) {
 		return await this.timerService.getSession(userId);
+	}
+
+	@Post('/session')
+	async createSession(@CurrentUser('id') userId: string) {
+		return await this.timerService.createSession(userId);
 	}
 
 	@Patch('/session')
@@ -28,14 +28,14 @@ export class TimerController {
 		return await this.timerService.updateSession(userId, updateSessionDto);
 	}
 
-	@Get('/settings')
-	async getSettings(@CurrentUser('id') userId: string) {
-		return await this.timerService.getSettings(userId);
-	}
-
 	@Delete('/session')
 	async deleteSession(@CurrentUser('id') userId: string) {
 		return await this.timerService.deleteSession(userId);
+	}
+
+	@Get('/settings')
+	async getSettings(@CurrentUser('id') userId: string) {
+		return await this.timerService.getSettings(userId);
 	}
 
 	@Patch('/settings')

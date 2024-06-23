@@ -22,6 +22,7 @@ export const TaskDeleteButton = ({
 		<Button
 			variant='contained'
 			color='warning'
+			sx={{ color: 'white' }}
 			onClick={onClick}
 		>
 			Are you sure?

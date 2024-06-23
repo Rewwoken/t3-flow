@@ -1,46 +1,72 @@
-'use client';
-
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { useCreateTimerSession } from '@/components/dashboard-timer/hooks/queries/useCreateTimerSession';
 import { useDeleteTimerSession } from '@/components/dashboard-timer/hooks/queries/useDeleteTimerSession';
-import { useTimerSession } from '@/components/dashboard-timer/hooks/queries/useTimerSession';
-import { useTimerSettings } from '@/components/dashboard-timer/hooks/queries/useTimerSettings';
 import { useUpdateTimerSession } from '@/components/dashboard-timer/hooks/queries/useUpdateTimerSession';
+import { handleTime } from '@/components/dashboard-timer/utils/handleTime';
 
-export function useTimer() {
-	const { data: settings, isPending: isSettingsPending } = useTimerSettings();
-	const { data: session, isPending: isSessionPending } = useTimerSession();
-	const { mutate: createSession } = useCreateTimerSession();
+export function useTimer(initialSeconds: number, intervalsCount: number) {
+	const totalSecondsRef = React.useRef(initialSeconds);
 	const { mutate: updateSession } = useUpdateTimerSession();
 	const { mutate: deleteSession } = useDeleteTimerSession();
-	const timerRef = React.useRef<NodeJS.Timeout | null>(null);
-	const [totalSeconds, setTotalSeconds] = React.useState(0);
+	const [timer, setTimer] = React.useState<NodeJS.Timeout | null>(null);
 
-	React.useEffect(() => {
-		setTotalSeconds(session?.totalSeconds ?? 0);
-	}, [session]);
+	const initialTime = React.useMemo(() => handleTime(initialSeconds), []);
 
-	const handleTimeChange = () => {
-		setTotalSeconds((prev) => {
-			const nextTotalSeconds = prev + 1;
+	const [hours, setHours] = React.useState(initialTime.hours);
+	const [minutes, setMinutes] = React.useState(initialTime.minutes);
+	const [seconds, setSeconds] = React.useState(initialTime.seconds);
 
-			if (
-				timerRef.current &&
-				settings?.intervalsCount &&
-				nextTotalSeconds >= settings?.intervalsCount * 3600
-			) {
-				clearInterval(timerRef.current);
-				timerRef.current = null;
+	const incrementSeconds = () => {
+		setSeconds((prev) => {
+			const next = prev + 1;
 
-				updateSession({ totalSeconds: nextTotalSeconds, isCompleted: true });
-			}
-
-			return nextTotalSeconds;
+			return next === 60 ? 0 : next;
 		});
 	};
 
+	const incrementMinutes = () => {
+		setMinutes((prev) => {
+			const next = prev + 1;
+
+			return next === 60 ? 0 : next;
+		});
+	};
+
+	const incrementHours = () => {
+		setHours((prev) => {
+			const next = prev + 1;
+
+			if (next >= intervalsCount && timer) {
+				clearInterval(timer);
+				setTimer(null);
+
+				updateSession({
+					isCompleted: true,
+					totalSeconds: intervalsCount * 3600,
+				});
+			}
+
+			return next;
+		});
+	};
+
+	React.useEffect(() => {
+		if (timer && seconds === 0) incrementMinutes();
+	}, [seconds]);
+
+	React.useEffect(() => {
+		if (timer && minutes === 0) incrementHours();
+	}, [minutes]);
+
+	React.useEffect(() => {
+		totalSecondsRef.current = hours * 3600 + minutes * 60 + seconds;
+	}, [seconds, minutes, hours]);
+
 	const handleStart = () => {
-		timerRef.current = setInterval(handleTimeChange, 1000);
+		if (timer) return null;
+
+		const interval = setInterval(incrementSeconds, 1000);
+		setTimer(interval);
 	};
 
 	const handleReset = () => {
@@ -48,26 +74,22 @@ export function useTimer() {
 	};
 
 	const handlePause = () => {
-		if (!timerRef.current) return null;
-
-		clearInterval(timerRef.current);
-
-		timerRef.current = null;
+		if (!timer) return null;
 
 		updateSession({
-			totalSeconds,
 			isCompleted: false,
+			totalSeconds: totalSecondsRef.current,
 		});
+
+		clearInterval(timer);
+		setTimer(null);
 	};
 
 	return {
-		isPending: isSessionPending || isSettingsPending,
-		createSession,
-		session,
-		settings,
-		timerRef,
-		totalSeconds,
-		setTotalSeconds,
+		seconds,
+		minutes,
+		hours,
+		timer,
 		handleStart,
 		handleReset,
 		handlePause,

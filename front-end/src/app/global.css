@@ -10,7 +10,7 @@ html.light {
 	--background: 255, 255, 255;
 	--foreground: 9, 9, 11;
 	--border: 228, 228, 231;
-	--danger: 234, 67, 53;
+	--danger: 252, 87, 72;
 
 	background-color: rgb(244, 244, 245);
 }
@@ -23,7 +23,7 @@ html.dark {
 	--background: 15, 15, 18;
 	--foreground: 250, 250, 250;
 	--border: 39, 39, 42;
-	--danger: 234, 67, 53;
+	--danger: 252, 87, 72;
 
 	background-color: rgb(0, 0, 0);
 }
