@@ -6,15 +6,12 @@ import {
 	TextField,
 } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
-import { isValid } from 'date-fns';
 import { Controller, useForm } from 'react-hook-form';
-import { useCreateTask } from '@/components/dashboard-tasks/hooks/queries/useCreateTask';
-import * as v from '@/components/dashboard-tasks/board-view/column/task-create/task-create.validation';
+import { useHandleTaskCreate } from '@/components/dashboard-tasks/board-view/task/task-create/hooks/useHandleTaskCreate';
+import * as v from '@/components/dashboard-tasks/board-view/task/task-create/task-create.validation';
 import { getDueDate } from '@/components/dashboard-tasks/utils/dueDate';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import type { ICreateTaskFields, TTaskGroupId } from '@/types/task.types';
-
-const now = new Date();
 
 interface ICreateTaskModalProps {
 	colId: TTaskGroupId;
@@ -24,35 +21,24 @@ export const TaskCreateForm = ({
 	colId,
 	handleClose,
 }: ICreateTaskModalProps) => {
-	const { mutate: createTask, isPending } = useCreateTask({ invalidate: true });
-	const defaultDueDate = getDueDate[colId] as Date | null;
+	const { onTaskCreate, isPending } = useHandleTaskCreate();
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors, isValid: isValidForm },
-		watch,
 		control,
 	} = useForm<ICreateTaskFields>({
 		mode: 'onChange',
 	});
 
 	const onSubmit = (values: ICreateTaskFields) => {
-		if (!isValid(dueDate) || !values.dueDate) {
-			createTask({ ...values, dueDate: null });
-
-			return handleClose();
-		}
-
-		createTask({
-			...values,
-			dueDate: values.dueDate.toISOString(),
-		});
+		onTaskCreate(values);
 
 		handleClose();
 	};
 
-	const dueDate = watch('dueDate');
+	const defaultDueDate = getDueDate[colId];
 
 	return (
 		<form
@@ -61,7 +47,6 @@ export const TaskCreateForm = ({
 			autoComplete='off'
 		>
 			<TextField
-				className='pl-2'
 				id='task-name-input'
 				label='Task name'
 				type='text'
@@ -96,7 +81,6 @@ export const TaskCreateForm = ({
 					<DateTimePicker
 						label='Due date'
 						inputRef={ref}
-						defaultValue={defaultDueDate}
 						value={value}
 						onChange={(date) => onChange(date)}
 						slotProps={{ textField: { size: 'small', variant: 'standard' } }}
@@ -119,7 +103,7 @@ export const TaskCreateForm = ({
 			</div>
 			<SubmitButton
 				isValid={isValidForm}
-				isPending={isPending}
+				isPending={false}
 			>
 				Create
 			</SubmitButton>

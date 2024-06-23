@@ -1,8 +1,9 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
-import React from 'react';
-import { Task } from '@/components/dashboard-tasks/board-view/task/Task';
+import { TaskControls } from '@/components/dashboard-tasks/board-view/task/task-controls/TaskControls';
+import { TaskPriority } from '@/components/dashboard-tasks/board-view/task/task-data/TaskPriority';
+import { TaskText } from '@/components/dashboard-tasks/board-view/task/task-data/TaskText';
 import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 import type { IGetTaskResponse } from '@/types/task.service';
 import type { TTaskGroupId } from '@/types/task.types';
@@ -12,7 +13,7 @@ interface ISortableItemProps {
 	taskId: string;
 	task: IGetTaskResponse;
 }
-const SortableTaskComponent = ({ colId, taskId, task }: ISortableItemProps) => {
+export const SortableTask = ({ colId, taskId, task }: ISortableItemProps) => {
 	const {
 		transform,
 		transition,
@@ -44,12 +45,17 @@ const SortableTaskComponent = ({ colId, taskId, task }: ISortableItemProps) => {
 				'italic line-through': task.isCompleted,
 			})}
 		>
-			<Task
-				task={task}
-				listeners={listeners}
+			<TaskPriority
+				{...listeners}
+				priority={task.priority}
 			/>
+			<TaskText
+				{...listeners}
+				name={task.name}
+				priority={task.priority}
+				dueDate={task.dueDate}
+			/>
+			<TaskControls task={task} />
 		</li>
 	);
 };
-
-export const SortableTask = React.memo(SortableTaskComponent);

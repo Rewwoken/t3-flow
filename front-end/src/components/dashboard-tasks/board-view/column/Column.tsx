@@ -1,24 +1,28 @@
 'use client';
 
+import { useDroppable } from '@dnd-kit/core';
 import {
 	SortableContext,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import React from 'react';
-import { useColumn } from '@/components/dashboard-tasks/board-view/column/hooks/useColumn';
-import TaskCreate from '@/components/dashboard-tasks/board-view/column/task-create/TaskCreate';
 import { SortableTask } from '@/components/dashboard-tasks/board-view/task/SortableTask';
+import { TaskCreate } from '@/components/dashboard-tasks/board-view/task/task-create/TaskCreate';
 import type { IGetTaskResponse } from '@/types/task.service';
 import type { IColumnData } from '@/types/task.types';
 
 interface IColumnProps extends IColumnData {
 	tasks: IGetTaskResponse[];
 }
-const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
-	const { listRef, ids } = useColumn({
+export const Column = ({ id, title, dateSpan, tasks }: IColumnProps) => {
+	const { setNodeRef } = useDroppable({
 		id,
-		tasks,
+		data: { type: 'column', colId: id, tasks },
 	});
+
+	const ids = React.useMemo(() => {
+		return tasks.map((task) => task.id);
+	}, [tasks]);
 
 	return (
 		<li className='min-w-[22rem] px-4'>
@@ -33,7 +37,7 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 			>
 				<ol
 					className='flex h-full flex-col gap-y-4'
-					ref={listRef}
+					ref={setNodeRef}
 				>
 					{tasks.map((task) => (
 						<SortableTask
@@ -50,13 +54,12 @@ const ColumnComponent = ({ id, title, dateSpan, tasks }: IColumnProps) => {
 	);
 };
 
-export const Column = React.memo(ColumnComponent);
-
+// SortableContext rerenders quite often
 // function arePropsEqual(
-// 	oldProps: Readonly<IColumnProps>,
-// 	newProps: Readonly<IColumnProps>,
+// 	{ tasks: oldTasks }: Readonly<IColumnProps>,
+// 	{ tasks: newTasks }: Readonly<IColumnProps>,
 // ) {
-// 	return oldProps.tasks.every(
-// 		(oldTask, index) => oldTask.id === newProps.tasks[index].id,
-// 	);
+// 	if (oldTasks.length !== newTasks.length) return false;
+
+// 	return oldTasks.every((oldTask, index) => oldTask.id === newTasks[index].id);
 // }

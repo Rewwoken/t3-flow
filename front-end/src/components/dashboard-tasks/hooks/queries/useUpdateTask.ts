@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 import { taskService } from '@/services/task.service';
 import { KEYS } from '@/constants/keys.constants';
 import type { IApiErrorResponse } from '@/types/api.types';
@@ -9,21 +9,13 @@ import type {
 	IUpdateTaskResponse,
 } from '@/types/task.service';
 
-interface IUseUpdateTaskParams {
-	invalidate: boolean;
-}
-/**
- * @name useUpdateTask
- * @description A custom hook to update a task.
- *
- * @param {IUseUpdateTaskParams} params An object with an optional invalidate property.
- * @param {boolean} params.invalidate - If true, will invalidate the GET_TASKS query cache.
- *
- * @returns {UseMutationResult} - An object with the result of the mutation.
- */
+interface IUseUpdateTaskParams
+	extends UseMutationOptions<
+		IUpdateTaskResponse,
+		IApiErrorResponse,
+		IUpdateTaskData
+	> {}
 export function useUpdateTask(params?: IUseUpdateTaskParams) {
-	const queryClient = useQueryClient();
-
 	const result = useMutation<
 		IUpdateTaskResponse,
 		IApiErrorResponse,
@@ -31,15 +23,7 @@ export function useUpdateTask(params?: IUseUpdateTaskParams) {
 	>({
 		mutationKey: KEYS.TASK_UPDATE,
 		mutationFn: (data) => taskService.updateOne(data),
-		onSuccess: () => {
-			if (!params?.invalidate) {
-				return null;
-			}
-
-			queryClient.invalidateQueries({
-				queryKey: KEYS.TASK_GET_ALL,
-			});
-		},
+		...params,
 	});
 
 	return result;

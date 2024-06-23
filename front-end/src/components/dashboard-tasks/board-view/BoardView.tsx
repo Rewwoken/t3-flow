@@ -11,9 +11,9 @@ import {
 	useSensor,
 	useSensors,
 } from '@dnd-kit/core';
+import { TaskOverlay } from '@/components/dashboard-tasks/board-view/TaskOverlay';
 import { Column } from '@/components/dashboard-tasks/board-view/column/Column';
 import { columns } from '@/components/dashboard-tasks/board-view/column/columns.data';
-import { TaskOverlay } from '@/components/dashboard-tasks/board-view/task/TaskOverlay';
 import { IGetTaskResponse } from '@/types/task.service';
 import { ITaskGroups } from '@/types/task.types';
 

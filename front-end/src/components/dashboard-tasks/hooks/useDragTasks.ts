@@ -31,7 +31,7 @@ const resetPosition: IStartPositionRef = {
  */
 export function useDragTasks() {
 	const { taskGroups, setTaskGroups, ...result } = useTaskGroups(); // Get taskGroups state, setState
-	const { mutate: updateTask } = useUpdateTask({ invalidate: false }); // Get task update method
+	const { mutate: updateTask } = useUpdateTask(); // Get task update method
 	const [active, setActive] = React.useState<IGetTaskResponse | null>(null); // Active task state (for DragOverlay)
 	const startPositionRef = React.useRef<IStartPositionRef>(resetPosition); // A ref used to check if task changed it's position
 
@@ -168,8 +168,9 @@ export function useDragTasks() {
 	};
 
 	return {
-		taskGroups,
 		active,
+		taskGroups,
+		setTaskGroups,
 		handleDragStart,
 		handleDragOver,
 		handleDragEnd,

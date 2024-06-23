@@ -1,17 +1,18 @@
 'use client';
 
 import {
+	Checkbox,
 	FormControl,
+	FormControlLabel,
 	InputLabel,
 	MenuItem,
 	Select,
 	TextField,
 } from '@mui/material';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
-import { isValid, setHours, setMinutes } from 'date-fns';
-import { Controller, useForm } from 'react-hook-form';
-import { useRankedUpdate } from '@/components/dashboard-tasks/hooks/useRankedUpdate';
-import * as v from '@/components/dashboard-tasks/board-view/task/task-update/task-update.validation';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useHandleTaskUpdate } from '@/components/dashboard-tasks/board-view/task/task-controls/task-update/hooks/useHandleTaskUpdate';
+import * as v from '@/components/dashboard-tasks/board-view/task/task-controls/task-update/task-update.validation';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import { IGetTaskResponse } from '@/types/task.service';
 import { IUpdateTaskFields } from '@/types/task.types';
@@ -21,7 +22,7 @@ interface IUpdateTaskFormProps {
 	handleClose: Function;
 }
 export const TaskUpdateForm = ({ task, handleClose }: IUpdateTaskFormProps) => {
-	const { rankedUpdate } = useRankedUpdate();
+	const { onTaskUpdate } = useHandleTaskUpdate(task);
 
 	const {
 		register,
@@ -32,31 +33,8 @@ export const TaskUpdateForm = ({ task, handleClose }: IUpdateTaskFormProps) => {
 		mode: 'onChange',
 	});
 
-	const onSubmit = (values: IUpdateTaskFields) => {
-		const { dueDay, dueTime, ...data } = values;
-
-		if (!isValid(dueDay) || !isValid(dueTime) || !dueDay || !dueTime) {
-			rankedUpdate({
-				task,
-				dataToUpdate: { ...data, dueDate: null, isCompleted: false },
-			});
-
-			return handleClose();
-		}
-
-		const dueDate = setMinutes(
-			setHours(dueDay, dueTime.getHours()),
-			dueTime.getMinutes(),
-		);
-
-		rankedUpdate({
-			task,
-			dataToUpdate: {
-				...data,
-				isCompleted: false,
-				dueDate: dueDate.toISOString(),
-			},
-		});
+	const onSubmit: SubmitHandler<IUpdateTaskFields> = (values) => {
+		onTaskUpdate(values);
 
 		handleClose();
 	};
@@ -78,25 +56,34 @@ export const TaskUpdateForm = ({ task, handleClose }: IUpdateTaskFormProps) => {
 				error={!!errors.name?.message}
 				helperText={errors.name?.message}
 			/>
-			<FormControl>
-				<InputLabel id='priority-select-label'>Priority</InputLabel>
-				<Select
-					labelId='priority-select-label'
-					id='priority-select'
-					label='Priority'
-					size='small'
-					defaultValue={task.priority}
-					{...register('priority')}
-				>
-					<MenuItem value={v.Priority.low}>Low</MenuItem>
-					<MenuItem value={v.Priority.medium}>Medium</MenuItem>
-					<MenuItem value={v.Priority.high}>High</MenuItem>
-				</Select>
-			</FormControl>
+			<Controller
+				name='priority'
+				control={control}
+				defaultValue={task.priority}
+				render={({ field: { onChange, value, ref } }) => (
+					<FormControl>
+						<InputLabel id='priority-select-label'>Priority</InputLabel>
+						<Select
+							id='priority-select'
+							size='small'
+							label='Priority'
+							labelId='priority-select-label'
+							defaultValue={task.priority}
+							value={value}
+							onChange={onChange}
+							inputRef={ref}
+						>
+							<MenuItem value={v.Priority.low}>Low</MenuItem>
+							<MenuItem value={v.Priority.medium}>Medium</MenuItem>
+							<MenuItem value={v.Priority.high}>High</MenuItem>
+						</Select>
+					</FormControl>
+				)}
+			/>
 			<Controller
 				name='dueDay'
-				control={control}
 				defaultValue={task.dueDate ? new Date(task.dueDate) : null}
+				control={control}
 				render={({ field: { onChange, value, ref } }) => (
 					<DatePicker
 						label='Due day'
@@ -117,11 +104,25 @@ export const TaskUpdateForm = ({ task, handleClose }: IUpdateTaskFormProps) => {
 					<TimePicker
 						label='Due time'
 						inputRef={ref}
-						defaultValue={task.dueDate ? new Date(task.dueDate) : null}
 						value={value}
 						onChange={(date) => onChange(date)}
 						slotProps={{ textField: { size: 'small' } }}
+						defaultValue={task.dueDate ? new Date(task.dueDate) : null}
 						closeOnSelect
+					/>
+				)}
+			/>
+
+			<Controller
+				name='isCompleted'
+				control={control}
+				render={({ field: { onChange, value, ref } }) => (
+					<FormControlLabel
+						control={<Checkbox size='small' />}
+						onChange={onChange}
+						value={value}
+						inputRef={ref}
+						label='Is completed?'
 					/>
 				)}
 			/>

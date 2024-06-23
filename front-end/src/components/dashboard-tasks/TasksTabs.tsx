@@ -15,13 +15,13 @@ const TasksTabsComponent = ({ view, handleChange }: ITaskTabsProps) => {
 		>
 			<Tab
 				label='Table'
-				value='table-view'
+				value='table'
 				className='w-1/2 max-w-none rounded-bl-md'
 				disabled
 			/>
 			<Tab
 				label='Board'
-				value='board-view'
+				value='board'
 				className='w-1/2 max-w-none rounded-br-md'
 			/>
 		</Tabs>

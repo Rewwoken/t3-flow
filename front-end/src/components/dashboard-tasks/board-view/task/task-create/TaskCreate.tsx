@@ -1,7 +1,7 @@
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import React from 'react';
-import { TaskCreateForm } from '@/components/dashboard-tasks/board-view/column/task-create/TaskCreateForm';
+import { TaskCreateForm } from '@/components/dashboard-tasks/board-view/task/task-create/TaskCreateForm';
 import { TTaskGroupId } from '@/types/task.types';
 
 const positionStyles = {
@@ -14,7 +14,7 @@ const positionStyles = {
 interface ITaskCreateProps {
 	colId: TTaskGroupId;
 }
-export default function TaskCreate({ colId }: ITaskCreateProps) {
+const TaskCreateComponent = ({ colId }: ITaskCreateProps) => {
 	const [open, setOpen] = React.useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -48,4 +48,6 @@ export default function TaskCreate({ colId }: ITaskCreateProps) {
 			</Modal>
 		</>
 	);
-}
+};
+
+export const TaskCreate = React.memo(TaskCreateComponent);

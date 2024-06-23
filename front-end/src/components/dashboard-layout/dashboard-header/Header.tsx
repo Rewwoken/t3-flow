@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { HeaderPanel } from '@/components/dashboard-layout/dashboard-header/HeaderPanel';
+import { HeaderDrawer } from '@/components/dashboard-layout/dashboard-header/HeaderDrawer';
 import { Logo } from '@/components/ui/Logo';
 import { DASHBOARD } from '@/constants/routes.constants';
 import { WEBSITE_NAME } from '@/constants/seo.constants';
@@ -12,11 +12,11 @@ export const Header = () => {
 					href={DASHBOARD.ROOT}
 					className='flex items-center gap-2'
 				>
-					<Logo className='size-14 fill-foreground' />
+					<Logo className='size-10 fill-foreground' />
 					<span className='text-2xl'>{WEBSITE_NAME}</span>
 				</Link>
 			</h1>
-			<HeaderPanel />
+			<HeaderDrawer />
 		</header>
 	);
 };

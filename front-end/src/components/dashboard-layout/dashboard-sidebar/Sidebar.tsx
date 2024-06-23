@@ -1,20 +1,15 @@
 'use client';
 
 import { Tab, Tabs } from '@mui/material';
+import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
 import { links } from '@/components/dashboard-layout/dashboard-sidebar/sidebar.data';
 import { ROOT } from '@/constants/routes.constants';
 
 export const Sidebar = () => {
 	const router = useRouter();
 	const pathname = usePathname();
-	const [value, setValue] = React.useState<string>(pathname);
-
-	const handleChange = (e: React.SyntheticEvent, newValue: string) => {
-		setValue(newValue);
-	};
 
 	return (
 		<aside className='flex flex-col justify-between py-2'>
@@ -26,8 +21,7 @@ export const Sidebar = () => {
 			</Link>
 			<Tabs
 				orientation='vertical'
-				value={value}
-				onChange={handleChange}
+				value={pathname}
 			>
 				{links.map(({ route, label }) => (
 					<Tab
@@ -35,6 +29,9 @@ export const Sidebar = () => {
 						label={label}
 						value={route}
 						onClick={() => router.push(route)}
+						className={clsx('hover:bg-secondary', {
+							'bg-secondary': pathname === route,
+						})}
 					/>
 				))}
 			</Tabs>

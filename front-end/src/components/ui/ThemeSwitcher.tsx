@@ -28,6 +28,7 @@ export const ThemeSwitcher = ({
 			<button
 				onClick={() => setTheme('light')}
 				className={className}
+				title='Toggle theme'
 			>
 				<Moon
 					size={size}
@@ -42,6 +43,7 @@ export const ThemeSwitcher = ({
 			<button
 				onClick={() => setTheme('dark')}
 				className={className}
+				title='Toggle theme'
 			>
 				<Sun
 					size={size}

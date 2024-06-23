@@ -2,13 +2,13 @@ import Popover from '@mui/material/Popover';
 import { PencilLine } from 'lucide-react';
 import React from 'react';
 import { TaskControl } from '@/components/dashboard-tasks/board-view/task/task-controls/TaskControl';
-import { TaskUpdateForm } from '@/components/dashboard-tasks/board-view/task/task-update/TaskUpdateForm';
+import { TaskUpdateForm } from '@/components/dashboard-tasks/board-view/task/task-controls/task-update/TaskUpdateForm';
 import { IGetTaskResponse } from '@/types/task.service';
 
 interface ITaskUpdateProps {
 	task: IGetTaskResponse;
 }
-export const TaskUpdate = ({ task }: ITaskUpdateProps) => {
+export const TaskUpdatePopover = ({ task }: ITaskUpdateProps) => {
 	const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
 		null,
 	);

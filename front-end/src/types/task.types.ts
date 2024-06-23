@@ -1,6 +1,6 @@
 import type { IGetTaskResponse } from '@/types/task.service';
 
-export type TView = 'table-view' | 'board-view';
+export type TView = 'table' | 'board';
 
 export type TTaskGroupId =
 	| 'completed'
@@ -36,6 +36,7 @@ export interface IUpdateTaskFields {
 	priority: 'low' | 'medium' | 'high';
 	dueDay: Date | null;
 	dueTime: Date | null;
+	isCompleted: boolean;
 }
 
 export interface IPopover {
@@ -46,5 +47,5 @@ export interface IPopover {
 
 export interface IRequiredToUpdateTaskData {
 	isCompleted: boolean;
-	dueDate: string | null;
+	dueDate: Date | string | null;
 }

@@ -55,8 +55,9 @@ const ThemesProvider = ({ children }: React.PropsWithChildren) => {
 	return (
 		<NextThemesProvider
 			attribute='class'
-			defaultTheme={'system'}
-			enableSystem={true}
+			defaultTheme='light'
+			storageKey='theme'
+			enableSystem={false}
 		>
 			{children}
 		</NextThemesProvider>
@@ -89,7 +90,7 @@ const MaterialProvider = ({ children }: React.PropsWithChildren) => {
 				default: 'rgba(var(--background))',
 			},
 			text: {
-				// primary: 'rgba(var(--foreground))',
+				primary: 'rgba(var(--foreground))',
 				secondary: 'rgba(var(--muted))',
 			},
 			error: {

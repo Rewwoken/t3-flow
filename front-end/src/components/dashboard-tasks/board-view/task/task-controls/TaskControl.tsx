@@ -3,7 +3,7 @@ import React from 'react';
 
 interface ITaskControlProps extends React.PropsWithChildren {
 	title: string;
-	onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 export const TaskControl = ({
 	title,
