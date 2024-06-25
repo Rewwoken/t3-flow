@@ -8,6 +8,14 @@ import type {
 export class UserService {
 	private readonly BASE_URL = '/user';
 
+	async getProfile() {
+		const result = await apiProtected.get<IGetProfileResponse>(
+			`${this.BASE_URL}/profile`,
+		);
+
+		return result.data;
+	}
+
 	async getUser() {
 		const result = await apiProtected.get<IGetUserResponse>(this.BASE_URL);
 

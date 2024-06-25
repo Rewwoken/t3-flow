@@ -6,7 +6,7 @@ import { LogOut, Moon, SlidersHorizontal, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useUser } from '@/hooks/useUser';
+import { useUser } from '@/components/dashboard-layout/dashboard-header/hooks/useUser';
 import { authService } from '@/services/auth.service';
 import { AUTH } from '@/constants/routes.constants';
 

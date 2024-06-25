@@ -34,7 +34,7 @@ const TaskCreateComponent = ({ colId }: ITaskCreateProps) => {
 				<Fade in={open}>
 					<div
 						style={positionStyles}
-						className='w-80 rounded-md bg-background p-3'
+						className='w-80 rounded-md bg-background p-3 shadow-md'
 					>
 						<header className='mb-2 w-full border-b-2 border-accent shadow-sm'>
 							<h2 className='text-xl'>Task creation</h2>

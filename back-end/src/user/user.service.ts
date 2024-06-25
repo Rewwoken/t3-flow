@@ -8,6 +8,22 @@ import { hash } from 'argon2';
 export class UserService {
 	constructor(private readonly prismaService: PrismaService) {}
 
+	async getProfile(id: string) {
+		const user = await this.prismaService.user.findUnique({
+			where: { id: id },
+			include: {
+				tasks: true,
+				timerSession: true,
+				timerSettings: true,
+				timeBlocks: true,
+			},
+		});
+
+		if (!user) return null;
+
+		return user;
+	}
+
 	async create(payload: RegisterDto) {
 		const user = await this.prismaService.user.create({
 			data: {
@@ -61,7 +77,7 @@ export class UserService {
 			}
 		}
 
-		// If password is provided to update, then hash it
+		// If password is provided to update, hash it
 		if (updateUserDto.password) {
 			const passwordHash = await hash(updateUserDto.password);
 

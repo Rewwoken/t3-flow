@@ -1,0 +1,11 @@
+.container {
+	@apply flex gap-2 rounded-xl;
+}
+
+.chart {
+	@apply select-none space-y-2 rounded-xl bg-background py-2;
+}
+
+.title {
+	@apply text-center;
+}

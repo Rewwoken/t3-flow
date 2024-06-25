@@ -8,17 +8,14 @@ import { ITimeBlock } from '@/types/time-block.service.types';
 interface ITimeBlockOverlayProps {
 	active: ITimeBlock | null;
 }
-const TimeBlockOverlayComponent = ({ active }: ITimeBlockOverlayProps) => {
-	// TODO: memo
-	return (
-		<DragOverlay
-			style={{ backgroundColor: active?.color }}
-			className={clsx(s.container, 'cursor-grabbing')}
-			wrapperElement='li'
-		>
-			{active && <TimeBlock data={active} />}
-		</DragOverlay>
-	);
-};
+const TimeBlockOverlayComponent = ({ active }: ITimeBlockOverlayProps) => (
+	<DragOverlay
+		style={{ backgroundColor: active?.color }}
+		className={clsx(s.container, 'cursor-grabbing')}
+		wrapperElement='li'
+	>
+		{active && <TimeBlock data={active} />}
+	</DragOverlay>
+);
 
 export const TimeBlockOverlay = React.memo(TimeBlockOverlayComponent);

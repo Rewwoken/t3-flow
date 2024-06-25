@@ -1,15 +1,11 @@
 'use client';
 
-import { DndContext, closestCenter, useDroppable } from '@dnd-kit/core';
-import {
-	SortableContext,
-	verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+import { DndContext, rectIntersection } from '@dnd-kit/core';
 import React from 'react';
 import { useDragTimeBlocks } from '@/components/dashboard-time-blocking/hooks/useDragTimeBlocks';
+import { Blocks } from '@/components/dashboard-time-blocking/Blocks';
 import { TimeBlockOverlay } from '@/components/dashboard-time-blocking/TimeBlockOverlay';
 import { TimeBlockCreateForm } from '@/components/dashboard-time-blocking/time-block-create/TimeBlockCreateForm';
-import { SortableTimeBlock } from '@/components/dashboard-time-blocking/time-block/SortableTimeBlock';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { IGetTimeBlocksResponse } from '@/types/time-block.service.types';
 
@@ -33,44 +29,19 @@ export const TimeBlocking = () => {
 		isPending,
 	} = useDragTimeBlocks();
 
-	const { setNodeRef } = useDroppable({
-		id: 'blocks',
-	});
-
-	const items = React.useMemo(() => {
-		return timeBlocks.map((block) => block.id);
-	}, [timeBlocks]);
-
 	if (isPending) return <Skeleton />;
 
-	// TODO: add instructions
-	// TODO: add stepper
 	return (
 		<main className='flex items-center justify-center'>
 			<DndContext
-				collisionDetection={closestCenter}
+				collisionDetection={rectIntersection}
 				onDragStart={handleDragStart}
 				onDragOver={handleDragOver}
 				onDragEnd={handleDragEnd}
 			>
 				<TimeBlocksContext.Provider value={{ timeBlocks, setTimeBlocks }}>
 					<div className='flex gap-x-4'>
-						<SortableContext
-							items={items}
-							strategy={verticalListSortingStrategy}
-						>
-							<ol
-								className='flex w-96 flex-col gap-y-2 bg-secondary p-4'
-								ref={setNodeRef}
-							>
-								{timeBlocks.map((block) => (
-									<SortableTimeBlock
-										key={block.id}
-										block={block}
-									/>
-								))}
-							</ol>
-						</SortableContext>
+						<Blocks />
 						<TimeBlockCreateForm />
 					</div>
 				</TimeBlocksContext.Provider>

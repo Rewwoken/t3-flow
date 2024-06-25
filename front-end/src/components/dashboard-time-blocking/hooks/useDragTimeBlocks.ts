@@ -29,11 +29,23 @@ export function useDragTimeBlocks() {
 			!over ||
 			!currentActive ||
 			!currentOver ||
-			currentOver.id === 'new-block'
+			over.id === 'new-block'
 		)
 			return null;
 
-		// TODO: handle currentActive.id === 'new-block' case
+		// console.log({ active, over });
+		// if (active.id === 'new-block') {
+		// 	if (currentOver.type === 'block') {
+		// 		setTimeBlocks((prev) => {
+		// 			const toIndex = currentOver.sortable.index;
+
+		// 			const newBlocks = prev.toSpliced(toIndex, 0, currentActive.block);
+		// 			// const prevRank = prev[overIndex - 1]?.rank;
+		// 			// const nextRank = prev[overIndex + 1]?.rank;
+		// 			return newBlocks;
+		// 		});
+		// 	}
+		// }
 	};
 
 	const handleDragEnd = (e: DragEndEvent) => {
@@ -56,10 +68,10 @@ export function useDragTimeBlocks() {
 			const nextRank = newTimeBlocks[toIndex + 1]?.rank;
 
 			const rank = genRank(prevRank, nextRank) as string;
-			updateBlock({
-				id: active.id as string,
-				data: { rank },
-			});
+			// updateBlock({
+			// 	id: active.id as string,
+			// 	data: { rank },
+			// });
 
 			newTimeBlocks[toIndex] = { ...newTimeBlocks[toIndex], rank };
 

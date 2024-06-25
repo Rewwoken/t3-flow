@@ -1,4 +1,11 @@
-import { addWeeks, isBefore, isToday, isTomorrow, nextSunday } from 'date-fns';
+import {
+	addWeeks,
+	isBefore,
+	isToday,
+	isTomorrow,
+	nextSunday,
+	startOfToday,
+} from 'date-fns';
 import type {
 	IRequiredToUpdateTaskData,
 	TTaskGroupId,
@@ -19,19 +26,17 @@ import type {
 export const getTaskGroupId = (
 	task: IRequiredToUpdateTaskData,
 ): TTaskGroupId => {
-	const now = new Date();
-
 	if (task.isCompleted) return 'completed';
 
 	if (task.dueDate === null) return 'noDate';
 
 	if (isToday(task.dueDate)) return 'today';
 
-	if (isBefore(task.dueDate, now)) return 'overdue';
+	if (isBefore(task.dueDate, startOfToday())) return 'overdue';
 
 	if (isTomorrow(task.dueDate)) return 'tomorrow';
 
-	if (isBefore(task.dueDate, addWeeks(nextSunday(now), 1)))
+	if (isBefore(task.dueDate, addWeeks(nextSunday(startOfToday()), 1)))
 		return 'theseTwoWeeks';
 
 	return 'later';

@@ -32,7 +32,7 @@ export function useAuth<IFields extends ILoginFields | IRegisterFields>(
 		onSuccess: () => {
 			reset();
 
-			router.push(DASHBOARD.ROOT);
+			router.push(DASHBOARD.CHARTS);
 		},
 	});
 

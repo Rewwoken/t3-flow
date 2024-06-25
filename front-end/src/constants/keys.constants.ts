@@ -2,6 +2,7 @@ class Keys {
 	readonly AUTH = ['auth'];
 
 	readonly USER_GET = ['user'];
+	readonly USER_GET_PROFILE = ['user', 'profile'];
 	readonly USER_UPDATE = ['user', 'update'];
 
 	readonly TASK_GET_ALL = ['tasks'];

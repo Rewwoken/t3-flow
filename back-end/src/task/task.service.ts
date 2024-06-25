@@ -2,7 +2,14 @@ import { PrismaService } from '@/prisma.service';
 import { CreateTaskDto } from '@/task/dto/create-task-dto';
 import { UpdateTaskDto } from '@/task/dto/update-task.dto';
 import { Injectable } from '@nestjs/common';
-import { addWeeks, isBefore, isToday, isTomorrow, nextSunday } from 'date-fns';
+import {
+	addWeeks,
+	isBefore,
+	isToday,
+	isTomorrow,
+	nextSunday,
+	startOfToday,
+} from 'date-fns';
 
 @Injectable()
 export class TaskService {
@@ -38,19 +45,17 @@ export class TaskService {
 	}
 
 	private getGroupKey(task: { isCompleted: boolean; dueDate: Date | null }) {
-		const now = new Date();
-
 		if (task.isCompleted) return 'completed';
 
 		if (task.dueDate === null) return 'noDate';
 
 		if (isToday(task.dueDate)) return 'today';
 
-		if (isBefore(task.dueDate, now)) return 'overdue';
+		if (isBefore(task.dueDate, startOfToday())) return 'overdue';
 
 		if (isTomorrow(task.dueDate)) return 'tomorrow';
 
-		if (isBefore(task.dueDate, addWeeks(nextSunday(now), 1)))
+		if (isBefore(task.dueDate, addWeeks(nextSunday(startOfToday()), 1)))
 			return 'theseTwoWeeks';
 
 		return 'later';

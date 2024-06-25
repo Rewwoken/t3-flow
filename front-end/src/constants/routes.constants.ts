@@ -16,7 +16,7 @@ export const AUTH = new Auth();
 class Dashboard {
 	readonly BASE_URL = '/dashboard';
 
-	readonly ROOT = `${this.BASE_URL}`;
+	readonly CHARTS = `${this.BASE_URL}/charts`;
 	readonly TASKS = `${this.BASE_URL}/tasks`;
 	readonly TIMER = `${this.BASE_URL}/timer`;
 	readonly TIME_BLOCKING = `${this.BASE_URL}/time-blocking`;

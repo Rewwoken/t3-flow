@@ -9,7 +9,7 @@ export const Header = () => {
 		<header className='col-start-1 col-end-3 flex items-center justify-between px-12 py-4'>
 			<h1>
 				<Link
-					href={DASHBOARD.ROOT}
+					href={DASHBOARD.CHARTS}
 					className='flex items-center gap-2'
 				>
 					<Logo className='size-10 fill-foreground' />

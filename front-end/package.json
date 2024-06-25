@@ -18,8 +18,9 @@
 		"@emotion/react": "^11.11.4",
 		"@emotion/styled": "^11.11.5",
 		"@mui/material": "^5.15.20",
-		"@mui/x-date-pickers": "^7.7.0",
-		"@tanstack/react-query": "^5.38.0",
+		"@mui/x-charts": "^7.7.1",
+		"@mui/x-date-pickers": "^7.7.1",
+		"@tanstack/react-query": "^5.48.0",
 		"axios": "^1.7.2",
 		"clsx": "^2.1.1",
 		"date-fns": "^3.6.0",
@@ -29,23 +30,23 @@
 		"mui-color-input": "^2.0.3",
 		"next": "14.2.3",
 		"next-themes": "^0.3.0",
-		"react": "^18",
-		"react-dom": "^18",
-		"react-hook-form": "^7.51.5"
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"react-hook-form": "^7.52.0"
 	},
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "^4.3.0",
 		"@types/js-cookie": "^3.0.6",
-		"@types/node": "^20",
-		"@types/react": "^18",
-		"@types/react-dom": "^18",
-		"eslint": "^8",
+		"@types/node": "^20.14.8",
+		"@types/react": "^18.3.3",
+		"@types/react-dom": "^18.3.0",
+		"eslint": "^8.57.0",
 		"eslint-config-next": "14.2.3",
 		"eslint-config-prettier": "^9.1.0",
-		"postcss": "^8",
-		"prettier": "^3.2.5",
+		"postcss": "^8.4.38",
+		"prettier": "^3.3.2",
 		"prettier-plugin-tailwindcss": "^0.5.14",
-		"tailwindcss": "^3.4.1",
-		"typescript": "^5"
+		"tailwindcss": "^3.4.4",
+		"typescript": "^5.5.2"
 	}
 }

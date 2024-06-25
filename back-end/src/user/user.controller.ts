@@ -8,6 +8,14 @@ import { Body, Controller, Get, Patch } from '@nestjs/common';
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 
+	@Get('/profile')
+	@Protected()
+	async getProfile(@CurrentUser('id') id: string) {
+		const { password, ...profile } = await this.userService.getProfile(id);
+
+		return profile;
+	}
+
 	@Get()
 	@Protected()
 	async getUser(@CurrentUser('id') id: string) {

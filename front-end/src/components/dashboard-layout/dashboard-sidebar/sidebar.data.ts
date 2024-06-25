@@ -2,8 +2,8 @@ import { DASHBOARD } from '@/constants/routes.constants';
 
 export const links = [
 	{
-		route: DASHBOARD.ROOT,
-		label: 'Dashboard',
+		route: DASHBOARD.CHARTS,
+		label: 'Charts',
 	},
 	{
 		route: DASHBOARD.TASKS,

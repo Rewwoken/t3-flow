@@ -17,7 +17,7 @@ export const TimeBlockCreateTabs = ({
 	isPending,
 	data,
 }: ITimeBlockCreateTabsProps) => {
-	const [method, setMethod] = React.useState<TTabMethod>('drag-a-block');
+	const [method, setMethod] = React.useState<TTabMethod>('click-a-button');
 
 	const handleChange = (e: React.SyntheticEvent, newMethod: TTabMethod) => {
 		setMethod(newMethod);
@@ -34,6 +34,7 @@ export const TimeBlockCreateTabs = ({
 					value='drag-a-block'
 					label='Drag a block'
 					className='w-1/2 hover:cursor-pointer'
+					disabled // [WIP]
 				/>
 				<Tab
 					value='click-a-button'
