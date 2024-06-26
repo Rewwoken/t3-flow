@@ -25,12 +25,7 @@ export function useDragTimeBlocks() {
 		const currentActive = active.data.current;
 		const currentOver = over?.data.current;
 
-		if (
-			!over ||
-			!currentActive ||
-			!currentOver ||
-			over.id === 'new-block'
-		)
+		if (!over || !currentActive || !currentOver || over.id === 'new-block')
 			return null;
 
 		// console.log({ active, over });

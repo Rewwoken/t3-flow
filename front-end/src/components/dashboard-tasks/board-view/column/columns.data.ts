@@ -1,7 +1,14 @@
-import { addDays, addWeeks, format, nextSunday, subDays } from 'date-fns';
+import {
+	addDays,
+	addWeeks,
+	format,
+	nextSunday,
+	startOfToday,
+	subDays,
+} from 'date-fns';
 import type { IColumnData } from '@/types/task.types';
 
-const now = new Date();
+const now = startOfToday();
 const f = (date: Date | string) => format(date, 'eeee, LLL d');
 
 export const columns: IColumnData[] = [

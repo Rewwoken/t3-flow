@@ -5,10 +5,10 @@ import '@/app/global.css';
 import { Providers } from '@/app/providers';
 import { WEBSITE_NAME } from '@/constants/seo.constants';
 
-const inter = Inter({
+export const inter = Inter({
 	subsets: ['latin'],
 	weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-}); // Potential improvement: add different fonts
+});
 
 export const metadata: Metadata = {
 	icons: '/logo.svg',

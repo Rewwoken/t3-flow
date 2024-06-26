@@ -10,11 +10,17 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes';
+import { Inter } from 'next/font/google';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { authService } from '@/services/auth.service';
 import { AUTH } from '@/constants/routes.constants';
 import { IApiErrorResponse } from '@/types/api.types';
+
+export const inter = Inter({
+	subsets: ['latin'],
+	weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+}); // Potential improvement: add different fonts
 
 const QueryProvider = ({ children }: React.PropsWithChildren) => {
 	const router = useRouter();
@@ -98,6 +104,11 @@ const MaterialProvider = ({ children }: React.PropsWithChildren) => {
 			},
 			warning: {
 				main: 'rgba(var(--danger))',
+			},
+		},
+		typography: {
+			allVariants: {
+				fontFamily: inter.style.fontFamily,
 			},
 		},
 	});

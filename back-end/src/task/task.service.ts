@@ -3,6 +3,7 @@ import { CreateTaskDto } from '@/task/dto/create-task-dto';
 import { UpdateTaskDto } from '@/task/dto/update-task.dto';
 import { Injectable } from '@nestjs/common';
 import {
+	addDays,
 	addWeeks,
 	isBefore,
 	isToday,
@@ -45,17 +46,19 @@ export class TaskService {
 	}
 
 	private getGroupKey(task: { isCompleted: boolean; dueDate: Date | null }) {
+		const now = startOfToday();
+
 		if (task.isCompleted) return 'completed';
 
 		if (task.dueDate === null) return 'noDate';
 
 		if (isToday(task.dueDate)) return 'today';
 
-		if (isBefore(task.dueDate, startOfToday())) return 'overdue';
+		if (isBefore(task.dueDate, now)) return 'overdue';
 
 		if (isTomorrow(task.dueDate)) return 'tomorrow';
 
-		if (isBefore(task.dueDate, addWeeks(nextSunday(startOfToday()), 1)))
+		if (isBefore(task.dueDate, addDays(addWeeks(nextSunday(now), 1), 1)))
 			return 'theseTwoWeeks';
 
 		return 'later';

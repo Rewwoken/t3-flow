@@ -1,8 +1,10 @@
 import { Divider } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
+import clsx from 'clsx';
 import React from 'react';
 import { ChartsContext } from '@/components/dashboard-charts/Charts';
 import s from '@/components/dashboard-charts/charts.module.css';
+import { graphics } from '@/components/dashboard-charts/charts.sizes';
 import { getTaskGroupId } from '@/components/dashboard-tasks/utils/getTaskGroupId';
 import { TTaskGroupId } from '@/types/task.types';
 
@@ -30,7 +32,7 @@ export const TaskGroups = () => {
 	}, [tasks]);
 
 	return (
-		<article className={s.chart}>
+		<article className={clsx(s.chart, 'col-span-2')}>
 			<h2 className={s.title}>Task groups</h2>
 			<Divider />
 			<BarChart
@@ -69,8 +71,8 @@ export const TaskGroups = () => {
 						valueFormatter: (item) => `Q (${item})`,
 					},
 				]}
-				width={600}
-				height={250}
+				width={graphics.width}
+				height={graphics.height}
 			/>
 		</article>
 	);

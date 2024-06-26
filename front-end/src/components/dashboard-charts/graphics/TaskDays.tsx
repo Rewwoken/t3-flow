@@ -1,5 +1,6 @@
 import { Divider } from '@mui/material';
 import { LineChart } from '@mui/x-charts/LineChart';
+import clsx from 'clsx';
 import {
 	differenceInMilliseconds,
 	format,
@@ -9,6 +10,7 @@ import {
 import React from 'react';
 import { ChartsContext } from '@/components/dashboard-charts/Charts';
 import s from '@/components/dashboard-charts/charts.module.css';
+import { graphics } from '@/components/dashboard-charts/charts.sizes';
 
 export const TaskDays = () => {
 	const { tasks } = React.useContext(ChartsContext);
@@ -41,18 +43,19 @@ export const TaskDays = () => {
 		return sortedData;
 	}, [tasks]);
 
+	// NOTE: This chart bugs while development
+	// https://stackoverflow.com/a/78437825/22737676
 	return (
-		<article className={s.chart}>
+		<article className={clsx(s.chart, 'col-span-2')}>
 			<h2 className={s.title}>Planned tasks</h2>
 			<Divider />
 			<LineChart
-				
 				dataset={stats}
 				series={[
 					{
 						dataKey: 'quantity',
-						// color: 'rgb(var(--primary))',
-						// valueFormatter: (item) => `Q (${item})`,
+						color: 'rgb(var(--primary))',
+						valueFormatter: (item) => `Q (${item})`,
 					},
 				]}
 				yAxis={[
@@ -70,8 +73,8 @@ export const TaskDays = () => {
 						dataKey: 'date',
 					},
 				]}
-				width={500}
-				height={250}
+				width={graphics.width}
+				height={graphics.height}
 			/>
 		</article>
 	);

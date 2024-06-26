@@ -2,9 +2,15 @@
 
 import React from 'react';
 import { useProfile } from '@/components/dashboard-charts/hooks/useProfile';
+import s from '@/components/dashboard-charts/charts.module.css';
+import { TaskDays } from '@/components/dashboard-charts/graphics/TaskDays';
+import { TaskGroups } from '@/components/dashboard-charts/graphics/TaskGroups';
+import { TaskCompleted } from '@/components/dashboard-charts/pies/TaskCompleted';
+import { TaskPriorities } from '@/components/dashboard-charts/pies/TaskPriorities';
+import { TaskSession } from '@/components/dashboard-charts/pies/TaskSession';
+import { TaskSettings } from '@/components/dashboard-charts/pies/TimerSettings';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { IGetProfileResponse } from '@/types/user.service.types';
-import { TaskCharts } from '@/components/dashboard-charts/task-charts/TaskCharts';
 
 export const ChartsContext = React.createContext<IGetProfileResponse>(
 	{} as IGetProfileResponse,
@@ -18,9 +24,15 @@ export const Charts = () => {
 	return (
 		<main className='!bg-transparent'>
 			<ChartsContext.Provider value={data}>
-				<TaskCharts />
+				<section className={s.container}>
+					<TaskGroups />
+					<TaskDays />
+					<TaskPriorities />
+					<TaskCompleted />
+					<TaskSettings />
+					<TaskSession />
+				</section>
 			</ChartsContext.Provider>
 		</main>
 	);
 };
-45;

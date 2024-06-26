@@ -1,5 +1,7 @@
 .container {
-	@apply flex gap-2 rounded-xl;
+	@apply grid grid-cols-4 gap-2 rounded-xl;
+
+	grid-template-rows: 1fr auto;
 }
 
 .chart {

@@ -10,8 +10,6 @@ export function useRankedCreate() {
 	const { timeBlocks, setTimeBlocks } = React.useContext(TimeBlocksContext);
 	const { mutate: createBlock, isPending } = useCreateTimeBlock({
 		onSuccess: (data) => {
-			debugger;
-
 			setTimeBlocks((prev) => [...prev, data]);
 		},
 	});

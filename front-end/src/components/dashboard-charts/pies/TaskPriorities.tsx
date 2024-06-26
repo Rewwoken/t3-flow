@@ -3,6 +3,7 @@ import { PieChart } from '@mui/x-charts';
 import React from 'react';
 import { ChartsContext } from '@/components/dashboard-charts/Charts';
 import s from '@/components/dashboard-charts/charts.module.css';
+import { pies } from '@/components/dashboard-charts/charts.sizes';
 
 export const TaskPriorities = () => {
 	const { tasks } = React.useContext(ChartsContext);
@@ -24,7 +25,7 @@ export const TaskPriorities = () => {
 			<h2 className={s.title}>Task priorities</h2>
 			<Divider />
 			<PieChart
-				colors={['green', 'orange', 'red']}
+				colors={['rgb(16, 185, 129)', 'rgb(251, 191, 36)', 'rgb(244, 63, 94)']}
 				series={[
 					{
 						data: [
@@ -43,8 +44,8 @@ export const TaskPriorities = () => {
 						startAngle: -90,
 					},
 				]}
-				width={400}
-				height={250}
+				width={pies.width}
+				height={pies.height}
 			/>
 		</article>
 	);

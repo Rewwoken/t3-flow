@@ -1,4 +1,5 @@
 import {
+	addDays,
 	addWeeks,
 	isBefore,
 	isToday,
@@ -26,17 +27,19 @@ import type {
 export const getTaskGroupId = (
 	task: IRequiredToUpdateTaskData,
 ): TTaskGroupId => {
+	const now = startOfToday();
+
 	if (task.isCompleted) return 'completed';
 
 	if (task.dueDate === null) return 'noDate';
 
 	if (isToday(task.dueDate)) return 'today';
 
-	if (isBefore(task.dueDate, startOfToday())) return 'overdue';
+	if (isBefore(task.dueDate, now)) return 'overdue';
 
 	if (isTomorrow(task.dueDate)) return 'tomorrow';
 
-	if (isBefore(task.dueDate, addWeeks(nextSunday(startOfToday()), 1)))
+	if (isBefore(task.dueDate, addDays(addWeeks(nextSunday(now), 1), 1)))
 		return 'theseTwoWeeks';
 
 	return 'later';

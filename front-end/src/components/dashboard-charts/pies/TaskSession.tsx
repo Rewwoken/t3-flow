@@ -3,38 +3,28 @@ import { PieChart } from '@mui/x-charts';
 import React from 'react';
 import { ChartsContext } from '@/components/dashboard-charts/Charts';
 import s from '@/components/dashboard-charts/charts.module.css';
-import { getTaskGroupId } from '@/components/dashboard-tasks/utils/getTaskGroupId';
-import { TTaskGroupId } from '@/types/task.types';
+import { pies } from '@/components/dashboard-charts/charts.sizes';
 
-export const TaskCompleted = () => {
-	const { tasks } = React.useContext(ChartsContext);
-
-	const stats = React.useMemo(() => {
-		const data: Partial<Record<TTaskGroupId, number>> = {
-			overdue: 0,
-			completed: 0,
-		};
-
-		for (const task of tasks) {
-			const groupId = getTaskGroupId(task);
-
-			data[groupId]! += 1;
-		}
-
-		return data;
-	}, [tasks]);
+export const TaskSession = () => {
+	const { timerSession, timerSettings } = React.useContext(ChartsContext);
 
 	return (
 		<article className={s.chart}>
-			<h2 className={s.title}>Overdue / Completed tasks coersion</h2>
+			<h2 className={s.title}>Timer intervals comprasion</h2>
 			<Divider />
 			<PieChart
-				colors={['red', 'green']}
+				colors={['rgb(101, 91, 255)', 'rgb(154, 147, 255)']}
 				series={[
 					{
 						data: [
-							{ id: 0, value: stats.overdue!, label: 'Overdue' },
-							{ id: 1, value: stats.completed!, label: 'Completed' },
+							{ id: 0, value: timerSession.totalSeconds, label: 'Completed' },
+							{
+								id: 1,
+								value:
+									timerSettings.intervalsCount * 3600 -
+									timerSession.totalSeconds,
+								label: 'Rest',
+							},
 						],
 						arcLabel: 'formattedValue',
 						valueFormatter: ({ value }) => `Q (${value})`,
@@ -47,8 +37,8 @@ export const TaskCompleted = () => {
 						startAngle: -90,
 					},
 				]}
-				width={400}
-				height={250}
+				width={pies.width}
+				height={pies.height}
 			/>
 		</article>
 	);
