@@ -7,25 +7,25 @@ import { genRank } from '@/utils/genRank';
 import type { ICreateTimeBlockData } from '@/types/time-block.service.types';
 
 export function useRankedCreate() {
-	const { timeBlocks, setTimeBlocks } = React.useContext(TimeBlocksContext);
-	const { mutate: createBlock, isPending } = useCreateTimeBlock({
-		onSuccess: (data) => {
-			setTimeBlocks((prev) => [...prev, data]);
-		},
-	});
+  const { timeBlocks, setTimeBlocks } = React.useContext(TimeBlocksContext);
+  const { mutate: createBlock, isPending } = useCreateTimeBlock({
+    onSuccess: (data) => {
+      setTimeBlocks((prev) => [...prev, data]);
+    },
+  });
 
-	function rankedCreate(data: Omit<ICreateTimeBlockData, 'rank'>) {
-		if (timeBlocks.length === 0) {
-			const rank = genRank(undefined, undefined) as string;
+  function rankedCreate(data: Omit<ICreateTimeBlockData, 'rank'>) {
+    if (timeBlocks.length === 0) {
+      const rank = genRank(undefined, undefined) as string;
 
-			return createBlock({ rank, ...data });
-		}
+      return createBlock({ rank, ...data });
+    }
 
-		const lastRank = timeBlocks[timeBlocks.length - 1].rank;
-		const rank = genRank(lastRank, undefined) as string;
+    const lastRank = timeBlocks[timeBlocks.length - 1].rank;
+    const rank = genRank(lastRank, undefined) as string;
 
-		createBlock({ rank, ...data });
-	}
+    createBlock({ rank, ...data });
+  }
 
-	return { rankedCreate, isPending };
+  return { rankedCreate, isPending };
 }

@@ -1,15 +1,15 @@
 import {
-	addDays,
-	addWeeks,
-	isBefore,
-	isToday,
-	isTomorrow,
-	nextSunday,
-	startOfToday,
+  addDays,
+  addWeeks,
+  isBefore,
+  isToday,
+  isTomorrow,
+  nextSunday,
+  startOfToday,
 } from 'date-fns';
 import type {
-	IRequiredToUpdateTaskData,
-	TTaskGroupId,
+  IRequiredToUpdateTaskData,
+  TTaskGroupId,
 } from '@/types/task.types';
 
 /**
@@ -25,22 +25,22 @@ import type {
  * @returns {TTaskGroupId} The task group ID.
  */
 export const getTaskGroupId = (
-	task: IRequiredToUpdateTaskData,
+  task: IRequiredToUpdateTaskData,
 ): TTaskGroupId => {
-	const now = startOfToday();
+  const now = startOfToday();
 
-	if (task.isCompleted) return 'completed';
+  if (task.isCompleted) return 'completed';
 
-	if (task.dueDate === null) return 'noDate';
+  if (task.dueDate === null) return 'noDate';
 
-	if (isToday(task.dueDate)) return 'today';
+  if (isToday(task.dueDate)) return 'today';
 
-	if (isBefore(task.dueDate, now)) return 'overdue';
+  if (isBefore(task.dueDate, now)) return 'overdue';
 
-	if (isTomorrow(task.dueDate)) return 'tomorrow';
+  if (isTomorrow(task.dueDate)) return 'tomorrow';
 
-	if (isBefore(task.dueDate, addDays(addWeeks(nextSunday(now), 1), 1)))
-		return 'theseTwoWeeks';
+  if (isBefore(task.dueDate, addDays(addWeeks(nextSunday(now), 1), 1)))
+    return 'theseTwoWeeks';
 
-	return 'later';
+  return 'later';
 };

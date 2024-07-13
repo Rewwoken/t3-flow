@@ -9,71 +9,71 @@ import { getTaskGroupId } from '@/components/dashboard-tasks/utils/getTaskGroupI
 import { TTaskGroupId } from '@/types/task.types';
 
 export const TaskGroups = () => {
-	const { tasks } = React.useContext(ChartsContext);
+  const { tasks } = React.useContext(ChartsContext);
 
-	const stats: Record<TTaskGroupId, number> = React.useMemo(() => {
-		const data: Record<TTaskGroupId, number> = {
-			completed: 0,
-			noDate: 0,
-			overdue: 0,
-			today: 0,
-			tomorrow: 0,
-			theseTwoWeeks: 0,
-			later: 0,
-		};
+  const stats: Record<TTaskGroupId, number> = React.useMemo(() => {
+    const data: Record<TTaskGroupId, number> = {
+      completed: 0,
+      noDate: 0,
+      overdue: 0,
+      today: 0,
+      tomorrow: 0,
+      theseTwoWeeks: 0,
+      later: 0,
+    };
 
-		for (const task of tasks) {
-			const groupId = getTaskGroupId(task);
+    for (const task of tasks) {
+      const groupId = getTaskGroupId(task);
 
-			data[groupId] += 1;
-		}
+      data[groupId] += 1;
+    }
 
-		return data;
-	}, [tasks]);
+    return data;
+  }, [tasks]);
 
-	return (
-		<article className={clsx(s.chart, 'col-span-2')}>
-			<h2 className={s.title}>Task groups</h2>
-			<Divider />
-			<BarChart
-				dataset={[
-					{ label: 'Overdue', data: stats.overdue },
-					{ label: 'No date', data: stats.noDate },
-					{ label: 'Today', data: stats.today },
-					{ label: 'Tomorrow', data: stats.tomorrow },
-					{
-						label: 'Two weeks',
-						data: stats.theseTwoWeeks,
-					},
-					{ label: 'Later', data: stats.later },
-					{ label: 'Completed', data: stats.completed },
-				]}
-				yAxis={[
-					{
-						scaleType: 'linear',
-						dataKey: 'data',
-						label: 'Quantity',
-						tickMinStep: 1,
-						max: Math.max(...Object.values(stats)) + 1,
-					},
-				]}
-				xAxis={[
-					{
-						label: 'Group name',
-						scaleType: 'band',
-						dataKey: 'label',
-					},
-				]}
-				series={[
-					{
-						dataKey: 'data',
-						color: 'rgb(var(--primary))',
-						valueFormatter: (item) => `Q (${item})`,
-					},
-				]}
-				width={graphics.width}
-				height={graphics.height}
-			/>
-		</article>
-	);
+  return (
+    <article className={clsx(s.chart, 'col-span-2')}>
+      <h2 className={s.title}>Task groups</h2>
+      <Divider />
+      <BarChart
+        dataset={[
+          { label: 'Overdue', data: stats.overdue },
+          { label: 'No date', data: stats.noDate },
+          { label: 'Today', data: stats.today },
+          { label: 'Tomorrow', data: stats.tomorrow },
+          {
+            label: 'Two weeks',
+            data: stats.theseTwoWeeks,
+          },
+          { label: 'Later', data: stats.later },
+          { label: 'Completed', data: stats.completed },
+        ]}
+        yAxis={[
+          {
+            scaleType: 'linear',
+            dataKey: 'data',
+            label: 'Quantity',
+            tickMinStep: 1,
+            max: Math.max(...Object.values(stats)) + 1,
+          },
+        ]}
+        xAxis={[
+          {
+            label: 'Group name',
+            scaleType: 'band',
+            dataKey: 'label',
+          },
+        ]}
+        series={[
+          {
+            dataKey: 'data',
+            color: 'rgb(var(--primary))',
+            valueFormatter: (item) => `Q (${item})`,
+          },
+        ]}
+        width={graphics.width}
+        height={graphics.height}
+      />
+    </article>
+  );
 };

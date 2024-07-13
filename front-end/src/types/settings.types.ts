@@ -1,9 +1,9 @@
-import { IRegisterFields } from '@/types/auth.types';
+import { IAuthFields } from '@/types/auth.types';
 
-export interface IUpdateUserFields extends Partial<IRegisterFields> {}
+export interface IUpdateUserFields extends Partial<IAuthFields> {}
 
 export interface IUpdateTimerSettingsFields {
-	workInterval?: number;
-	breakInterval?: number;
-	intervalsCount?: number;
+  workInterval?: number;
+  breakInterval?: number;
+  intervalsCount?: number;
 }

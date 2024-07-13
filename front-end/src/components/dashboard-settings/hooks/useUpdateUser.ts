@@ -6,21 +6,21 @@ import type { IUpdateUserFields } from '@/types/settings.types';
 import type { IGetUserResponse } from '@/types/user.service.types';
 
 export function useUpdateUser() {
-	const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-	const result = useMutation<
-		IGetUserResponse,
-		IApiErrorResponse,
-		IUpdateUserFields
-	>({
-		mutationKey: KEYS.USER_UPDATE,
-		mutationFn: (data) => userService.update(data),
-		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: KEYS.USER_GET,
-			});
-		},
-	});
+  const result = useMutation<
+    IGetUserResponse,
+    IApiErrorResponse,
+    IUpdateUserFields
+  >({
+    mutationKey: KEYS.USER_UPDATE,
+    mutationFn: (data) => userService.update(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: KEYS.USER_GET,
+      });
+    },
+  });
 
-	return result;
+  return result;
 }

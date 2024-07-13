@@ -9,40 +9,40 @@ import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 import { IGetTaskResponse } from '@/types/task.service';
 
 interface ITaskOverlayProps {
-	active: IGetTaskResponse | null;
+  active: IGetTaskResponse | null;
 }
 const TaskOverlayComponent = ({ active }: ITaskOverlayProps) => {
-	return (
-		<DragOverlay
-			wrapperElement='li'
-			className={clsx(s.task, 'hover:cursor-grabbing')}
-		>
-			{active && (
-				<>
-					<TaskPriority priority={active.priority} />
-					<TaskText
-						name={active.name}
-						priority={active.priority}
-						dueDate={active.dueDate}
-					/>
-					<div className={s.controls}>
-						<TaskControl title='Delete'>
-							<Trash2
-								strokeWidth={1.5}
-								className='stroke-muted'
-							/>
-						</TaskControl>
-						<TaskControl title='Update'>
-							<PencilLine
-								strokeWidth={1.5}
-								className='stroke-muted'
-							/>
-						</TaskControl>
-					</div>
-				</>
-			)}
-		</DragOverlay>
-	);
+  return (
+    <DragOverlay
+      wrapperElement='li'
+      className={clsx(s.task, 'hover:cursor-grabbing')}
+    >
+      {active && (
+        <>
+          <TaskPriority priority={active.priority} />
+          <TaskText
+            name={active.name}
+            priority={active.priority}
+            dueDate={active.dueDate}
+          />
+          <div className={s.controls}>
+            <TaskControl title='Delete'>
+              <Trash2
+                strokeWidth={1.5}
+                className='stroke-muted'
+              />
+            </TaskControl>
+            <TaskControl title='Update'>
+              <PencilLine
+                strokeWidth={1.5}
+                className='stroke-muted'
+              />
+            </TaskControl>
+          </div>
+        </>
+      )}
+    </DragOverlay>
+  );
 };
 
 export const TaskOverlay = React.memo(TaskOverlayComponent);

@@ -1,11 +1,11 @@
 import clsx from 'clsx';
 
 export const Skeleton = ({
-	className,
-	...props
+  className,
+  ...props
 }: React.ComponentProps<'div'>) => (
-	<div
-		className={clsx('animate-pulse select-none bg-muted/20', className)}
-		{...props}
-	/>
+  <div
+    className={clsx('animate-pulse select-none bg-muted/20', className)}
+    {...props}
+  />
 );

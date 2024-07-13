@@ -10,22 +10,22 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
 @Module({
-	imports: [
-		UserModule,
-		PassportModule,
-		TokenModule,
-		JwtModule.registerAsync({
-			imports: [ConfigModule],
-			global: true,
-			useFactory: async (
-				configService: ConfigService<EnvironmentVaribales>,
-			) => ({
-				secret: configService.get('jwtSecret'),
-			}),
-			inject: [ConfigService],
-		}),
-	],
-	controllers: [AuthController],
-	providers: [AuthService, JwtStrategy],
+  imports: [
+    UserModule,
+    PassportModule,
+    TokenModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      global: true,
+      useFactory: async (
+        configService: ConfigService<EnvironmentVaribales>,
+      ) => ({
+        secret: configService.get('jwtSecret'),
+      }),
+      inject: [ConfigService],
+    }),
+  ],
+  controllers: [AuthController],
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}

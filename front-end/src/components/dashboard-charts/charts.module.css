@@ -1,13 +1,13 @@
 .container {
-	@apply grid grid-cols-4 gap-2 rounded-xl;
+  @apply grid grid-cols-4 gap-2 rounded-xl;
 
-	grid-template-rows: 1fr auto;
+  grid-template-rows: 1fr auto;
 }
 
 .chart {
-	@apply select-none space-y-2 rounded-xl bg-background py-2;
+  @apply select-none space-y-2 rounded-xl bg-background py-2;
 }
 
 .title {
-	@apply text-center;
+  @apply text-center;
 }

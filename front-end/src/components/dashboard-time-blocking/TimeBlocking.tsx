@@ -10,43 +10,43 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { IGetTimeBlocksResponse } from '@/types/time-block.service.types';
 
 interface ITimeBlocksContext {
-	timeBlocks: IGetTimeBlocksResponse;
-	setTimeBlocks: React.Dispatch<React.SetStateAction<IGetTimeBlocksResponse>>;
+  timeBlocks: IGetTimeBlocksResponse;
+  setTimeBlocks: React.Dispatch<React.SetStateAction<IGetTimeBlocksResponse>>;
 }
 export const TimeBlocksContext = React.createContext<ITimeBlocksContext>({
-	timeBlocks: [],
-	setTimeBlocks: () => {},
+  timeBlocks: [],
+  setTimeBlocks: () => {},
 });
 
 export const TimeBlocking = () => {
-	const {
-		active,
-		timeBlocks,
-		setTimeBlocks,
-		handleDragStart,
-		handleDragOver,
-		handleDragEnd,
-		isPending,
-	} = useDragTimeBlocks();
+  const {
+    active,
+    timeBlocks,
+    setTimeBlocks,
+    handleDragStart,
+    handleDragOver,
+    handleDragEnd,
+    isPending,
+  } = useDragTimeBlocks();
 
-	if (isPending) return <Skeleton />;
+  if (isPending) return <Skeleton />;
 
-	return (
-		<main className='flex items-center justify-center'>
-			<DndContext
-				collisionDetection={rectIntersection}
-				onDragStart={handleDragStart}
-				onDragOver={handleDragOver}
-				onDragEnd={handleDragEnd}
-			>
-				<TimeBlocksContext.Provider value={{ timeBlocks, setTimeBlocks }}>
-					<div className='flex gap-x-4'>
-						<Blocks />
-						<TimeBlockCreateForm />
-					</div>
-				</TimeBlocksContext.Provider>
-				<TimeBlockOverlay active={active} />
-			</DndContext>
-		</main>
-	);
+  return (
+    <main className='flex items-center justify-center'>
+      <DndContext
+        collisionDetection={rectIntersection}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragEnd={handleDragEnd}
+      >
+        <TimeBlocksContext.Provider value={{ timeBlocks, setTimeBlocks }}>
+          <div className='flex gap-x-4'>
+            <Blocks />
+            <TimeBlockCreateForm />
+          </div>
+        </TimeBlocksContext.Provider>
+        <TimeBlockOverlay active={active} />
+      </DndContext>
+    </main>
+  );
 };

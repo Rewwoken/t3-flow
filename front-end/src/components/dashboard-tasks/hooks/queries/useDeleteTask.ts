@@ -7,13 +7,13 @@ import type { IApiErrorResponse } from '@/types/api.types';
 import type { IDeleteTaskData } from '@/types/task.service';
 
 interface IUseDeleteTaskParams
-	extends UseMutationOptions<void, IApiErrorResponse, IDeleteTaskData> {}
+  extends UseMutationOptions<void, IApiErrorResponse, IDeleteTaskData> {}
 export function useDeleteTask(params?: IUseDeleteTaskParams) {
-	const result = useMutation<void, IApiErrorResponse, IDeleteTaskData>({
-		mutationKey: KEYS.TASK_DELETE,
-		mutationFn: ({ id }) => taskService.deleteOne(id),
-		...params,
-	});
+  const result = useMutation<void, IApiErrorResponse, IDeleteTaskData>({
+    mutationKey: KEYS.TASK_DELETE,
+    mutationFn: ({ id }) => taskService.deleteOne(id),
+    ...params,
+  });
 
-	return result;
+  return result;
 }

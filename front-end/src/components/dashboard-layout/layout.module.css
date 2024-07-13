@@ -1,11 +1,11 @@
 .layout {
-	@apply h-full gap-2;
+  @apply h-full gap-2;
 
-	display: grid;
-	grid-template-rows: auto 1fr;
-	grid-template-columns: auto 1fr;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: auto 1fr;
 }
 
 .layout > * {
-	@apply rounded-xl bg-background shadow-sm;
+  @apply rounded-xl bg-background shadow-sm;
 }

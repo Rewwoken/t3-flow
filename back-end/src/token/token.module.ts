@@ -3,8 +3,8 @@ import { UserModule } from '@/user/user.module';
 import { Module } from '@nestjs/common';
 
 @Module({
-	imports: [UserModule],
-	providers: [TokenService],
-	exports: [TokenService],
+  imports: [UserModule],
+  providers: [TokenService],
+  exports: [TokenService],
 })
 export class TokenModule {}

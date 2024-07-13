@@ -5,52 +5,52 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class TimeBlockService {
-	constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
-	async getAll(userId: string) {
-		return await this.prismaService.timeBlock.findMany({
-			where: {
-				userId: userId,
-			},
-			orderBy: {
-				rank: 'asc',
-			},
-		});
-	}
+  async getAll(userId: string) {
+    return await this.prismaService.timeBlock.findMany({
+      where: {
+        userId: userId,
+      },
+      orderBy: {
+        rank: 'asc',
+      },
+    });
+  }
 
-	async create(userId: string, createTimeBlockDto: CreateTimeBlockDto) {
-		return await this.prismaService.timeBlock.create({
-			data: {
-				...createTimeBlockDto,
-				user: {
-					connect: {
-						id: userId,
-					},
-				},
-			},
-		});
-	}
+  async create(userId: string, createTimeBlockDto: CreateTimeBlockDto) {
+    return await this.prismaService.timeBlock.create({
+      data: {
+        ...createTimeBlockDto,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
+  }
 
-	async update(
-		userId: string,
-		timeBlockId: string,
-		updateTimeBlockDto: UpdateTimeBlockDto,
-	) {
-		return await this.prismaService.timeBlock.update({
-			where: {
-				userId: userId,
-				id: timeBlockId,
-			},
-			data: updateTimeBlockDto,
-		});
-	}
+  async update(
+    userId: string,
+    timeBlockId: string,
+    updateTimeBlockDto: UpdateTimeBlockDto,
+  ) {
+    return await this.prismaService.timeBlock.update({
+      where: {
+        userId: userId,
+        id: timeBlockId,
+      },
+      data: updateTimeBlockDto,
+    });
+  }
 
-	async delete(userId: string, timeBlockId) {
-		return await this.prismaService.timeBlock.delete({
-			where: {
-				userId: userId,
-				id: timeBlockId,
-			},
-		});
-	}
+  async delete(userId: string, timeBlockId) {
+    return await this.prismaService.timeBlock.delete({
+      where: {
+        userId: userId,
+        id: timeBlockId,
+      },
+    });
+  }
 }

@@ -6,21 +6,21 @@ import type { IUpdateTimerSettingsFields } from '@/types/settings.types';
 import type { IGetTimerSettingsResponse } from '@/types/timer.service.types';
 
 export function useUpdateTimerSettings() {
-	const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-	const result = useMutation<
-		IGetTimerSettingsResponse,
-		IApiErrorResponse,
-		IUpdateTimerSettingsFields
-	>({
-		mutationKey: KEYS.SETTINGS_UPDATE,
-		mutationFn: (data) => timerService.updateSettings(data),
-		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: KEYS.TIMER_SETTINGS_GET,
-			});
-		},
-	});
+  const result = useMutation<
+    IGetTimerSettingsResponse,
+    IApiErrorResponse,
+    IUpdateTimerSettingsFields
+  >({
+    mutationKey: KEYS.SETTINGS_UPDATE,
+    mutationFn: (data) => timerService.updateSettings(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: KEYS.TIMER_SETTINGS_GET,
+      });
+    },
+  });
 
-	return result;
+  return result;
 }

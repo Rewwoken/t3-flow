@@ -7,24 +7,24 @@ import { getTaskGroupId } from '@/components/dashboard-tasks/utils/getTaskGroupI
 import { IGetTaskResponse } from '@/types/task.service';
 
 export function useHandleTaskDelete() {
-	const { setTaskGroups } = React.useContext(TaskGroupsContext);
-	const { mutate: deleteTask } = useDeleteTask();
+  const { setTaskGroups } = React.useContext(TaskGroupsContext);
+  const { mutate: deleteTask } = useDeleteTask();
 
-	function onDelete(task: IGetTaskResponse) {
-		deleteTask({ id: task.id });
+  function onDelete(task: IGetTaskResponse) {
+    deleteTask({ id: task.id });
 
-		setTaskGroups((prev) => {
-			const colId = getTaskGroupId(task);
-			const index = prev[colId].findIndex((item) => item.id === task.id);
+    setTaskGroups((prev) => {
+      const colId = getTaskGroupId(task);
+      const index = prev[colId].findIndex((item) => item.id === task.id);
 
-			const newGroup = prev[colId].toSpliced(index, 1);
+      const newGroup = prev[colId].toSpliced(index, 1);
 
-			return {
-				...prev,
-				[colId]: newGroup,
-			};
-		});
-	}
+      return {
+        ...prev,
+        [colId]: newGroup,
+      };
+    });
+  }
 
-	return { onDelete };
+  return { onDelete };
 }

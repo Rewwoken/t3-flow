@@ -5,8 +5,8 @@ import { UserModule } from '@/user/user.module';
 import { Module } from '@nestjs/common';
 
 @Module({
-	imports: [UserModule],
-	controllers: [TimerController],
-	providers: [TimerService, PrismaService],
+  imports: [UserModule],
+  controllers: [TimerController],
+  providers: [TimerService, PrismaService],
 })
 export class TimerModule {}

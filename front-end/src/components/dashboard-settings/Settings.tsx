@@ -3,8 +3,8 @@ import { UserForm } from '@/components/dashboard-settings/UserForm';
 import s from '@/components/dashboard-settings/settings.module.css';
 
 export const Settings = () => (
-	<main className={s.main}>
-		<UserForm />
-		<TimerForm />
-	</main>
+  <main className={s.main}>
+    <UserForm />
+    <TimerForm />
+  </main>
 );

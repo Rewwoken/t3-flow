@@ -6,21 +6,21 @@ import type { IApiErrorResponse } from '@/types/api.types';
 import type { IGetTimeBlocksResponse } from '@/types/time-block.service.types';
 
 export function useTimeBlocks() {
-	const { data, ...result } = useQuery<
-		IGetTimeBlocksResponse,
-		IApiErrorResponse
-	>({
-		queryKey: KEYS.TIME_BLOCK_GET_ALL,
-		queryFn: () => timeBlockService.getAll(),
-	});
+  const { data, ...result } = useQuery<
+    IGetTimeBlocksResponse,
+    IApiErrorResponse
+  >({
+    queryKey: KEYS.TIME_BLOCK_GET_ALL,
+    queryFn: () => timeBlockService.getAll(),
+  });
 
-	const [timeBlocks, setTimeBlocks] = React.useState<IGetTimeBlocksResponse>(
-		data || [],
-	);
+  const [timeBlocks, setTimeBlocks] = React.useState<IGetTimeBlocksResponse>(
+    data || [],
+  );
 
-	React.useEffect(() => {
-		setTimeBlocks(data || []);
-	}, [data]);
+  React.useEffect(() => {
+    setTimeBlocks(data || []);
+  }, [data]);
 
-	return { timeBlocks, setTimeBlocks, ...result };
+  return { timeBlocks, setTimeBlocks, ...result };
 }

@@ -13,26 +13,26 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { IGetProfileResponse } from '@/types/user.service.types';
 
 export const ChartsContext = React.createContext<IGetProfileResponse>(
-	{} as IGetProfileResponse,
+  {} as IGetProfileResponse,
 );
 
 export const Charts = () => {
-	const { data, isPending } = useProfile();
+  const { data, isPending } = useProfile();
 
-	if (isPending || !data) return <Skeleton />;
+  if (isPending || !data) return <Skeleton />;
 
-	return (
-		<main className='!bg-transparent'>
-			<ChartsContext.Provider value={data}>
-				<section className={s.container}>
-					<TaskGroups />
-					<TaskDays />
-					<TaskPriorities />
-					<TaskCompleted />
-					<TaskSettings />
-					<TaskSession />
-				</section>
-			</ChartsContext.Provider>
-		</main>
-	);
+  return (
+    <main className='!bg-transparent'>
+      <ChartsContext.Provider value={data}>
+        <section className={s.container}>
+          <TaskGroups />
+          <TaskDays />
+          <TaskPriorities />
+          <TaskCompleted />
+          <TaskSettings />
+          <TaskSession />
+        </section>
+      </ChartsContext.Provider>
+    </main>
+  );
 };

@@ -8,13 +8,13 @@ import type { IApiErrorResponse } from '@/types/api.types';
 import type { ITaskGroups } from '@/types/task.types';
 
 export const initialGroups: ITaskGroups = {
-	completed: [],
-	noDate: [],
-	overdue: [],
-	today: [],
-	tomorrow: [],
-	theseTwoWeeks: [],
-	later: [],
+  completed: [],
+  noDate: [],
+  overdue: [],
+  today: [],
+  tomorrow: [],
+  theseTwoWeeks: [],
+  later: [],
 };
 
 /**
@@ -27,16 +27,16 @@ export const initialGroups: ITaskGroups = {
  * @param {...UseQueryResult} - Result of the query properties.
  */
 export function useTaskGroups() {
-	const { data, ...result } = useQuery<ITaskGroups, IApiErrorResponse>({
-		queryKey: KEYS.TASK_GET_ALL,
-		queryFn: () => taskService.getAllGrouped(),
-	});
+  const { data, ...result } = useQuery<ITaskGroups, IApiErrorResponse>({
+    queryKey: KEYS.TASK_GET_ALL,
+    queryFn: () => taskService.getAllGrouped(),
+  });
 
-	const [taskGroups, setTaskGroups] = React.useState(data || initialGroups);
+  const [taskGroups, setTaskGroups] = React.useState(data || initialGroups);
 
-	React.useEffect(() => {
-		setTaskGroups(data || initialGroups);
-	}, [data]);
+  React.useEffect(() => {
+    setTaskGroups(data || initialGroups);
+  }, [data]);
 
-	return { taskGroups, setTaskGroups, ...result };
+  return { taskGroups, setTaskGroups, ...result };
 }

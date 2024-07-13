@@ -1,11 +1,11 @@
 import { IsBoolean, IsNumber, IsOptional } from 'class-validator';
 
 export class UpdateSessionDto {
-	@IsNumber()
-	@IsOptional()
-	seconds: number;
+  @IsNumber()
+  @IsOptional()
+  seconds: number;
 
-	@IsBoolean()
-	@IsOptional()
-	isCompleted: boolean;
+  @IsBoolean()
+  @IsOptional()
+  isCompleted: boolean;
 }

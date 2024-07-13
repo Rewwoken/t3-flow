@@ -9,57 +9,57 @@ import s from '@/components/dashboard-time-blocking/time-block/time-block.module
 import { ITimeBlock } from '@/types/time-block.service.types';
 
 interface ITimeBlockProps {
-	block: ITimeBlock;
+  block: ITimeBlock;
 }
 export const SortableTimeBlock = ({ block }: ITimeBlockProps) => {
-	const { setTimeBlocks } = React.useContext(TimeBlocksContext);
-	const { mutate: deleteBlock } = useDeleteTimeBlock({
-		onSuccess: () => {
-			setTimeBlocks((prev) => {
-				const index = prev.findIndex((item) => item.id === block.id);
+  const { setTimeBlocks } = React.useContext(TimeBlocksContext);
+  const { mutate: deleteBlock } = useDeleteTimeBlock({
+    onSuccess: () => {
+      setTimeBlocks((prev) => {
+        const index = prev.findIndex((item) => item.id === block.id);
 
-				return prev.toSpliced(index, 1);
-			});
-		},
-	});
+        return prev.toSpliced(index, 1);
+      });
+    },
+  });
 
-	const handleDelete = () => {
-		deleteBlock(block.id);
-	};
+  const handleDelete = () => {
+    deleteBlock(block.id);
+  };
 
-	const {
-		attributes,
-		listeners,
-		setNodeRef,
-		transform,
-		transition,
-		isDragging,
-	} = useSortable({
-		id: block.id,
-		data: { type: 'block', block },
-	});
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: block.id,
+    data: { type: 'block', block },
+  });
 
-	const style = {
-		backgroundColor: block.color,
-		height: block.minutes * 0.7 + 'px',
-		transform: CSS.Transform.toString(transform),
-		transition,
-	};
+  const style = {
+    backgroundColor: block.color,
+    height: block.minutes * 0.7 + 'px',
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
-	return (
-		<li
-			ref={setNodeRef}
-			style={style}
-			{...attributes}
-			className={clsx(s.container, {
-				[s.dragged]: isDragging,
-			})}
-		>
-			<TimeBlock
-				data={block}
-				listeners={listeners}
-				handleDelete={handleDelete}
-			/>
-		</li>
-	);
+  return (
+    <li
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      className={clsx(s.container, {
+        [s.dragged]: isDragging,
+      })}
+    >
+      <TimeBlock
+        data={block}
+        listeners={listeners}
+        handleDelete={handleDelete}
+      />
+    </li>
+  );
 };

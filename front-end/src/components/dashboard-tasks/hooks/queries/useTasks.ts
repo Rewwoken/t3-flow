@@ -7,10 +7,10 @@ import type { IApiErrorResponse } from '@/types/api.types';
 import type { IGetTasksResponse } from '@/types/task.service';
 
 export function useTasks() {
-	const result = useQuery<IGetTasksResponse, IApiErrorResponse>({
-		queryKey: KEYS.TASK_GET_ALL,
-		queryFn: () => taskService.getAll(),
-	});
+  const result = useQuery<IGetTasksResponse, IApiErrorResponse>({
+    queryKey: KEYS.TASK_GET_ALL,
+    queryFn: () => taskService.getAll(),
+  });
 
-	return result;
+  return result;
 }

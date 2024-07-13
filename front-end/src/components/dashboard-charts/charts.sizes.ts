@@ -1,9 +1,9 @@
 export const pies = {
-	width: 400,
-	height: 200,
+  width: 400,
+  height: 200,
 };
 
 export const graphics = {
-	width: 830,
-	height: 550,
+  width: 830,
+  height: 550,
 };

@@ -7,13 +7,13 @@ import s from '@/components/dashboard-tasks/board-view/task/task.module.css';
 import { IGetTaskResponse } from '@/types/task.service';
 
 interface ITaskControlsProps {
-	task: IGetTaskResponse;
+  task: IGetTaskResponse;
 }
 const TaskControlsComponent = ({ task }: ITaskControlsProps) => (
-	<div className={s.controls}>
-		<TaskDeletePopover task={task} />
-		<TaskUpdatePopover task={task} />
-	</div>
+  <div className={s.controls}>
+    <TaskDeletePopover task={task} />
+    <TaskUpdatePopover task={task} />
+  </div>
 );
 
 export const TaskControls = React.memo(TaskControlsComponent);

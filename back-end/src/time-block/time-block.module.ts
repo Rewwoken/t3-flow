@@ -4,7 +4,7 @@ import { Module } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 
 @Module({
-	controllers: [TimeBlockController],
-	providers: [TimeBlockService, PrismaService],
+  controllers: [TimeBlockController],
+  providers: [TimeBlockService, PrismaService],
 })
 export class TimeBlockModule {}

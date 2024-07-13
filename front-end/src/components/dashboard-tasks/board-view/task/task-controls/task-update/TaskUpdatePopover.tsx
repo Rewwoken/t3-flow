@@ -6,55 +6,55 @@ import { TaskUpdateForm } from '@/components/dashboard-tasks/board-view/task/tas
 import { IGetTaskResponse } from '@/types/task.service';
 
 interface ITaskUpdateProps {
-	task: IGetTaskResponse;
+  task: IGetTaskResponse;
 }
 export const TaskUpdatePopover = ({ task }: ITaskUpdateProps) => {
-	const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-		null,
-	);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null,
+  );
 
-	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-		setAnchorEl(event.currentTarget);
-	};
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-	const handleClose = () => {
-		setAnchorEl(null);
-	};
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-	const open = Boolean(anchorEl);
-	const id = open ? 'update-task-popover' : undefined;
+  const open = Boolean(anchorEl);
+  const id = open ? 'update-task-popover' : undefined;
 
-	return (
-		<>
-			<TaskControl
-				title='Update'
-				onClick={handleClick}
-			>
-				<PencilLine
-					strokeWidth={1.5}
-					className='stroke-muted'
-				/>
-			</TaskControl>
-			<Popover
-				id={id}
-				open={open}
-				onClose={handleClose}
-				anchorEl={anchorEl}
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'right',
-				}}
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'left',
-				}}
-				transitionDuration={200}
-			>
-				<TaskUpdateForm
-					task={task}
-					handleClose={handleClose}
-				/>
-			</Popover>
-		</>
-	);
+  return (
+    <>
+      <TaskControl
+        title='Update'
+        onClick={handleClick}
+      >
+        <PencilLine
+          strokeWidth={1.5}
+          className='stroke-muted'
+        />
+      </TaskControl>
+      <Popover
+        id={id}
+        open={open}
+        onClose={handleClose}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transitionDuration={200}
+      >
+        <TaskUpdateForm
+          task={task}
+          handleClose={handleClose}
+        />
+      </Popover>
+    </>
+  );
 };

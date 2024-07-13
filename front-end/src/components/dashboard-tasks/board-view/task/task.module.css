@@ -1,15 +1,15 @@
 .task {
-	@apply flex touch-manipulation rounded-sm bg-secondary shadow-md;
+  @apply flex touch-manipulation rounded-sm bg-secondary shadow-md;
 }
 
 .controls {
-	@apply flex flex-col pr-1.5;
+  @apply flex flex-col pr-1.5;
 }
 
 .skeleton {
-	@apply animate-pulse border-transparent bg-muted/20 hover:cursor-grabbing;
+  @apply animate-pulse border-transparent bg-muted/20 hover:cursor-grabbing;
 }
 
 .skeleton * {
-	@apply opacity-0;
+  @apply opacity-0;
 }

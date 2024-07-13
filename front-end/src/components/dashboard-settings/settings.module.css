@@ -1,23 +1,23 @@
 .main {
-	@apply flex w-full gap-32 px-8 py-4;
+  @apply flex w-full gap-32 px-8 py-4;
 }
 
 .form {
-	@apply flex w-1/5 flex-col gap-8;
+  @apply flex w-1/5 flex-col gap-8;
 }
 
 .fieldset {
-	@apply flex flex-col gap-6;
+  @apply flex flex-col gap-6;
 }
 
 .legend {
-	@apply mb-3 text-2xl;
+  @apply mb-3 text-2xl;
 }
 
 .error {
-	@apply ml-2 text-xs text-danger;
+  @apply ml-2 text-xs text-danger;
 }
 
 .message {
-	@apply rounded-sm bg-danger/20 p-0.5 px-1 text-danger;
+  @apply rounded-sm bg-danger/20 p-0.5 px-1 text-danger;
 }

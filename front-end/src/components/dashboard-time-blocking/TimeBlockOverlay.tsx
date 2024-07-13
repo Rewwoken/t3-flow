@@ -6,16 +6,16 @@ import s from '@/components/dashboard-time-blocking/time-block/time-block.module
 import { ITimeBlock } from '@/types/time-block.service.types';
 
 interface ITimeBlockOverlayProps {
-	active: ITimeBlock | null;
+  active: ITimeBlock | null;
 }
 const TimeBlockOverlayComponent = ({ active }: ITimeBlockOverlayProps) => (
-	<DragOverlay
-		style={{ backgroundColor: active?.color }}
-		className={clsx(s.container, 'cursor-grabbing')}
-		wrapperElement='li'
-	>
-		{active && <TimeBlock data={active} />}
-	</DragOverlay>
+  <DragOverlay
+    style={{ backgroundColor: active?.color }}
+    className={clsx(s.container, 'cursor-grabbing')}
+    wrapperElement='li'
+  >
+    {active && <TimeBlock data={active} />}
+  </DragOverlay>
 );
 
 export const TimeBlockOverlay = React.memo(TimeBlockOverlayComponent);

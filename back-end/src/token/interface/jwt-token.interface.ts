@@ -1,4 +1,4 @@
 export interface IJwtToken {
-	// user id
-	id: string;
+  // user id
+  id: string;
 }

@@ -1,19 +1,19 @@
 .wrapper {
-	@apply flex flex-col items-center gap-y-3;
+  @apply flex flex-col items-center gap-y-3;
 }
 
 .heading {
-	@apply w-full select-none whitespace-nowrap border-b-2 border-b-primary pb-2 text-center text-3xl font-semibold;
+  @apply w-full select-none whitespace-nowrap border-b-2 border-b-primary pb-2 text-center text-3xl font-semibold;
 }
 
 .form {
-	@apply mt-2 flex w-[300px] flex-col gap-y-3 rounded-sm border border-border bg-background p-4 shadow-md;
+  @apply mt-2 flex w-[300px] flex-col gap-y-3 rounded-sm border border-border bg-background p-4 shadow-md;
 }
 
 .message {
-	@apply w-full rounded-sm bg-danger/20 p-0.5 px-1 text-danger;
+  @apply w-full rounded-sm bg-danger/20 p-0.5 px-1 text-danger;
 }
 
 .link {
-	@apply text-sm text-muted hover:underline;
+  @apply text-sm text-muted hover:underline;
 }

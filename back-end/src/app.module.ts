@@ -9,14 +9,14 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-	imports: [
-		ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
-		AuthModule,
-		UserModule,
-		TokenModule,
-		TaskModule,
-		TimeBlockModule,
-		TimerModule,
-	],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
+    AuthModule,
+    UserModule,
+    TokenModule,
+    TaskModule,
+    TimeBlockModule,
+    TimerModule,
+  ],
 })
 export class AppModule {}

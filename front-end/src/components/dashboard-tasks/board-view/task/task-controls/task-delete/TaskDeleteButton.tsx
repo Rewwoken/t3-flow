@@ -3,29 +3,29 @@ import { useHandleTaskDelete } from '@/components/dashboard-tasks/board-view/tas
 import { IGetTaskResponse } from '@/types/task.service';
 
 interface ITaskDeleteButtonProps {
-	task: IGetTaskResponse;
-	handleClose: () => void;
+  task: IGetTaskResponse;
+  handleClose: () => void;
 }
 export const TaskDeleteButton = ({
-	task,
-	handleClose,
+  task,
+  handleClose,
 }: ITaskDeleteButtonProps) => {
-	const { onDelete } = useHandleTaskDelete();
+  const { onDelete } = useHandleTaskDelete();
 
-	const onClick = () => {
-		onDelete(task);
+  const onClick = () => {
+    onDelete(task);
 
-		handleClose();
-	};
+    handleClose();
+  };
 
-	return (
-		<Button
-			variant='contained'
-			color='warning'
-			sx={{ color: 'white' }}
-			onClick={onClick}
-		>
-			Are you sure?
-		</Button>
-	);
+  return (
+    <Button
+      variant='contained'
+      color='warning'
+      sx={{ color: 'white' }}
+      onClick={onClick}
+    >
+      Are you sure?
+    </Button>
+  );
 };
