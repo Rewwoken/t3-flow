@@ -9,6 +9,14 @@
 		"dev:client": "cd ./front-end && pnpm run dev",
 		"dev": "concurrently \"pnpm run dev:server\" \"pnpm run dev:client\"",
 
+		"build:server": "cd ./back-end && pnpm run build",
+		"build:client": "cd ./front-end && pnpm run build",
+		"build": "concurrently \"pnpm run build:server\" \"pnpm run build:client\"",
+
+		"start:prod:server": "cd ./back-end && pnpm run start:prod",
+		"start:prod:client": "cd ./front-end && pnpm run start",
+		"start:prod": "concurrently \"pnpm run start:prod:server\" \"pnpm run start:prod:client\"",
+
 		"format:server": "cd ./back-end && pnpm run format",
 		"format:client": "cd ./front-end && pnpm run format",
 		"format": "concurrently \"pnpm run format:server\" \"pnpm run format:client\""
